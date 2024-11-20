@@ -17,7 +17,7 @@ func StartServer() *gin.Engine {
 	router := gin.Default()
 
 	// Pass routes to the router
-	// RoutesRecipe(router)
+	RoutesAppraisal(router)
 
 	log.Printf("Starting server on port :%s\n", os.Getenv("PORT"))
 

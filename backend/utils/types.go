@@ -13,3 +13,9 @@ type LoadDbInsertGorm struct {
 	ID        uint           `gorm:"primarykey"`
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
+
+type NabbrAppraisalChart struct {
+	NabbrAppraisalChartMemberInfo                `json:"memberInformation"`
+	NabbrAppraisalChartPetInfo                   `json:"petInformation"`
+	NabbrAppraisalChartScoreAppraisalInformation `json:"appraisalInformation"`
+}
