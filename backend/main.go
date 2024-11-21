@@ -19,11 +19,9 @@ func main() {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}
 
-	// Connect to the databases
-	if os.Getenv("DB_SQLITE_ENABLE") == "true" {
-		utils.LoadDbConnectToSqlite()
+	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
+		utils.LoadDbConnectToMongoDb()
 	}
-
 	// Start webserver
 	api.StartServer()
 }

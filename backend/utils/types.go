@@ -4,9 +4,10 @@ import "gorm.io/gorm"
 
 // APIResponse represents a generic API response.
 type APIResponse struct {
-	Status  string      `json:"status"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data"`
+	Status     string        `json:"status"`
+	HttpStatus int           `json:"httpStatus"`
+	Message    string        `json:"message"`
+	Payload    []interface{} `json:"payload"`
 }
 
 type LoadDbInsertGorm struct {
