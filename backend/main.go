@@ -4,7 +4,6 @@ import (
 	"log"
 	"nabbr-appraisal/api"
 	"nabbr-appraisal/utils"
-	"os"
 
 	"github.com/joho/godotenv"
 )
@@ -19,9 +18,8 @@ func main() {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}
 
-	if os.Getenv("DB_MONGODB_ENABLE") == "true" {
-		utils.LoadDbConnectToMongoDb()
-	}
+	utils.LoadDbConnectToMongoDb()
+
 	// Start webserver
 	api.StartServer()
 }
