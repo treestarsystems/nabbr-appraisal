@@ -67,7 +67,7 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 	appraisalId := c.Param("appraisalId")
 
 	// Get the appraisal chart by appraisalId
-	appraisalChart, err := retrieve.RetrieveDbDataByAppraisalId(appraisalId)
+	appraisalChart, err := retrieve.RetrieveDbDataBySearchTerm(appraisalId)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":     "failuire",
