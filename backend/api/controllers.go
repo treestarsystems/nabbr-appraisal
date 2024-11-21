@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"nabbr-appraisal/load"
+	"nabbr-appraisal/retrieve"
 	"nabbr-appraisal/utils"
 	"net/http"
 
@@ -47,5 +48,40 @@ func PostAppraisalChartJSON(c *gin.Context) {
 		"httpStatus": http.StatusOK,
 		"message":    "Appraisal chart saved successfully",
 		"payload":    []utils.NabbrAppraisalChart{},
+	})
+}
+
+func GetAppraisalChartAllJSON(c *gin.Context) {
+	// Get all appraisal charts
+	appraisalCharts := retrieve.RetrieveDbDataAll()
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":     "success",
+		"httpStatus": http.StatusOK,
+		"message":    "Appraisal charts retrieved successfully",
+		"payload":    appraisalCharts,
+	})
+}
+
+func GetAppraisalChartByIdJSON(c *gin.Context) {
+	appraisalId := c.Param("appraisalId")
+
+	// Get the appraisal chart by appraisalId
+	appraisalChart, err := retrieve.RetrieveDbDataByAppraisalId(appraisalId)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"status":     "failuire",
+			"httpStatus": http.StatusNotFound,
+			"message":    fmt.Sprintf("Failed to get appraisal chart by appraisalId: %v", err),
+			"payload":    []utils.NabbrAppraisalChart{},
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":     "success",
+		"httpStatus": http.StatusOK,
+		"message":    "Appraisal chart retrieved successfully",
+		"payload":    appraisalChart,
 	})
 }
