@@ -18,6 +18,7 @@ func main() {
 		log.Fatalf("error - Error loading .env file: %s", err)
 	}
 
+	// Initialize MongoDB connection
 	utils.LoadDbConnectToMongoDb()
 
 	// Start webserver

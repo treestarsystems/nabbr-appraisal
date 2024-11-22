@@ -21,7 +21,7 @@ func GetAppraisalChartTemplateJSON(c *gin.Context) {
 	})
 }
 
-func PostAppraisalChartJSON(c *gin.Context) {
+func PostPutAppraisalChartJSON(c *gin.Context) {
 	appraisalId := c.Param("appraisalId")
 	var appraisalChart utils.NabbrAppraisalChart
 

@@ -10,7 +10,7 @@ func RoutesAppraisal(router *gin.Engine) {
 		appraisal.GET("/template/chart", GetAppraisalChartTemplateJSON)
 		appraisal.GET("/chart", GetAppraisalChartAllJSON)
 		appraisal.GET("/chart/:appraisalId", GetAppraisalChartByIdJSON)
-		appraisal.POST("/chart", PostAppraisalChartJSON)
-		appraisal.POST("/chart/:appraisalId", PostAppraisalChartJSON)
+		appraisal.POST("/chart", PostPutAppraisalChartJSON)
+		appraisal.POST("/chart/:appraisalId", PostPutAppraisalChartJSON)
 	}
 }
