@@ -17,7 +17,7 @@ type LoadDbInsertGorm struct {
 
 type NabbrAppraisalChart struct {
 	AppraisalId          string                                       `bson:"appraisalId" json:"appraisalId"`
-	MemberInformation    NabbrAppraisalChartMemberInfo                `json:"memberInformation"`
-	PetInformation       NabbrAppraisalChartPetInfo                   `json:"petInformation"`
-	AppraisalInformation NabbrAppraisalChartScoreAppraisalInformation `json:"appraisalInformation"`
+	MemberInformation    NabbrAppraisalChartMemberInfo                `bson:"memberInformation" json:"memberInformation" binding:"required"`
+	PetInformation       NabbrAppraisalChartPetInfo                   `bson:"petInformation" json:"petInformation" binding:"required"`
+	AppraisalInformation NabbrAppraisalChartScoreAppraisalInformation `bson:"appraisalInformation" json:"appraisalInformation" binding:"required"`
 }
