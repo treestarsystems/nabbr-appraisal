@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"log"
 	"nabbr-appraisal/load"
 	"nabbr-appraisal/retrieve"
 	"nabbr-appraisal/utils"
@@ -12,14 +13,16 @@ import (
 
 func GetAppraisalChartTemplateJSON(c *gin.Context) {
 	responseData := GenerateAppraisalEmptyChart()
-	c.JSON(200, gin.H{
-		"status":  "success",
-		"message": "Appraisal chart template generated successfully",
-		"payload": []utils.NabbrAppraisalChart{responseData},
+	c.JSON(http.StatusOK, gin.H{
+		"status":     "success",
+		"httpStatus": http.StatusOK,
+		"message":    "Appraisal chart template generated successfully",
+		"payload":    []utils.NabbrAppraisalChart{responseData},
 	})
 }
 
 func PostAppraisalChartJSON(c *gin.Context) {
+	appraisalId := c.Param("appraisalId")
 	var appraisalChart utils.NabbrAppraisalChart
 
 	if err := c.BindJSON(&appraisalChart); err != nil {
@@ -33,7 +36,8 @@ func PostAppraisalChartJSON(c *gin.Context) {
 	}
 
 	// Save the appraisalChart to the database
-	if err := load.LoadDbData(appraisalChart); err != nil {
+	returnedAppraisalId, err := load.LoadDbData(appraisalChart, appraisalId)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":     "failuire",
 			"httpStatus": http.StatusInternalServerError,
@@ -47,7 +51,7 @@ func PostAppraisalChartJSON(c *gin.Context) {
 		"status":     "success",
 		"httpStatus": http.StatusOK,
 		"message":    "Appraisal chart saved successfully",
-		"payload":    []utils.NabbrAppraisalChart{},
+		"payload":    []string{returnedAppraisalId},
 	})
 }
 
@@ -77,11 +81,11 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 		})
 		return
 	}
-
+	log.Print(utils.PrettyPrint(appraisalChart))
 	c.JSON(http.StatusOK, gin.H{
 		"status":     "success",
 		"httpStatus": http.StatusOK,
 		"message":    "Appraisal chart retrieved successfully",
-		"payload":    appraisalChart,
+		"payload":    []utils.NabbrAppraisalChart{appraisalChart[0]},
 	})
 }

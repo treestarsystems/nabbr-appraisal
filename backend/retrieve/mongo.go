@@ -12,7 +12,7 @@ import (
 
 // retrieveDbFromMongoDbQuery performs a query on the MongoDB collection and returns the results.
 func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart, error) {
-	var jobPosts []utils.NabbrAppraisalChart
+	var appraisalCharts []utils.NabbrAppraisalChart
 
 	// Set a context with a timeout for the query
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -36,33 +36,33 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	}
 	defer cursor.Close(ctx)
 
-	// Iterate through the cursor and decode each document into a JobPost
+	// Iterate through the cursor and decode each document into a AppraisalChart struct
 	for cursor.Next(ctx) {
-		var jobPost utils.NabbrAppraisalChart
-		if err := cursor.Decode(&jobPost); err != nil {
+		var appraisalChart utils.NabbrAppraisalChart
+		if err := cursor.Decode(&appraisalChart); err != nil {
 			return nil, fmt.Errorf("error - MongoDB: Unable to decode job post: %w", err)
 		}
-		jobPosts = append(jobPosts, jobPost)
+		appraisalCharts = append(appraisalCharts, appraisalChart)
 	}
 
 	if err := cursor.Err(); err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Cursor error: %w", err)
 	}
 
-	return jobPosts, nil
+	return appraisalCharts, nil
 }
 
 // retrieveDbFromMongoDbAll retrieves all job posts from the MongoDB collection.
 func retrieveDbFromMongoDbAll() ([]utils.NabbrAppraisalChart, error) {
-	resultJobPosts, err := retrieveDbFromMongoDbQuery(bson.M{})
+	resultAppraisalChart, err := retrieveDbFromMongoDbQuery(bson.M{})
 	if err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
 	}
-	return resultJobPosts, nil
+	return resultAppraisalChart, nil
 }
 
 // TODO: Need to review this function to ensure it is working as expected. I think it can be improved.
-// SearchJobPostsInMongoDb searches for job posts in MongoDB based on a search term.
+// func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart, error) {
 func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart, error) {
 	// Define the filter for the search query
 	filter := bson.M{
@@ -71,9 +71,9 @@ func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart
 		},
 	}
 
-	resultJobPosts, err := retrieveDbFromMongoDbQuery(filter)
+	resultAppraisalChart, err := retrieveDbFromMongoDbQuery(filter)
 	if err != nil {
-		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
+		return []utils.NabbrAppraisalChart{}, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
 	}
-	return resultJobPosts, nil
+	return resultAppraisalChart, nil
 }

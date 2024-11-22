@@ -5,9 +5,9 @@ import "nabbr-appraisal/utils"
 func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 	var responseData utils.NabbrAppraisalChart
 
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Appearance.Name = "General Appearance"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Appearance.PercentageWeight = 8
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Appearance.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Appearance.Name = "General Appearance"
+	responseData.AppraisalInformation.MainDivision.Appearance.PercentageWeight = 8
+	responseData.AppraisalInformation.MainDivision.Appearance.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Big And Strong",
@@ -51,9 +51,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Head.Name = "Head"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Head.PercentageWeight = 7
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Head.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Head.Name = "Head"
+	responseData.AppraisalInformation.MainDivision.Head.PercentageWeight = 7
+	responseData.AppraisalInformation.MainDivision.Head.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Short",
@@ -118,9 +118,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Face.Name = "Face"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Face.PercentageWeight = 15
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Face.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Face.Name = "Face"
+	responseData.AppraisalInformation.MainDivision.Face.PercentageWeight = 15
+	responseData.AppraisalInformation.MainDivision.Face.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Fusion (Skull And Mouth)",
@@ -227,9 +227,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Neck.Name = "Neck"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Neck.PercentageWeight = 5
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Neck.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Neck.Name = "Neck"
+	responseData.AppraisalInformation.MainDivision.Neck.PercentageWeight = 5
+	responseData.AppraisalInformation.MainDivision.Neck.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Shape",
@@ -255,9 +255,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Forequarter.Name = "Forequarter"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Forequarter.PercentageWeight = 12
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Forequarter.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Forequarter.Name = "Forequarter"
+	responseData.AppraisalInformation.MainDivision.Forequarter.PercentageWeight = 12
+	responseData.AppraisalInformation.MainDivision.Forequarter.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:        "Attachment",
@@ -349,9 +349,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.CenterPiece.Name = "Center Piece"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.CenterPiece.PercentageWeight = 10
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.CenterPiece.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.CenterPiece.Name = "Center Piece"
+	responseData.AppraisalInformation.MainDivision.CenterPiece.PercentageWeight = 10
+	responseData.AppraisalInformation.MainDivision.CenterPiece.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Topline",
@@ -416,9 +416,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Hindquarter.Name = "Hindquarter"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Hindquarter.PercentageWeight = 15
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Hindquarter.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Hindquarter.Name = "Hindquarter"
+	responseData.AppraisalInformation.MainDivision.Hindquarter.PercentageWeight = 15
+	responseData.AppraisalInformation.MainDivision.Hindquarter.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Strong And Sturdy",
@@ -465,9 +465,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.SkinCoat.Name = "Skin/Coat"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.SkinCoat.PercentageWeight = 5
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.SkinCoat.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.SkinCoat.Name = "Skin/Coat"
+	responseData.AppraisalInformation.MainDivision.SkinCoat.PercentageWeight = 5
+	responseData.AppraisalInformation.MainDivision.SkinCoat.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Thick And Loose Skin",
@@ -493,9 +493,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Health.Name = "Health"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Health.PercentageWeight = 4
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Health.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Health.Name = "Health"
+	responseData.AppraisalInformation.MainDivision.Health.PercentageWeight = 4
+	responseData.AppraisalInformation.MainDivision.Health.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Condition Versus Age",
@@ -522,9 +522,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 		},
 	}
 
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Temperament.Name = "Temperament"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Temperament.PercentageWeight = 8
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Temperament.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Temperament.Name = "Temperament"
+	responseData.AppraisalInformation.MainDivision.Temperament.PercentageWeight = 8
+	responseData.AppraisalInformation.MainDivision.Temperament.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Obedient And Manageable",
@@ -550,9 +550,9 @@ func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
 			},
 		},
 	}
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Movement.Name = "Movement"
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Movement.PercentageWeight = 8
-	responseData.NabbrAppraisalChartScoreAppraisalInformation.NabbrAppraisalChartScoreDivisions.Movement.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
+	responseData.AppraisalInformation.MainDivision.Movement.Name = "Movement"
+	responseData.AppraisalInformation.MainDivision.Movement.PercentageWeight = 8
+	responseData.AppraisalInformation.MainDivision.Movement.Characteristics = [][]utils.NabbrAppraisalChartScoreCharacteristics{
 		{
 			{
 				Name:   "Buoyant",

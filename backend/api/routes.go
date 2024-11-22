@@ -8,8 +8,9 @@ func RoutesAppraisal(router *gin.Engine) {
 	appraisal := router.Group("/api/v1/appraisal")
 	{
 		appraisal.GET("/template/chart", GetAppraisalChartTemplateJSON)
-		appraisal.POST("/chart", PostAppraisalChartJSON)
 		appraisal.GET("/chart", GetAppraisalChartAllJSON)
 		appraisal.GET("/chart/:appraisalId", GetAppraisalChartByIdJSON)
+		appraisal.POST("/chart", PostAppraisalChartJSON)
+		appraisal.POST("/chart/:appraisalId", PostAppraisalChartJSON)
 	}
 }

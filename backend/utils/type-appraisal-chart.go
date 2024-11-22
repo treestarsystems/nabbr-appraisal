@@ -52,14 +52,14 @@ type NabbrAppraisalChartScoreDivisions struct {
 }
 
 type NabbrAppraisalChartScoreAppraisalInformation struct {
-	NabbrAppraisalChartScoreDivisions `bson:"mainDivision" json:"mainDivision" binding:"required"`
-	Appraiser                         string `bson:"appraiser" json:"appraiser" binding:"required"`
-	AppraiserNumber                   string `bson:"appraiserNumber" json:"appraiserNumber" binding:"required"`
-	SeniorAppraiser                   string `bson:"seniorAppraiser" json:"seniorAppraiser" binding:"required"`
-	SeniorAppraiserNumber             string `bson:"seniorAppraiserNumber" json:"seniorAppraiserNumber" binding:"required"`
-	Date                              string `bson:"date" json:"date" binding:"required"`
-	Value                             string `bson:"value" json:"value" binding:"required"`
-	Notes                             string `bson:"notes" json:"notes" binding:"required"`
-	AdditionalComments                string `bson:"additionalComments" json:"additionalComments" binding:"required"`
-	Place                             string `bson:"place" json:"place" binding:"required"`
+	MainDivision          NabbrAppraisalChartScoreDivisions `bson:"mainDivision" json:"mainDivision" binding:"required"`
+	Appraiser             string                            `bson:"appraiser" json:"appraiser" binding:"required"`
+	AppraiserNumber       string                            `bson:"appraiserNumber" json:"appraiserNumber" binding:"required"`
+	SeniorAppraiser       string                            `bson:"seniorAppraiser" json:"seniorAppraiser" binding:"required"`
+	SeniorAppraiserNumber string                            `bson:"seniorAppraiserNumber" json:"seniorAppraiserNumber" binding:"required"`
+	Date                  string                            `bson:"date" json:"date" binding:"required"`
+	Value                 string                            `bson:"value" json:"value" binding:"required"`
+	Notes                 string                            `bson:"notes" json:"notes" binding:"required"`
+	AdditionalComments    string                            `bson:"additionalComments" json:"additionalComments" binding:"required"`
+	Place                 string                            `bson:"place" json:"place" binding:"required"`
 }
