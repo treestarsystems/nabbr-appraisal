@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"log"
 	"nabbr-appraisal/load"
 	"nabbr-appraisal/retrieve"
 	"nabbr-appraisal/utils"
@@ -81,7 +80,7 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 		})
 		return
 	}
-	log.Print(utils.PrettyPrint(appraisalChart))
+
 	c.JSON(http.StatusOK, gin.H{
 		"status":     "success",
 		"httpStatus": http.StatusOK,
