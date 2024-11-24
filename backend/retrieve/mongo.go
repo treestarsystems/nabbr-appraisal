@@ -24,9 +24,9 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	// Perform the search query based on the type of filter
 	switch f := filter.(type) {
 	case bson.M:
-		cursor, err = utils.CollectionMongo.Find(ctx, f)
+		cursor, err = utils.CollectionMongoAppraisals.Find(ctx, f)
 	case mongo.Pipeline:
-		cursor, err = utils.CollectionMongo.Aggregate(ctx, f)
+		cursor, err = utils.CollectionMongoAppraisals.Aggregate(ctx, f)
 	default:
 		return nil, fmt.Errorf("error - MongoDB: Unsupported filter type: %T", filter)
 	}

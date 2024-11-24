@@ -35,7 +35,7 @@ func PostPutAppraisalChartJSON(c *gin.Context) {
 	}
 
 	// Save the appraisalChart to the database
-	returnedAppraisalId, err := load.LoadDbData(appraisalChart, appraisalId)
+	returnedAppraisalId, err := load.LoadDbDataAppraisals(appraisalChart, appraisalId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":     "failuire",
