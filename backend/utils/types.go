@@ -7,10 +7,3 @@ type APIResponse struct {
 	Message    string        `json:"message"`
 	Payload    []interface{} `json:"payload"`
 }
-
-type NabbrAppraisalChart struct {
-	AppraisalId          string                                       `bson:"appraisalId" json:"appraisalId"`
-	MemberInformation    NabbrAppraisalChartMemberInfo                `bson:"memberInformation" json:"memberInformation" binding:"required"`
-	PetInformation       NabbrAppraisalChartPetInfo                   `bson:"petInformation" json:"petInformation" binding:"required"`
-	AppraisalInformation NabbrAppraisalChartScoreAppraisalInformation `bson:"appraisalInformation" json:"appraisalInformation" binding:"required"`
-}

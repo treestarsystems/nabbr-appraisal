@@ -18,13 +18,10 @@ func StartServer() *gin.Engine {
 	// Set up the router
 	router := gin.Default()
 	router.Use(gin.Logger())
-
-	// Pass routes to the router
-	RoutesAppraisal(router)
+	// Non authenticated routes
+	RoutesAuth(router)
 	RoutesUser(router)
-
-	// Set up authentication middleware
-	router.Use(Authentication())
+	RoutesAppraisal(router)
 
 	log.Printf("Starting server on port :%s\n", os.Getenv("PORT"))
 

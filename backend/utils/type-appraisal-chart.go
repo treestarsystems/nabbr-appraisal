@@ -63,3 +63,10 @@ type NabbrAppraisalChartScoreAppraisalInformation struct {
 	AdditionalComments    string                            `bson:"additionalComments" json:"additionalComments" binding:"required"`
 	Place                 string                            `bson:"place" json:"place" binding:"required"`
 }
+
+type NabbrAppraisalChart struct {
+	AppraisalId          string                                       `bson:"appraisalId" json:"appraisalId"`
+	MemberInformation    NabbrAppraisalChartMemberInfo                `bson:"memberInformation" json:"memberInformation" binding:"required"`
+	PetInformation       NabbrAppraisalChartPetInfo                   `bson:"petInformation" json:"petInformation" binding:"required"`
+	AppraisalInformation NabbrAppraisalChartScoreAppraisalInformation `bson:"appraisalInformation" json:"appraisalInformation" binding:"required"`
+}

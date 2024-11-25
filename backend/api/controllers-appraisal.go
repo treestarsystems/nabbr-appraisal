@@ -40,7 +40,7 @@ func PostPutAppraisalChartJSON(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":     "failuire",
 			"httpStatus": http.StatusInternalServerError,
-			"message":    fmt.Sprintf("Failed to save appraisal chart: %v", err),
+			"message":    fmt.Sprintf("Failed to save appraisal chart (%v)", err),
 			"payload":    []utils.NabbrAppraisalChart{},
 		})
 		return
@@ -75,7 +75,7 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{
 			"status":     "failuire",
 			"httpStatus": http.StatusNotFound,
-			"message":    fmt.Sprintf("Failed to get appraisal chart by appraisalId: %v", err),
+			"message":    fmt.Sprintf("Failed to get appraisal chart by appraisalId (%v)", err),
 			"payload":    []utils.NabbrAppraisalChart{},
 		})
 		return

@@ -19,6 +19,22 @@ type User struct {
 	CreatedAt    time.Time          `bson:"createdAt" json:"createdAt"`
 	UpdatedAt    time.Time          `bson:"updatedAt" json:"updatedAt"`
 	UserId       string             `bson:"userId" json:"userId"`
+	// UserPrivilegeLevel string             `bson:"userPrivilegeLevel" json:"userPrivilegeLevel"`
+	// UserRole           string             `bson:"userRole" json:"userRole"`
+	// ServiceLevel       string             `bson:"serviceLevel" json:"serviceLevel"`
+}
+
+type UserLogin struct {
+	FirstName    *string `json:"firstName"`
+	LastName     *string `json:"lastName"`
+	Email        *string `json:"email"`
+	Phone        *string `json:"phone"`
+	Token        *string `json:"token"`
+	RefreshToken *string `json:"refreshToken"`
+	UserId       string  `json:"userId"`
+	// UserPrivilegeLevel string  `json:"userPrivilegeLevel"`
+	// UserRole           string  `json:"userRole"`
+	// ServiceLevel       string  `json:"serviceLevel"`
 }
 
 // SignedDetails

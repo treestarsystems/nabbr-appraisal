@@ -12,10 +12,8 @@ import (
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
-// var userCollection *mongo.Collection = database.OpenCollection(database.Client, "user")
 var validate = validator.New()
 
 // CreateUser is the api used to tget a single user
@@ -29,7 +27,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusBadRequest,
-				"message":    fmt.Sprintf("error - SignUp: %v", err.Error()),
+				"message":    fmt.Sprintf("error - SignUp: (%v)", err.Error()),
 				"payload":    []string{},
 			})
 			return
@@ -40,7 +38,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusBadRequest,
-				"message":    fmt.Sprintf("error - SignUp: %v", validationErr.Error()),
+				"message":    fmt.Sprintf("error - SignUp: (%v)", validationErr.Error()),
 				"payload":    []string{},
 			})
 			return
@@ -53,7 +51,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp Checking email: %v", err.Error()),
+				"message":    fmt.Sprintf("error - SignUp: Email (%v)", err.Error()),
 				"payload":    []string{},
 			})
 			return
@@ -63,7 +61,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    "error - SignUp Checking email already exits",
+				"message":    "error - SignUp: Email already exits",
 				"payload":    []string{},
 			})
 			return
@@ -76,7 +74,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp Checking phone number: %v", err.Error()),
+				"message":    fmt.Sprintf("error - SignUp: Phone number (%v)", err.Error()),
 				"payload":    []string{},
 			})
 			return
@@ -86,7 +84,7 @@ func SignUp() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    "error - SignUp Checking phone number already exits",
+				"message":    "error - SignUp: Phone number already exits",
 				"payload":    []string{},
 			})
 			return
@@ -104,26 +102,26 @@ func SignUp() gin.HandlerFunc {
 		resultInsertionNumber, insertErr := utils.CollectionMongoUsers.InsertOne(ctx, user)
 
 		if insertErr != nil {
-			// msg := fmt.Sprintf("User item was not created")
-			// c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp user was not created: %v", insertErr.Error()),
+				"message":    fmt.Sprintf("error - SignUp: User was not created (%v)", insertErr.Error()),
 				"payload":    []string{},
 			})
 			return
 		}
 		defer cancel()
 
-		// c.JSON(http.StatusOK, resultInsertionNumber)
 		c.JSON(http.StatusOK, gin.H{
 			"status":     "success",
 			"httpStatus": http.StatusOK,
 			"message":    "User created successfully",
-			"payload":    []*mongo.InsertOneResult{resultInsertionNumber},
+			"payload": []map[string]interface{}{
+				{
+					"userId": resultInsertionNumber.InsertedID,
+				},
+			},
 		})
-
 	}
 }
 
@@ -136,11 +134,10 @@ func Login() gin.HandlerFunc {
 		var foundUser utils.User
 
 		if err := c.BindJSON(&user); err != nil {
-			// c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			c.JSON(http.StatusBadRequest, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login : %v", err.Error()),
+				"message":    fmt.Sprintf("error - Login: (%v)", err.Error()),
 				"payload":    []string{},
 			})
 		}
@@ -148,11 +145,10 @@ func Login() gin.HandlerFunc {
 		err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"email": user.Email}).Decode(&foundUser)
 		defer cancel()
 		if err != nil {
-			// c.JSON(http.StatusInternalServerError, gin.H{"error": "login or passowrd is incorrect"})
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login : %v", err.Error()),
+				"message":    fmt.Sprintf("error - Login: (%v)", err.Error()),
 				"payload":    []string{},
 			})
 			return
@@ -161,11 +157,10 @@ func Login() gin.HandlerFunc {
 		passwordIsValid, msg := utils.VerifyPassword(*user.Password, *foundUser.Password)
 		defer cancel()
 		if !passwordIsValid {
-			// c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"status":     "failure",
 				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login Verify Password: %v", msg),
+				"message":    fmt.Sprintf("error - Login: Verify Password (%v)", msg),
 				"payload":    []string{},
 			})
 			return
@@ -173,6 +168,21 @@ func Login() gin.HandlerFunc {
 
 		token, refreshToken, _ := utils.GenerateAllTokens(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, foundUser.UserId)
 		utils.UpdateAllTokens(token, refreshToken, foundUser.UserId)
-		c.JSON(http.StatusOK, foundUser)
+		c.JSON(http.StatusOK, gin.H{
+			"status":     "success",
+			"httpStatus": http.StatusOK,
+			"message":    "User logged in successfully",
+			"payload": []utils.UserLogin{
+				{
+					FirstName:    foundUser.FirstName,
+					LastName:     foundUser.LastName,
+					Email:        foundUser.Email,
+					Phone:        foundUser.Phone,
+					Token:        &token,
+					RefreshToken: &refreshToken,
+					UserId:       foundUser.UserId,
+				},
+			},
+		})
 	}
 }

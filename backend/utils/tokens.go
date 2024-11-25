@@ -31,13 +31,13 @@ func GenerateAllTokens(email string, firstName string, lastName string, userId s
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(AuthSecretKey))
 	if err != nil {
-		log.Fatalf("error - GenerateAllTokens: %s", err)
+		log.Fatalf("error - GenerateAllTokens: (%s)", err)
 		return
 	}
 
 	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims).SignedString([]byte(AuthSecretKey))
 	if err != nil {
-		log.Fatalf("error - GenerateAllTokens: %s", err)
+		log.Fatalf("error - GenerateAllTokens: (%s)", err)
 		return
 	}
 
@@ -73,7 +73,7 @@ func UpdateAllTokens(signedToken string, signedRefreshToken string, userId strin
 	defer cancel()
 
 	if err != nil {
-		log.Fatalf("error - UpdateAllTokens: %s", err)
+		log.Fatalf("error - UpdateAllTokens: (%s)", err)
 		return
 	}
 }
@@ -95,14 +95,10 @@ func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 
 	claims, ok := token.Claims.(*SignedDetails)
 	if !ok {
-		// msg = fmt.Sprintf("error - Invalid token")
-		// msg = err.Error()
 		return claims, "error - Invalid token"
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {
-		// msg = fmt.Sprintf("token is expired")
-		// msg = err.Error()
 		return claims, "error - Expired token"
 	}
 
