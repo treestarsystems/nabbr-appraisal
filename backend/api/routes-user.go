@@ -12,7 +12,7 @@ func RoutesUser(router *gin.Engine) {
 		// Set up authentication middleware
 		user.Use(utils.Authentication())
 		// All routes that require authentication should be placed after this line
-		user.GET("/user", GetUsersAll())
-		user.GET("/user/:userId", GetUser())
+		user.GET("/", GetUsersAll())
+		user.GET("/:userId", GetUser())
 	}
 }

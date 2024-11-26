@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"nabbr-appraisal/utils"
 	"net/http"
@@ -16,7 +17,13 @@ import (
 func GetUsersAll() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := utils.CheckUserType(c, "ADMIN"); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			apiResponse := utils.NewAPIResponse(
+				"failuire",
+				http.StatusUnauthorized,
+				err.Error(),
+				[]string{},
+			)
+			c.JSON(http.StatusUnauthorized, apiResponse)
 			return
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -24,7 +31,7 @@ func GetUsersAll() gin.HandlerFunc {
 		// recordPerPage := 10
 		recordPerPage, err := strconv.Atoi(c.Query("recordPerPage"))
 		if err != nil || recordPerPage < 1 {
-			recordPerPage = 10
+			recordPerPage = 100
 		}
 
 		page, err1 := strconv.Atoi(c.Query("page"))
@@ -40,28 +47,47 @@ func GetUsersAll() gin.HandlerFunc {
 		matchStage := bson.D{{Key: "$match", Value: bson.D{}}}
 		groupStage := bson.D{{Key: "$group", Value: bson.D{
 			{Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}}},
-			{Key: "total_count", Value: bson.D{{Key: "$sum", Value: 1}}},
-			{Key: "data", Value: bson.D{{Key: "$push", Value: "$$ROOT"}}},
+			{Key: "totalCount", Value: bson.D{{Key: "$sum", Value: 1}}},
+			{Key: "data", Value: bson.D{{Key: "$push", Value: bson.D{
+				{Key: "email", Value: "$email"},
+				{Key: "firstName", Value: "$firstName"},
+				{Key: "lastName", Value: "$lastName"},
+				{Key: "phone", Value: "$phone"},
+				{Key: "userId", Value: "$userId"},
+				{Key: "userPrivilegeLevel", Value: "$userPrivilegeLevel"},
+			}}}},
 		}}}
 		projectStage := bson.D{
 			{Key: "$project", Value: bson.D{
 				{Key: "_id", Value: 0},
-				{Key: "total_count", Value: 1},
-				{Key: "user_items", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
+				{Key: "totalCount", Value: 1},
+				{Key: "userItems", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
 			}}}
 
 		result, err := utils.CollectionMongoUsers.Aggregate(ctx, mongo.Pipeline{
 			matchStage, groupStage, projectStage})
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while listing user items"})
+			apiResponse := utils.NewAPIResponse(
+				"failuire",
+				http.StatusInternalServerError,
+				"error - Get Users All: error occured while listing user items",
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 		}
 		var allusers []bson.M
 		if err = result.All(ctx, &allusers); err != nil {
 			log.Fatal(err)
 		}
-		c.JSON(http.StatusOK, allusers[0])
-
+		userItems := allusers[0]["userItems"]
+		apiResponse := utils.NewAPIResponse(
+			"success",
+			http.StatusOK,
+			"All users retrieved successfully",
+			userItems,
+		)
+		c.JSON(http.StatusOK, apiResponse)
 	}
 }
 
@@ -71,7 +97,13 @@ func GetUser() gin.HandlerFunc {
 		userId := c.Param("userId")
 
 		if err := utils.MatchUserTypeToUid(c, userId); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusBadRequest,
+				fmt.Sprintf("error - GetUser: (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusBadRequest, apiResponse)
 			return
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -81,11 +113,21 @@ func GetUser() gin.HandlerFunc {
 		err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - GetUser: (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
-
-		c.JSON(http.StatusOK, user)
-
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusOK,
+			"User retrieved successfully",
+			[]interface{}{user},
+		)
+		c.JSON(http.StatusOK, apiResponse)
 	}
 }

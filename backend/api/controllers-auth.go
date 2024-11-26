@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"fmt"
-	"log"
 	"nabbr-appraisal/utils"
 	"net/http"
 	"time"
@@ -24,69 +23,85 @@ func SignUp() gin.HandlerFunc {
 		var user utils.User
 
 		if err := c.BindJSON(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusBadRequest,
-				"message":    fmt.Sprintf("error - SignUp: (%v)", err.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusBadRequest,
+				fmt.Sprintf("error - SignUp: (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusBadRequest, apiResponse)
+			return
+		}
+
+		// validate the userPrivilegeLevel
+		if !utils.ValidateUserPrivilegeLevel(c, user.UserPrivilegeLevel) {
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusBadRequest,
+				"error - SignUp: User privilege level is invalid",
+				[]string{},
+			)
+			c.JSON(http.StatusBadRequest, apiResponse)
 			return
 		}
 
 		validationErr := validate.Struct(user)
 		if validationErr != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusBadRequest,
-				"message":    fmt.Sprintf("error - SignUp: (%v)", validationErr.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusBadRequest,
+				fmt.Sprintf("error - SignUp: (%v)", validationErr.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusBadRequest, apiResponse)
 			return
 		}
 
 		count, err := utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"email": user.Email})
 		defer cancel()
 		if err != nil {
-			log.Panic(err)
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp: Email (%v)", err.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - SignUp: Email (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
 		if count > 0 {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    "error - SignUp: Email already exits",
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				"error - SignUp: Email already exits",
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
 		count, err = utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"phone": user.Phone})
 		defer cancel()
 		if err != nil {
-			log.Panic(err)
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp: Phone number (%v)", err.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - SignUp: Phone number (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
 		if count > 0 {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    "error - SignUp: Phone number already exits",
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				"error - SignUp: Phone number already exits",
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
@@ -96,32 +111,33 @@ func SignUp() gin.HandlerFunc {
 		user.UpdatedAt, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		user.ID = primitive.NewObjectID()
 		user.UserId = user.ID.Hex()
-		token, refreshToken, _ := utils.GenerateAllTokens(*user.Email, *user.FirstName, *user.LastName, user.UserId)
+		token, refreshToken, _ := utils.GenerateAllTokens(*user.Email, *user.FirstName, *user.LastName, user.UserId, user.UserPrivilegeLevel)
 		user.Token = &token
 		user.RefreshToken = &refreshToken
 		resultInsertionNumber, insertErr := utils.CollectionMongoUsers.InsertOne(ctx, user)
 
 		if insertErr != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - SignUp: User was not created (%v)", insertErr.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - SignUp: User was not created (%v)", insertErr.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 		defer cancel()
-
-		c.JSON(http.StatusOK, gin.H{
-			"status":     "success",
-			"httpStatus": http.StatusOK,
-			"message":    "User created successfully",
-			"payload": []map[string]interface{}{
+		apiResponse := utils.NewAPIResponse(
+			"success",
+			http.StatusOK,
+			"User created successfully",
+			[]map[string]interface{}{
 				{
 					"userId": resultInsertionNumber.InsertedID,
 				},
 			},
-		})
+		)
+		c.JSON(http.StatusOK, apiResponse)
 	}
 }
 
@@ -134,55 +150,60 @@ func Login() gin.HandlerFunc {
 		var foundUser utils.User
 
 		if err := c.BindJSON(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login: (%v)", err.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - Login: (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusBadRequest, apiResponse)
 		}
 
 		err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"email": user.Email}).Decode(&foundUser)
 		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login: (%v)", err.Error()),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - Login: (%v)", err.Error()),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
 		passwordIsValid, msg := utils.VerifyPassword(*user.Password, *foundUser.Password)
 		defer cancel()
 		if !passwordIsValid {
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"status":     "failure",
-				"httpStatus": http.StatusInternalServerError,
-				"message":    fmt.Sprintf("error - Login: Verify Password (%v)", msg),
-				"payload":    []string{},
-			})
+			apiResponse := utils.NewAPIResponse(
+				"failure",
+				http.StatusInternalServerError,
+				fmt.Sprintf("error - Login: Verify Password (%v)", msg),
+				[]string{},
+			)
+			c.JSON(http.StatusInternalServerError, apiResponse)
 			return
 		}
 
-		token, refreshToken, _ := utils.GenerateAllTokens(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, foundUser.UserId)
+		token, refreshToken, _ := utils.GenerateAllTokens(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, foundUser.UserId, foundUser.UserPrivilegeLevel)
 		utils.UpdateAllTokens(token, refreshToken, foundUser.UserId)
-		c.JSON(http.StatusOK, gin.H{
-			"status":     "success",
-			"httpStatus": http.StatusOK,
-			"message":    "User logged in successfully",
-			"payload": []utils.UserLogin{
+		apiResponse := utils.NewAPIResponse(
+			"success",
+			http.StatusOK,
+			"User logged in successfully",
+			[]utils.UserLoginResponse{
 				{
-					FirstName:    foundUser.FirstName,
-					LastName:     foundUser.LastName,
-					Email:        foundUser.Email,
-					Phone:        foundUser.Phone,
-					Token:        &token,
-					RefreshToken: &refreshToken,
-					UserId:       foundUser.UserId,
+					FirstName:          foundUser.FirstName,
+					LastName:           foundUser.LastName,
+					Email:              foundUser.Email,
+					Phone:              foundUser.Phone,
+					Token:              &token,
+					RefreshToken:       &refreshToken,
+					UserId:             foundUser.UserId,
+					UserPrivilegeLevel: foundUser.UserPrivilegeLevel,
 				},
 			},
-		})
+		)
+		c.JSON(http.StatusOK, apiResponse)
 	}
 }

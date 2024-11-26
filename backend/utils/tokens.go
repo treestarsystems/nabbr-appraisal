@@ -11,13 +11,14 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// GenerateAllTokens generates both teh detailed token and refresh token
-func GenerateAllTokens(email string, firstName string, lastName string, userId string) (signedToken string, signedRefreshToken string, err error) {
+// GenerateAllTokens generates both the detailed token and refresh token
+func GenerateAllTokens(email string, firstName string, lastName string, userId string, userPrivilegeLevel string) (signedToken string, signedRefreshToken string, err error) {
 	claims := &SignedDetails{
-		Email:     email,
-		FirstName: firstName,
-		LastName:  lastName,
-		UserId:    userId,
+		Email:              email,
+		FirstName:          firstName,
+		LastName:           lastName,
+		UserId:             userId,
+		UserPrivilegeLevel: userPrivilegeLevel,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
 		},

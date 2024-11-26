@@ -3,12 +3,9 @@ package utils
 import (
 	"encoding/json"
 	"math/rand"
-	"os"
 )
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-var AuthSecretKey = os.Getenv("AUTH_SECRET_KEY")
 
 // RandomString generates a random string of the specified length.
 func RandomAplhaNumericString(length int) string {

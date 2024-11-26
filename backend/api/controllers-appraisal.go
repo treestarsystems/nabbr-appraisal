@@ -12,12 +12,13 @@ import (
 
 func GetAppraisalChartTemplateJSON(c *gin.Context) {
 	responseData := GenerateAppraisalEmptyChart()
-	c.JSON(http.StatusOK, gin.H{
-		"status":     "success",
-		"httpStatus": http.StatusOK,
-		"message":    "Appraisal chart template generated successfully",
-		"payload":    []utils.NabbrAppraisalChart{responseData},
-	})
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"Appraisal chart template generated successfully",
+		[]utils.NabbrAppraisalChart{responseData},
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 func PostPutAppraisalChartJSON(c *gin.Context) {
@@ -25,45 +26,49 @@ func PostPutAppraisalChartJSON(c *gin.Context) {
 	var appraisalChart utils.NabbrAppraisalChart
 
 	if err := c.BindJSON(&appraisalChart); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status":     "failuire",
-			"httpStatus": http.StatusBadRequest,
-			"message":    fmt.Sprintf("Invalid input: %v", err),
-			"payload":    []utils.NabbrAppraisalChart{},
-		})
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusBadRequest,
+			fmt.Sprintf("Invalid input: %v", err),
+			[]string{},
+		)
+		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
 
 	// Save the appraisalChart to the database
 	returnedAppraisalId, err := load.LoadDbDataAppraisals(appraisalChart, appraisalId)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"status":     "failuire",
-			"httpStatus": http.StatusInternalServerError,
-			"message":    fmt.Sprintf("Failed to save appraisal chart (%v)", err),
-			"payload":    []utils.NabbrAppraisalChart{},
-		})
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusInternalServerError,
+			fmt.Sprintf("Failed to save appraisal chart (%v)", err),
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status":     "success",
-		"httpStatus": http.StatusOK,
-		"message":    "Appraisal chart saved successfully",
-		"payload":    []string{returnedAppraisalId},
-	})
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"Appraisal chart saved successfully",
+		[]string{returnedAppraisalId},
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 func GetAppraisalChartAllJSON(c *gin.Context) {
 	// Get all appraisal charts
 	appraisalCharts := retrieve.RetrieveDbDataAll()
 
-	c.JSON(http.StatusOK, gin.H{
-		"status":     "success",
-		"httpStatus": http.StatusOK,
-		"message":    "Appraisal charts retrieved successfully",
-		"payload":    appraisalCharts,
-	})
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"Appraisal charts retrieved successfully",
+		appraisalCharts,
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 func GetAppraisalChartByIdJSON(c *gin.Context) {
@@ -72,19 +77,21 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 	// Get the appraisal chart by appraisalId
 	appraisalChart, err := retrieve.RetrieveDbDataBySearchTerm(appraisalId)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"status":     "failuire",
-			"httpStatus": http.StatusNotFound,
-			"message":    fmt.Sprintf("Failed to get appraisal chart by appraisalId (%v)", err),
-			"payload":    []utils.NabbrAppraisalChart{},
-		})
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusNotFound,
+			fmt.Sprintf("Failed to get appraisal chart by appraisalId (%v)", err),
+			[]utils.NabbrAppraisalChart{},
+		)
+		c.JSON(http.StatusNotFound, apiResponse)
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"status":     "success",
-		"httpStatus": http.StatusOK,
-		"message":    "Appraisal chart retrieved successfully",
-		"payload":    []utils.NabbrAppraisalChart{appraisalChart[0]},
-	})
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"Appraisal chart retrieved successfully",
+		[]utils.NabbrAppraisalChart{appraisalChart[0]},
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }
