@@ -110,7 +110,17 @@ func SignUp(c *gin.Context) {
 	user.UpdatedAt, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	user.ID = primitive.NewObjectID()
 	user.UserId = user.ID.Hex()
-	token, refreshToken, _ := utils.GenerateAllTokens(*user.Email, *user.FirstName, *user.LastName, user.UserId, user.UserPrivilegeLevel)
+	token, refreshToken, err := utils.GenerateAllTokens(*user.Email, *user.FirstName, *user.LastName, user.UserId, user.UserPrivilegeLevel)
+	if err != nil {
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusInternalServerError,
+			fmt.Sprintf("error - SignUp: User was not created (%v)", err.Error()),
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+		return
+	}
 	user.Token = &token
 	user.RefreshToken = &refreshToken
 	resultInsertionNumber, insertErr := utils.CollectionMongoUsers.InsertOne(ctx, user)
@@ -141,7 +151,7 @@ func SignUp(c *gin.Context) {
 
 // Login is the api used to tget a single user
 func Login(c *gin.Context) {
-	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var user utils.User
 	var foundUser utils.User
@@ -157,7 +167,6 @@ func Login(c *gin.Context) {
 	}
 
 	err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"email": user.Email}).Decode(&foundUser)
-	defer cancel()
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -170,7 +179,6 @@ func Login(c *gin.Context) {
 	}
 
 	passwordIsValid, msg := utils.VerifyPassword(*user.Password, *foundUser.Password)
-	defer cancel()
 	if !passwordIsValid {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -182,7 +190,17 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, refreshToken, _ := utils.GenerateAllTokens(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, foundUser.UserId, foundUser.UserPrivilegeLevel)
+	token, refreshToken, err := utils.GenerateAllTokens(*foundUser.Email, *foundUser.FirstName, *foundUser.LastName, foundUser.UserId, foundUser.UserPrivilegeLevel)
+	if err != nil {
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusInternalServerError,
+			fmt.Sprintf("error - Login: GenerateAllTokens (%v)", err.Error()),
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+		return
+	}
 	utils.UpdateAllTokens(token, refreshToken, foundUser.UserId)
 	apiResponse := utils.NewAPIResponse(
 		"success",

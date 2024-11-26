@@ -2,6 +2,7 @@ package utils
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -32,14 +33,16 @@ func GenerateAllTokens(email string, firstName string, lastName string, userId s
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(AuthSecretKey))
 	if err != nil {
-		log.Fatalf("error - GenerateAllTokens: (%s)", err)
-		return
+		errMsg := fmt.Errorf("error - GenerateAllTokens: (%s)", err.Error())
+		log.Print(errMsg)
+		return "", "", errMsg
 	}
 
 	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims).SignedString([]byte(AuthSecretKey))
 	if err != nil {
-		log.Fatalf("error - GenerateAllTokens: (%s)", err)
-		return
+		errMsg := fmt.Errorf("error - GenerateAllTokens: (%s)", err.Error())
+		log.Print(errMsg)
+		return "", "", errMsg
 	}
 
 	return token, refreshToken, err
