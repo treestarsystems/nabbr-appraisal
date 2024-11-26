@@ -65,39 +65,37 @@ func MatchUserTypeToUid(c *gin.Context, userId string) (err error) {
 }
 
 // Auth validates token and authorizes users
-func Authentication() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		clientToken := c.Request.Header.Get("token")
-		if clientToken == "" {
-			apiResponse := NewAPIResponse(
-				"failure",
-				http.StatusInternalServerError,
-				"error - Authentication: No Authorization header provided",
-				[]string{},
-			)
-			c.JSON(http.StatusInternalServerError, apiResponse)
-			c.Abort()
-			return
-		}
-
-		claims, err := ValidateToken(clientToken)
-		if err != "" {
-			apiResponse := NewAPIResponse(
-				"failure",
-				http.StatusInternalServerError,
-				fmt.Sprintf("error - Authentication: No Authorization header provided (%v)", err),
-				[]string{},
-			)
-			c.JSON(http.StatusInternalServerError, apiResponse)
-			c.Abort()
-			return
-		}
-
-		c.Set("email", claims.Email)
-		c.Set("firstName", claims.FirstName)
-		c.Set("lastName", claims.LastName)
-		c.Set("userId", claims.UserId)
-		c.Set("userPrivilegeLevel", claims.UserPrivilegeLevel)
-		c.Next()
+func Authentication(c *gin.Context) {
+	clientToken := c.Request.Header.Get("token")
+	if clientToken == "" {
+		apiResponse := NewAPIResponse(
+			"failure",
+			http.StatusInternalServerError,
+			"error - Authentication: No Authorization header provided",
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+		c.Abort()
+		return
 	}
+
+	claims, err := ValidateToken(clientToken)
+	if err != "" {
+		apiResponse := NewAPIResponse(
+			"failure",
+			http.StatusInternalServerError,
+			fmt.Sprintf("error - Authentication: No Authorization header provided (%v)", err),
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+		c.Abort()
+		return
+	}
+
+	c.Set("email", claims.Email)
+	c.Set("firstName", claims.FirstName)
+	c.Set("lastName", claims.LastName)
+	c.Set("userId", claims.UserId)
+	c.Set("userPrivilegeLevel", claims.UserPrivilegeLevel)
+	c.Next()
 }

@@ -14,120 +14,116 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GetUsersAll() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if err := utils.CheckUserType(c, "ADMIN"); err != nil {
-			apiResponse := utils.NewAPIResponse(
-				"failuire",
-				http.StatusUnauthorized,
-				err.Error(),
-				[]string{},
-			)
-			c.JSON(http.StatusUnauthorized, apiResponse)
-			return
-		}
-		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
-		// recordPerPage := 10
-		recordPerPage, err := strconv.Atoi(c.Query("recordPerPage"))
-		if err != nil || recordPerPage < 1 {
-			recordPerPage = 100
-		}
-
-		page, err1 := strconv.Atoi(c.Query("page"))
-		if err1 != nil || page < 1 {
-			page = 1
-		}
-
-		startIndex, err := strconv.Atoi(c.Query("startIndex"))
-		if err != nil {
-			startIndex = (page - 1) * recordPerPage
-		}
-
-		matchStage := bson.D{{Key: "$match", Value: bson.D{}}}
-		groupStage := bson.D{{Key: "$group", Value: bson.D{
-			{Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}}},
-			{Key: "totalCount", Value: bson.D{{Key: "$sum", Value: 1}}},
-			{Key: "data", Value: bson.D{{Key: "$push", Value: bson.D{
-				{Key: "email", Value: "$email"},
-				{Key: "firstName", Value: "$firstName"},
-				{Key: "lastName", Value: "$lastName"},
-				{Key: "phone", Value: "$phone"},
-				{Key: "userId", Value: "$userId"},
-				{Key: "userPrivilegeLevel", Value: "$userPrivilegeLevel"},
-			}}}},
-		}}}
-		projectStage := bson.D{
-			{Key: "$project", Value: bson.D{
-				{Key: "_id", Value: 0},
-				{Key: "totalCount", Value: 1},
-				{Key: "userItems", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
-			}}}
-
-		result, err := utils.CollectionMongoUsers.Aggregate(ctx, mongo.Pipeline{
-			matchStage, groupStage, projectStage})
-		defer cancel()
-		if err != nil {
-			apiResponse := utils.NewAPIResponse(
-				"failuire",
-				http.StatusInternalServerError,
-				"error - Get Users All: error occured while listing user items",
-				[]string{},
-			)
-			c.JSON(http.StatusInternalServerError, apiResponse)
-		}
-		var allusers []bson.M
-		if err = result.All(ctx, &allusers); err != nil {
-			log.Fatal(err)
-		}
-		userItems := allusers[0]["userItems"]
+func GetUsersAll(c *gin.Context) {
+	if err := utils.CheckUserType(c, "ADMIN"); err != nil {
 		apiResponse := utils.NewAPIResponse(
-			"success",
-			http.StatusOK,
-			"All users retrieved successfully",
-			userItems,
+			"failuire",
+			http.StatusUnauthorized,
+			err.Error(),
+			[]string{},
 		)
-		c.JSON(http.StatusOK, apiResponse)
+		c.JSON(http.StatusUnauthorized, apiResponse)
+		return
 	}
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+
+	// recordPerPage := 10
+	recordPerPage, err := strconv.Atoi(c.Query("recordPerPage"))
+	if err != nil || recordPerPage < 1 {
+		recordPerPage = 100
+	}
+
+	page, err1 := strconv.Atoi(c.Query("page"))
+	if err1 != nil || page < 1 {
+		page = 1
+	}
+
+	startIndex, err := strconv.Atoi(c.Query("startIndex"))
+	if err != nil {
+		startIndex = (page - 1) * recordPerPage
+	}
+
+	matchStage := bson.D{{Key: "$match", Value: bson.D{}}}
+	groupStage := bson.D{{Key: "$group", Value: bson.D{
+		{Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}}},
+		{Key: "totalCount", Value: bson.D{{Key: "$sum", Value: 1}}},
+		{Key: "data", Value: bson.D{{Key: "$push", Value: bson.D{
+			{Key: "email", Value: "$email"},
+			{Key: "firstName", Value: "$firstName"},
+			{Key: "lastName", Value: "$lastName"},
+			{Key: "phone", Value: "$phone"},
+			{Key: "userId", Value: "$userId"},
+			{Key: "userPrivilegeLevel", Value: "$userPrivilegeLevel"},
+		}}}},
+	}}}
+	projectStage := bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "totalCount", Value: 1},
+			{Key: "userItems", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
+		}}}
+
+	result, err := utils.CollectionMongoUsers.Aggregate(ctx, mongo.Pipeline{
+		matchStage, groupStage, projectStage})
+	defer cancel()
+	if err != nil {
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusInternalServerError,
+			"error - Get Users All: error occured while listing user items",
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+	}
+	var allusers []bson.M
+	if err = result.All(ctx, &allusers); err != nil {
+		log.Fatal(err)
+	}
+	userItems := allusers[0]["userItems"]
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"All users retrieved successfully",
+		userItems,
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }
 
 // GetUser is the api used to tget a single user
-func GetUser() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		userId := c.Param("userId")
+func GetUser(c *gin.Context) {
+	userId := c.Param("userId")
 
-		if err := utils.MatchUserTypeToUid(c, userId); err != nil {
-			apiResponse := utils.NewAPIResponse(
-				"failure",
-				http.StatusBadRequest,
-				fmt.Sprintf("error - GetUser: (%v)", err.Error()),
-				[]string{},
-			)
-			c.JSON(http.StatusBadRequest, apiResponse)
-			return
-		}
-		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
-		var user utils.User
-
-		err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
-		defer cancel()
-		if err != nil {
-			apiResponse := utils.NewAPIResponse(
-				"failure",
-				http.StatusInternalServerError,
-				fmt.Sprintf("error - GetUser: (%v)", err.Error()),
-				[]string{},
-			)
-			c.JSON(http.StatusInternalServerError, apiResponse)
-			return
-		}
+	if err := utils.MatchUserTypeToUid(c, userId); err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
-			http.StatusOK,
-			"User retrieved successfully",
-			[]interface{}{user},
+			http.StatusBadRequest,
+			fmt.Sprintf("error - GetUser: (%v)", err.Error()),
+			[]string{},
 		)
-		c.JSON(http.StatusOK, apiResponse)
+		c.JSON(http.StatusBadRequest, apiResponse)
+		return
 	}
+	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+
+	var user utils.User
+
+	err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
+	defer cancel()
+	if err != nil {
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusInternalServerError,
+			fmt.Sprintf("error - GetUser: (%v)", err.Error()),
+			[]string{},
+		)
+		c.JSON(http.StatusInternalServerError, apiResponse)
+		return
+	}
+	apiResponse := utils.NewAPIResponse(
+		"failure",
+		http.StatusOK,
+		"User retrieved successfully",
+		[]interface{}{user},
+	)
+	c.JSON(http.StatusOK, apiResponse)
 }

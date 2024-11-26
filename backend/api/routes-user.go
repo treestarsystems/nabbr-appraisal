@@ -10,9 +10,9 @@ func RoutesUser(router *gin.Engine) {
 	user := router.Group("/api/v1/user")
 	{
 		// Set up authentication middleware
-		user.Use(utils.Authentication())
+		user.Use(utils.Authentication)
 		// All routes that require authentication should be placed after this line
-		user.GET("/", GetUsersAll())
-		user.GET("/:userId", GetUser())
+		user.GET("/", GetUsersAll)
+		user.GET("/:userId", GetUser)
 	}
 }

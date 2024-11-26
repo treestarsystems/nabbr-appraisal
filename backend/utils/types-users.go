@@ -20,8 +20,6 @@ type User struct {
 	UpdatedAt          time.Time          `bson:"updatedAt" json:"updatedAt"`
 	UserId             string             `bson:"userId" json:"userId"`
 	UserPrivilegeLevel string             `bson:"userPrivilegeLevel" json:"userPrivilegeLevel" validate:"required"`
-	// UserRole           string             `bson:"userRole" json:"userRole"`
-	// ServiceLevel       string             `bson:"serviceLevel" json:"serviceLevel"`
 }
 
 type UserLoginResponse struct {
@@ -33,8 +31,6 @@ type UserLoginResponse struct {
 	RefreshToken       *string `json:"refreshToken"`
 	UserId             string  `json:"userId"`
 	UserPrivilegeLevel string  `json:"userPrivilegeLevel"`
-	// UserRole           string  `json:"userRole"`
-	// ServiceLevel       string  `json:"serviceLevel"`
 }
 
 // SignedDetails
