@@ -11,7 +11,7 @@ import (
 )
 
 func GetAppraisalChartTemplateJSON(c *gin.Context) {
-	responseData := GenerateAppraisalEmptyChart()
+	responseData := NewAppraisalChart()
 	apiResponse := utils.NewAPIResponse(
 		"success",
 		http.StatusOK,
