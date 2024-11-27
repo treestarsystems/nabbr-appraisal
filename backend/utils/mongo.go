@@ -11,13 +11,15 @@ import (
 
 // MongoDB variables
 var ClientMongo *mongo.Client
-var CollectionMongo *mongo.Collection
+var CollectionMongoUsers *mongo.Collection
+var CollectionMongoAppraisals *mongo.Collection
 var CtxMongo = context.TODO()
 
 func LoadDbConnectToMongoDb() {
 	mongoDbUri := os.Getenv("DB_MONGODB_URI")
 	mongoDbName := os.Getenv("DB_NAME")
-	mongoDbCollectionName := os.Getenv("DB_TABLE_NAME")
+	mongoDbCollectionNameUsers := "users"
+	mongoDbCollectionNameAppraisals := os.Getenv("DB_TABLE_NAME_APPRAISALS")
 	clientOptions := options.Client().ApplyURI(mongoDbUri)
 	ClientMongo, err := mongo.Connect(CtxMongo, clientOptions)
 	if err != nil {
@@ -29,5 +31,8 @@ func LoadDbConnectToMongoDb() {
 		log.Fatalf("error - MongoDB: Unable to ping database instance: %s", err)
 	}
 
-	CollectionMongo = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionName)
+	// Users collection
+	CollectionMongoUsers = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionNameUsers)
+	// Appraisal collection
+	CollectionMongoAppraisals = ClientMongo.Database(mongoDbName).Collection(mongoDbCollectionNameAppraisals)
 }

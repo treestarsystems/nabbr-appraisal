@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func loadDbDataToMongoDb(data utils.NabbrAppraisalChart, appraisalId string) (string, error) {
+func loadDbDataToMongoDbAppraisals(data utils.NabbrAppraisalChart, appraisalId string) (string, error) {
 	filter := bson.M{"appraisalId": appraisalId}
 	update := bson.M{
 		"$set": bson.M{
@@ -21,8 +21,7 @@ func loadDbDataToMongoDb(data utils.NabbrAppraisalChart, appraisalId string) (st
 		},
 	}
 	opts := options.Update().SetUpsert(true)
-
-	_, err := utils.CollectionMongo.UpdateOne(utils.CtxMongo, filter, update, opts)
+	_, err := utils.CollectionMongoAppraisals.UpdateOne(utils.CtxMongo, filter, update, opts)
 	if err != nil {
 		log.Printf("error - MongoDB: Database write failure: %s\n", err)
 		return "", err

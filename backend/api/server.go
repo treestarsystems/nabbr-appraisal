@@ -14,14 +14,16 @@ func StartServer() *gin.Engine {
 	if os.Getenv("GIN_MODE") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	router := gin.Default()
 
-	// Pass routes to the router
+	// Set up the router
+	router := gin.Default()
+	router.Use(gin.Logger())
+	RoutesAuth(router)
+	RoutesUser(router)
 	RoutesAppraisal(router)
 
-	log.Printf("Starting server on port :%s\n", os.Getenv("PORT"))
-
 	router.Run()
+	log.Printf("Server started on port :%s\n", os.Getenv("PORT"))
 
 	return router
 }

@@ -2,7 +2,7 @@ package api
 
 import "nabbr-appraisal/utils"
 
-func GenerateAppraisalEmptyChart() utils.NabbrAppraisalChart {
+func NewAppraisalChart() utils.NabbrAppraisalChart {
 	var responseData utils.NabbrAppraisalChart
 
 	responseData.AppraisalInformation.MainDivision.Appearance.Name = "General Appearance"

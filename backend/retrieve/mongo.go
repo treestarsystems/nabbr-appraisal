@@ -19,14 +19,15 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	defer cancel()
 
 	var cursor *mongo.Cursor
+	defer cursor.Close(ctx)
 	var err error
 
 	// Perform the search query based on the type of filter
 	switch f := filter.(type) {
 	case bson.M:
-		cursor, err = utils.CollectionMongo.Find(ctx, f)
+		cursor, err = utils.CollectionMongoAppraisals.Find(ctx, f)
 	case mongo.Pipeline:
-		cursor, err = utils.CollectionMongo.Aggregate(ctx, f)
+		cursor, err = utils.CollectionMongoAppraisals.Aggregate(ctx, f)
 	default:
 		return nil, fmt.Errorf("error - MongoDB: Unsupported filter type: %T", filter)
 	}
@@ -34,7 +35,6 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	if err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
 	}
-	defer cursor.Close(ctx)
 
 	// Iterate through the cursor and decode each document into a AppraisalChart struct
 	for cursor.Next(ctx) {
@@ -61,7 +61,6 @@ func retrieveDbFromMongoDbAll() ([]utils.NabbrAppraisalChart, error) {
 	return resultAppraisalChart, nil
 }
 
-// TODO: Need to review this function to ensure it is working as expected. I think it can be improved.
 // func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart, error) {
 func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart, error) {
 	// Define the filter for the search query
@@ -70,7 +69,6 @@ func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart
 			{"appraisalId": bson.M{"$regex": searchTerm}},
 		},
 	}
-
 	resultAppraisalChart, err := retrieveDbFromMongoDbQuery(filter)
 	if err != nil {
 		return []utils.NabbrAppraisalChart{}, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
