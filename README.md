@@ -10,20 +10,26 @@ Nabbr Appraisal Web Application
 
 ## Installation
 
-This will build the binary in the destination directory. I suggest you run this app in it's own directory as it will create a SQLite database file in the same directory.
-
-##### Note: This may change in the future to allow for a specified path for the SQLite database file.
+### Backend
 
 ```bash
 git clone https://github.com/treestarsystems/nabbr-appraisal.git
 cd ./nabbr-appraisal/
-go build -o <destination dir>nabbr-appraisal
+go build -o <destination dir>/nabbr-appraisal
 cd <destination dir>
 ```
 
-To run this app it requires an .env file in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file.
+### Frontend
 
-The .env file should be formatted as follows (template included repository):
+```bash
+cd ./frontend
+npm install
+npm run build
+```
+
+To run the backend app it requires an .env file in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file.
+
+The ./backend/.env file should be formatted as follows (template included repository):
 
 ```bash
 # .env
@@ -32,18 +38,29 @@ GIN_MODE="release"
 DB_NAME="nabbrAppraisal"
 DB_TABLE_NAME="appraisals"
 DB_MONGODB_URI="mongodb://localhost:27017"
+AUTH_SECRET_KEY = ""
+AUTH_ADMIN_KEY = ""
 ```
 
 ## Usage
 
-Without -e flag, the program will use the .env file in the same directory
+### Backend
+
+Without -e flag, the program will expect the .env file to be in the same directory.
 
 ```bash
-./nabbr-appraisal
+<destination dir>/nabbr-appraisal
 ```
 
 With -e flag, the program will use the .env file at the specified path
 
 ```bash
-./nabbr-appraisal -e=/path/to/.env
+<destination dir>/nabbr-appraisal -e=/path/to/.env
+```
+
+### Frontend
+
+```bash
+cd ./frontend
+vm dist <destination dir>
 ```
