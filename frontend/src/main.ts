@@ -6,8 +6,8 @@ import "./assets/css/main.min.css";
 import "./assets/css/style.css";
 import "./assets/css/OverlayScrollbars.min.css";
 import App from "./App.vue";
-import Register from "./components/Register.vue";
-import Login from "./components/Login.vue";
+import Register from "./components/auth/Register.vue";
+import Login from "./components/auth/Login.vue";
 
 const router = createRouter({
  history: createWebHistory(),
