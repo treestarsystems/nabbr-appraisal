@@ -46,7 +46,6 @@ func CheckUserType(c *gin.Context, role string) (err error) {
 	if userPrivilegeLevel != role {
 		return errors.New("error - Check User Privilege: Unauthorized to access this resource")
 	}
-
 	return err
 }
 
@@ -55,12 +54,10 @@ func MatchUserTypeToUid(c *gin.Context, userId string) (err error) {
 	userPrivilegeLevel := c.GetString("userPrivilegeLevel")
 	uid := c.GetString("userId")
 	err = nil
-
 	if userPrivilegeLevel == "USER" && uid != userId {
 		return errors.New("error - Check User Privilege: Unauthorized to access this resource")
 	}
 	err = CheckUserType(c, userPrivilegeLevel)
-
 	return err
 }
 

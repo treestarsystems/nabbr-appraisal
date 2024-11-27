@@ -21,7 +21,6 @@ func loadDbDataToMongoDbAppraisals(data utils.NabbrAppraisalChart, appraisalId s
 		},
 	}
 	opts := options.Update().SetUpsert(true)
-
 	_, err := utils.CollectionMongoAppraisals.UpdateOne(utils.CtxMongo, filter, update, opts)
 	if err != nil {
 		log.Printf("error - MongoDB: Database write failure: %s\n", err)

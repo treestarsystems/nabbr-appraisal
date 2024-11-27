@@ -24,7 +24,6 @@ func GetAppraisalChartTemplateJSON(c *gin.Context) {
 func PostPutAppraisalChartJSON(c *gin.Context) {
 	appraisalId := c.Param("appraisalId")
 	var appraisalChart utils.NabbrAppraisalChart
-
 	if err := c.BindJSON(&appraisalChart); err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failuire",
@@ -61,7 +60,6 @@ func PostPutAppraisalChartJSON(c *gin.Context) {
 func GetAppraisalChartAllJSON(c *gin.Context) {
 	// Get all appraisal charts
 	appraisalCharts := retrieve.RetrieveDbDataAll()
-
 	apiResponse := utils.NewAPIResponse(
 		"success",
 		http.StatusOK,
@@ -73,7 +71,6 @@ func GetAppraisalChartAllJSON(c *gin.Context) {
 
 func GetAppraisalChartByIdJSON(c *gin.Context) {
 	appraisalId := c.Param("appraisalId")
-
 	// Get the appraisal chart by appraisalId
 	appraisalChart, err := retrieve.RetrieveDbDataBySearchTerm(appraisalId)
 	if err != nil {
@@ -81,7 +78,7 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 			"failuire",
 			http.StatusNotFound,
 			fmt.Sprintf("Failed to get appraisal chart by appraisalId (%v)", err),
-			[]utils.NabbrAppraisalChart{},
+			[]string{},
 		)
 		c.JSON(http.StatusNotFound, apiResponse)
 		return

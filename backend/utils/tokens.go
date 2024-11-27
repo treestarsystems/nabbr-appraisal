@@ -50,8 +50,8 @@ func GenerateAllTokens(email string, firstName string, lastName string, userId s
 
 // UpdateAllTokens renews the user tokens when they login
 func UpdateAllTokens(signedToken string, signedRefreshToken string, userId string) {
-	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	var updateObj primitive.D
 
 	updateObj = append(updateObj, bson.E{Key: "token", Value: signedToken})
@@ -74,7 +74,6 @@ func UpdateAllTokens(signedToken string, signedRefreshToken string, userId strin
 		},
 		&opt,
 	)
-	defer cancel()
 
 	if err != nil {
 		log.Fatalf("error - UpdateAllTokens: (%s)", err)

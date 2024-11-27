@@ -14,6 +14,43 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+func createMatchStage() bson.D {
+	return bson.D{{Key: "$match", Value: bson.D{}}}
+}
+
+func createGroupStage() bson.D {
+	return bson.D{{Key: "$group", Value: bson.D{
+		{Key: "_id", Value: "null"},
+		{Key: "totalCount", Value: bson.D{{Key: "$sum", Value: 1}}},
+		{Key: "data", Value: bson.D{{Key: "$push", Value: bson.D{
+			{Key: "email", Value: "$email"},
+			{Key: "firstName", Value: "$firstName"},
+			{Key: "lastName", Value: "$lastName"},
+			{Key: "phone", Value: "$phone"},
+			{Key: "userId", Value: "$userId"},
+			{Key: "userPrivilegeLevel", Value: "$userPrivilegeLevel"},
+		}}}},
+	}}}
+}
+
+func createProjectStage(startIndex, recordPerPage int) bson.D {
+	return bson.D{
+		{Key: "$project", Value: bson.D{
+			{Key: "_id", Value: 0},
+			{Key: "totalCount", Value: 1},
+			{Key: "userItems", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
+		}},
+	}
+}
+
+func getAggregationPipeline(startIndex, recordPerPage int) mongo.Pipeline {
+	return mongo.Pipeline{
+		createMatchStage(),
+		createGroupStage(),
+		createProjectStage(startIndex, recordPerPage),
+	}
+}
+
 func GetUsersAll(c *gin.Context) {
 	if err := utils.CheckUserType(c, "ADMIN"); err != nil {
 		apiResponse := utils.NewAPIResponse(
@@ -25,9 +62,9 @@ func GetUsersAll(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, apiResponse)
 		return
 	}
-	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 
-	// recordPerPage := 10
 	recordPerPage, err := strconv.Atoi(c.Query("recordPerPage"))
 	if err != nil || recordPerPage < 1 {
 		recordPerPage = 100
@@ -43,29 +80,9 @@ func GetUsersAll(c *gin.Context) {
 		startIndex = (page - 1) * recordPerPage
 	}
 
-	matchStage := bson.D{{Key: "$match", Value: bson.D{}}}
-	groupStage := bson.D{{Key: "$group", Value: bson.D{
-		{Key: "_id", Value: bson.D{{Key: "_id", Value: "null"}}},
-		{Key: "totalCount", Value: bson.D{{Key: "$sum", Value: 1}}},
-		{Key: "data", Value: bson.D{{Key: "$push", Value: bson.D{
-			{Key: "email", Value: "$email"},
-			{Key: "firstName", Value: "$firstName"},
-			{Key: "lastName", Value: "$lastName"},
-			{Key: "phone", Value: "$phone"},
-			{Key: "userId", Value: "$userId"},
-			{Key: "userPrivilegeLevel", Value: "$userPrivilegeLevel"},
-		}}}},
-	}}}
-	projectStage := bson.D{
-		{Key: "$project", Value: bson.D{
-			{Key: "_id", Value: 0},
-			{Key: "totalCount", Value: 1},
-			{Key: "userItems", Value: bson.D{{Key: "$slice", Value: []interface{}{"$data", startIndex, recordPerPage}}}},
-		}}}
-
-	result, err := utils.CollectionMongoUsers.Aggregate(ctx, mongo.Pipeline{
-		matchStage, groupStage, projectStage})
-	defer cancel()
+	// Get the aggregation pipeline
+	pipeline := getAggregationPipeline(startIndex, recordPerPage)
+	result, err := utils.CollectionMongoUsers.Aggregate(ctx, pipeline)
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failuire",
@@ -103,12 +120,11 @@ func GetUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, apiResponse)
 		return
 	}
-	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	var user utils.User
 
 	err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
-	defer cancel()
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",

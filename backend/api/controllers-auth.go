@@ -17,7 +17,7 @@ var validate = validator.New()
 
 // CreateUser is the api used to tget a single user
 func SignUp(c *gin.Context) {
-	var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
+	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var user utils.User
 
@@ -57,7 +57,6 @@ func SignUp(c *gin.Context) {
 	}
 
 	count, err := utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"email": user.Email})
-	defer cancel()
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -81,7 +80,6 @@ func SignUp(c *gin.Context) {
 	}
 
 	count, err = utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"phone": user.Phone})
-	defer cancel()
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -135,7 +133,6 @@ func SignUp(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, apiResponse)
 		return
 	}
-	defer cancel()
 	apiResponse := utils.NewAPIResponse(
 		"success",
 		http.StatusOK,
