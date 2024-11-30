@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router'
   <!-- Page wrapper starts -->
   <div class="page-wrapper">
     <!-- Auth container starts -->
-    <div class="auth-container">
+    <div class="container">
       <div class="row justify-content-center">
         <div class="col-9">
           <div class="d-flex align-items-center justify-content-center vh-100">

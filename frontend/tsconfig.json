@@ -11,11 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@assets/*": ["src/shared/assets/*"],
-      "@cmp/*": ["src/shared/cmp/*"],
-      "@stores/*": ["src/shared/stores/*"],
-      "@use/*": ["src/shared/use/*"]
+      "@/*": ["src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
