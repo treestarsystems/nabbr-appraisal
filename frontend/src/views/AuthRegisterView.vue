@@ -21,7 +21,7 @@ const formRegister = reactive({
 
 async function submitRegistrationForm() {
   try {
-    const userRegistrationForm: formDataRegistration = {
+    const userRegistrationFormData: formDataRegistration = {
       firstName: formRegister.firstName,
       lastName: formRegister.lastName,
       email: formRegister.email,
@@ -48,7 +48,7 @@ async function submitRegistrationForm() {
     //   userRegistrationForm,
     // );
 
-    const apiResponse: apiResponseDefault = (await axios.post('/backend/api/v1/auth/signup', userRegistrationForm))
+    const apiResponse: apiResponseDefault = (await axios.post('/backend/api/v1/auth/signup', userRegistrationFormData))
       .data;
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
@@ -231,7 +231,12 @@ async function submitRegistrationForm() {
                 <span class="input-group-text">
                   <i class="bi bi-safe"></i>
                 </span>
-                <select class="form-select" id="userPrivilegeLevel" aria-label="Default select example">
+                <select
+                  v-model="formRegister.userPrivilegeLevel"
+                  class="form-select"
+                  id="userPrivilegeLevel"
+                  aria-label="Default select example"
+                >
                   <option selected="true" value="APPRAISER">Appraiser</option>
                   <option value="PETOWNER">Pet Owner</option>
                   <option value="ADMIN">Admin</option>

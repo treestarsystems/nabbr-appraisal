@@ -168,7 +168,7 @@ func Login(c *gin.Context) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: (%v)", err.Error()),
+			"error - Login: User not found",
 			[]string{},
 		)
 		c.JSON(http.StatusInternalServerError, apiResponse)
@@ -180,7 +180,7 @@ func Login(c *gin.Context) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: Verify Password (%v)", msg),
+			msg,
 			[]string{},
 		)
 		c.JSON(http.StatusInternalServerError, apiResponse)

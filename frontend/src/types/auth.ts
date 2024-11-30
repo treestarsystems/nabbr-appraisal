@@ -8,6 +8,11 @@ export interface formDataRegistration {
   registrationKey: string;
 }
 
+export interface formDataLogin {
+  email: string;
+  password: string;
+}
+
 export interface apiResponseDefault {
   status: string;
   httpStatus: number;
