@@ -7,8 +7,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// TODO: These need to be reorganized to cut down on redundancy of properties
-
 type UserBase struct {
 	FirstName          *string `bson:"firstName" json:"firstName" validate:"required,min=2,max=100"`
 	LastName           *string `bson:"lastName" json:"lastName" validate:"required,min=2,max=100"`
@@ -34,7 +32,6 @@ type UserRegistrationRequest struct {
 }
 
 type UserLoginResponse struct {
-	// UserBase
 	FirstName          *string `json:"firstName"`
 	LastName           *string `json:"lastName"`
 	Email              *string `json:"email"`
