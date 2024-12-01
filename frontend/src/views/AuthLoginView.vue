@@ -6,6 +6,8 @@ import { useAuthStore } from '../stores/auth';
 import router from '../router';
 import { apiResponseDefault, formDataLogin } from '../types/auth';
 
+import axios from 'axios';
+
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
@@ -33,7 +35,9 @@ async function submitLoginForm() {
 
     // Show a visual queue that the form has been submitted.
     wasValidated.value = 'was-validated';
+    // console.log(userLoginFormData);
     // const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
+
     const apiResponse: apiResponseDefault = await authStore.login(userLoginFormData);
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;

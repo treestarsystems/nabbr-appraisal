@@ -14,7 +14,8 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     async protectView() {
-      if (this.user === null) await router.back();
+      console.log(this.user);
+      // if (this.user === null) await router.back();
     },
     async checkUserPrivilegeLevel(userPrivilegeLevel: string, authorizedPrivilegeLevel: string[]) {
       console.log(userPrivilegeLevel);
@@ -28,8 +29,9 @@ export const useAuthStore = defineStore('auth', {
     },
     async login(userLoginFormData: formDataLogin): Promise<apiResponseDefault> {
       const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
+      console.log(apiResponse);
       // console.log(apiResponse.payload[0])
-      this.user = apiResponse.payload[0];
+      // this.user = apiResponse.payload[0];
       return apiResponse;
     },
     async logout() {

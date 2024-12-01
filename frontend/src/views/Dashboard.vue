@@ -9,7 +9,7 @@ onMounted(async () => {
   authStore.protectView();
   // Ensure user has the correct userPrivilegeLevel to access this page.
   const userState: userState | null = authStore.getState;
-  console.log(userState);
+  console.log(userState?.email);
   // authStore.checkUserPrivilegeLevel(userState?.userPrivilegeLevel ?? '', ['ADMIN', 'APPRAISER']);
 });
 </script>

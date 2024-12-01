@@ -20,7 +20,7 @@ func SignUp(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	var userRegistrationRequest utils.UserRegistrationRequest
-	var user utils.UserStore
+	var user utils.UserMongoDb
 
 	if err := c.BindJSON(&userRegistrationRequest); err != nil {
 		apiResponse := utils.NewAPIResponse(
@@ -167,14 +167,15 @@ func SignUp(c *gin.Context) {
 func Login(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	var user utils.UserStore
-	var foundUser utils.UserStore
+	var user utils.UserMongoDb
+	var foundUser utils.UserMongoDb
 
 	if err := c.BindJSON(&user); err != nil {
+		msg := fmt.Sprintf("error - Login: (%v)", err.Error())
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: (%v)", err.Error()),
+			msg,
 			[]string{},
 		)
 		c.JSON(http.StatusBadRequest, apiResponse)
