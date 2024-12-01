@@ -122,7 +122,7 @@ func GetUser(c *gin.Context) {
 	}
 	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	var user utils.User
+	var user utils.UserStore
 
 	err := utils.CollectionMongoUsers.FindOne(ctx, bson.M{"userId": userId}).Decode(&user)
 	if err != nil {

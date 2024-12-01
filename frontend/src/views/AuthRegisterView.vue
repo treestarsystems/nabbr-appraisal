@@ -15,7 +15,7 @@ const formRegister = reactive({
   phone: '',
   password: '',
   confirmPassword: '',
-  userPrivilegeLevel: '',
+  userPrivilegeLevel: 'PETOWNER',
   registrationKey: '',
 });
 
@@ -48,8 +48,9 @@ async function submitRegistrationForm() {
     //   userRegistrationForm,
     // );
 
-    const apiResponse: apiResponseDefault = (await axios.post('/backend/api/v1/auth/signup', userRegistrationFormData))
-      .data;
+    // Show a visual queue that the form has been submitted.
+    wasValidated.value = 'was-validated';
+    const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/signup', userRegistrationFormData)).data;
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
     }

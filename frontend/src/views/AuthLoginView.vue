@@ -29,7 +29,9 @@ async function submitLoginForm() {
       }
     }
 
-    const apiResponse: apiResponseDefault = (await axios.post('/backend/api/v1/auth/login', userLoginFormData)).data;
+    // Show a visual queue that the form has been submitted.
+    wasValidated.value = 'was-validated';
+    const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
     }
