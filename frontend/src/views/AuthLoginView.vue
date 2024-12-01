@@ -5,6 +5,7 @@ import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import router from '../router';
 import { apiResponseDefault, formDataLogin } from '../types/auth';
+
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
