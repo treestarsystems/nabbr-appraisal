@@ -2,9 +2,11 @@
 import LogoAuth from '../components/LogoAuth.vue';
 import { reactive, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
-import axios from 'axios';
+import { useAuthStore } from '../stores/auth';
 import router from '../router';
 import { apiResponseDefault, formDataRegistration } from '../types/auth';
+
+const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
@@ -43,14 +45,9 @@ async function submitRegistrationForm() {
     // Final check for password fields
     if (formRegister.password !== formRegister.confirmPassword) return;
 
-    // const apiResponse = await axios.post(
-    //   `${import.meta.env.BACKEND_API_BASE_URL}/api/v1/auth/signup`,
-    //   userRegistrationForm,
-    // );
-
     // Show a visual queue that the form has been submitted.
     wasValidated.value = 'was-validated';
-    const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/signup', userRegistrationFormData)).data;
+    const apiResponse: apiResponseDefault = await authStore.register(userRegistrationFormData);
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
     }
