@@ -7,17 +7,17 @@ import { loadThirdPartyJS } from '../helpers/script';
 import { thirdPartyJSFilePaths } from '../helpers/thirdPartyFIlesList';
 
 onMounted(async () => {
-  // const authStore = useAuthStore();
-  // const swal: any = inject('$swal');
+  const authStore = useAuthStore();
+  const swal: any = inject('$swal');
   // Check for non-null user
   // await authStore.protectView;
   // Check for unprivileged user
-  // const authorizedPrivilegeLevels: string[] = ['ADMIN', 'APPRAISER'];
-  // const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
-  // if (!isAuthorized) {
-  //   router.push(`/user/${authStore.getState?.userId}`);
-  //   SwalToastError(swal, 'User Unauthorized ');
-  // }
+  const authorizedPrivilegeLevels: string[] = ['ADMIN', 'APPRAISER'];
+  const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
+  if (!isAuthorized) {
+    router.push(`/user/${authStore.getState?.userId}`);
+    SwalToastError(swal, 'User Unauthorized ');
+  }
   await loadThirdPartyJS(thirdPartyJSFilePaths);
 });
 </script>

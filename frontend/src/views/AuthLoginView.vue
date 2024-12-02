@@ -11,17 +11,8 @@ import { SwalToastError, SwalToastSuccess, SwalToastWarn } from '../helpers/swee
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
-// If logged in redirect user to default landing page with toast message.
-// console.log(authStore.getState);
-// if (authStore.getState !== null) {
-//   await SwalToastWarn(swal, 'Please log out first...');
-//   const { userId, userPrivilegeLevel } = authStore.getState;
-//   if (userPrivilegeLevel === 'PETOWNER') {
-//     await router.push(`/user/${userId}`);
-//   } else {
-//     await router.push('/dashboard');
-//   }
-// }
+const user = authStore.getState;
+const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
 const formLogin: formDataLoginSubmit = reactive({
@@ -52,7 +43,7 @@ async function submitLoginForm() {
     // Our user state should be defined at this point.
     const user = authStore.getState;
     if (user?.userPrivilegeLevel === 'PETOWNER') {
-      await router.push(`/user/${user?.userId}`);
+      await router.push(userProfileLink);
     } else {
       await router.push('/dashboard');
     }
@@ -66,7 +57,7 @@ async function submitLoginForm() {
   <!-- Page wrapper starts -->
   <div class="page-wrapper">
     <!-- Auth container starts -->
-    <div class="auth-container">
+    <div v-if="authStore.getState === null" class="auth-container">
       <div class="d-flex justify-content-center">
         <!-- Form starts -->
         <form @submit.prevent="submitLoginForm" class="need-validation" :class="wasValidated" novalidate>
@@ -116,6 +107,7 @@ async function submitLoginForm() {
             </div> -->
 
             <div class="d-grid gap-2">
+              <!-- <button type="submit" :disable="authStore.getState !== null" class="btn btn-primary">Login</button> -->
               <button type="submit" class="btn btn-primary">Login</button>
               <RouterLink to="/register" class="btn btn-outline-secondary">Not registered? Signup</RouterLink>
             </div>
@@ -123,6 +115,24 @@ async function submitLoginForm() {
           <!-- Authbox ends -->
         </form>
         <!-- Form ends -->
+      </div>
+    </div>
+    <div v-else class="auth-container">
+      <div class="row justify-content-center">
+        <div class="col-9">
+          <div class="d-flex align-items-center justify-content-center vh-100">
+            <div class="text-center text-white">
+              <!-- <h1 class="error-title mb-3">User Profile: {{ userId }}</h1> -->
+              <h1 class="error-title mb-3">Please Logout First</h1>
+              <!-- <RouterLink @click="router.push(`/user/${user?.userId}`)" class="btn btn-warning px-5 shadow-lg py-3 fs-5"
+                >Go back to User Profile</RouterLink
+              > -->
+              <RouterLink :to="userProfileLink" class="btn btn-warning px-5 shadow-lg py-3 fs-5"
+                >Go back to User Profile</RouterLink
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Auth container ends -->
