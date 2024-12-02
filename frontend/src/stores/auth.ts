@@ -5,24 +5,25 @@ import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/form';
 import router from '../router';
 
 export const useAuthStore = defineStore('auth', {
-  state: () => ({
+  state: (): { user: userState | null } => ({
     user: null,
   }),
   getters: {
     getState(): userState | null {
       return this.user;
     },
+    async protectView(): Promise<void> {
+      if (this.user === null) await router.back();
+    },
   },
   actions: {
-    async protectView() {
-      console.log('protectedView', this.getState);
-      // if (this.user === null) await router.back();
+    checkUserPrivilegeLevel(authorizedPrivilegeLevel: string[]): boolean {
+      if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
+      return true;
     },
-    async checkUserPrivilegeLevel(userPrivilegeLevel: string, authorizedPrivilegeLevel: string[]) {
-      console.log(userPrivilegeLevel);
-      if (!authorizedPrivilegeLevel.includes(userPrivilegeLevel)) {
-        // await router.back();
-      }
+    checkUserIdAuthorized(userId: string): boolean {
+      if (this.user?.userId !== userId) return false;
+      return true;
     },
     async register(userRegistrationFormData: formDataRegistrationSubmit): Promise<apiResponseDefault> {
       const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/signup', userRegistrationFormData)).data;

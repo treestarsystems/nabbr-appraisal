@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, inject } from 'vue';
 import router from '../router';
 import { useAuthStore } from '../stores/auth';
-import { userState } from '@/types/auth';
+import { userState } from '../types/auth';
+import { SwalToastError } from '../helpers/sweetalert';
 onMounted(async () => {
   const authStore = useAuthStore();
+  const swal: any = inject('$swal');
   // Check for non-null user
-  authStore.protectView();
-  // Ensure user has the correct userPrivilegeLevel to access this page.
-  const userState: userState | null = authStore.getState;
-  console.log(userState?.email);
-  // authStore.checkUserPrivilegeLevel(userState?.userPrivilegeLevel ?? '', ['ADMIN', 'APPRAISER']);
+  await authStore.protectView;
+  // Check for unprivileged user
+  const isAuthorized = authStore.checkUserPrivilegeLevel(['APPRAISER']);
+  if (!isAuthorized) {
+    router.push(`/user/${authStore.getState?.userId}`);
+    SwalToastError(swal, 'User Unauthorized ');
+  }
 });
 </script>
 
