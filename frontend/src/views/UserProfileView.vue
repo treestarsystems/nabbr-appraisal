@@ -29,7 +29,9 @@ onMounted(async () => {
           <div class="d-flex align-items-center justify-content-center vh-100">
             <div class="text-center text-white">
               <!-- <h1 class="error-title mb-3">User Profile: {{ userId }}</h1> -->
-              <h1 class="error-title mb-3">User Profile:</h1>
+              <h1 class="error-title mb-3">
+                User Profile: {{ authStore.getState?.firstName }} {{ authStore.getState?.lastName }}
+              </h1>
             </div>
           </div>
         </div>

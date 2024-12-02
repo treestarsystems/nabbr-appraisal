@@ -5,10 +5,12 @@ import { useAuthStore } from '../stores/auth';
 import { SwalToastError } from '../helpers/sweetalert';
 import { loadThirdPartyJS } from '../helpers/script';
 import { thirdPartyJSFilePaths } from '../helpers/thirdPartyFIlesList';
+import { RouterLink } from 'vue-router';
 
 const authStore = useAuthStore();
 const user = toRaw(authStore.getState);
-
+const userProfileLink = `/user/${user?.userId}`;
+const currentYear = new Date().getFullYear();
 onMounted(async () => {
   const swal: any = inject('$swal');
   // Check for non-null user
@@ -52,279 +54,36 @@ onMounted(async () => {
         <!-- Sidebar menu starts -->
         <div class="sidebarMenuScroll">
           <ul class="sidebar-menu">
-            <li class="active current-page">
-              <a href="index.html">
+            <li v-if="user?.userPrivilegeLevel === 'ADMIN'" class="active current-page">
+              <RouterLink to="/dashboard">
                 <i class="bi bi-pie-chart"></i>
                 <span class="menu-text">Dashboard</span>
-              </a>
+              </RouterLink>
+            </li>
+            <li v-if="['ADMIN'].includes(user?.userPrivilegeLevel)">
+              <RouterLink to="/appraisal">
+                <i class="bi bi-justify"></i>
+                <span class="menu-text">View Appraisals</span>
+              </RouterLink>
+            </li>
+            <li v-if="['ADMIN', 'APPRAISER'].includes(user?.userPrivilegeLevel)">
+              <RouterLink to="/appraisal">
+                <i class="bi bi-calculator"></i>
+                <span class="menu-text">New Appraisal</span>
+              </RouterLink>
             </li>
             <li>
-              <a href="analytics.html">
-                <i class="bi bi-bar-chart-line"></i>
-                <span class="menu-text">Analytics</span>
-              </a>
+              <RouterLink :to="userProfileLink">
+                <i class="bi bi-person-square"></i>
+                <span class="menu-text">Profile</span>
+              </RouterLink>
             </li>
-            <li>
+            <!-- <li>
               <a href="widgets.html">
                 <i class="bi bi-box"></i>
                 <span class="menu-text">Widgets</span>
               </a>
-            </li>
-            <li>
-              <a href="calendar.html">
-                <i class="bi bi-calendar2"></i>
-                <span class="menu-text">Calendar</span>
-              </a>
-            </li>
-            <li>
-              <a href="default.html">
-                <i class="bi bi-layout-sidebar"></i>
-                <span class="menu-text">Default Layout</span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-stickies"></i>
-                <span class="menu-text">Components</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="accordions.html">Accordions</a>
-                </li>
-                <li>
-                  <a href="alerts.html">Alerts</a>
-                </li>
-                <li>
-                  <a href="buttons.html">Buttons</a>
-                </li>
-                <li>
-                  <a href="badges.html">Badges</a>
-                </li>
-                <li>
-                  <a href="carousel.html">Carousel</a>
-                </li>
-                <li>
-                  <a href="list-items.html">List Items</a>
-                </li>
-                <li>
-                  <a href="progress.html">Progress Bars</a>
-                </li>
-                <li>
-                  <a href="popovers.html">Popovers</a>
-                </li>
-                <li>
-                  <a href="tooltips.html">Tooltips</a>
-                </li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-ui-checks-grid"></i>
-                <span class="menu-text">Forms</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="form-inputs.html">Form Inputs</a>
-                </li>
-                <li>
-                  <a href="form-checkbox-radio.html">Checkbox &amp; Radio</a>
-                </li>
-                <li>
-                  <a href="form-file-input.html">File Input</a>
-                </li>
-                <li>
-                  <a href="form-validations.html">Validations</a>
-                </li>
-                <li>
-                  <a href="date-time-pickers.html">Date Time Pickers</a>
-                </li>
-                <li>
-                  <a href="form-layouts.html">Form Layouts</a>
-                </li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-window-sidebar"></i>
-                <span class="menu-text">Invoices</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="create-invoice.html">Create Invoice</a>
-                </li>
-                <li>
-                  <a href="view-invoice.html">View Invoice</a>
-                </li>
-                <li>
-                  <a href="invoice-list.html">Invoice List</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="tables.html">
-                <i class="bi bi-border-all"></i>
-                <span class="menu-text">Tables</span>
-              </a>
-            </li>
-            <li>
-              <a href="events.html">
-                <i class="bi bi-calendar4"></i>
-                <span class="menu-text">Events</span>
-              </a>
-            </li>
-            <li>
-              <a href="subscribers.html">
-                <i class="bi bi-check-circle"></i>
-                <span class="menu-text">Subscribers</span>
-              </a>
-            </li>
-            <li>
-              <a href="contacts.html">
-                <i class="bi bi-wallet2"></i>
-                <span class="menu-text">Contacts</span>
-              </a>
-            </li>
-            <li>
-              <a href="settings.html">
-                <i class="bi bi-gear"></i>
-                <span class="menu-text">Settings</span>
-              </a>
-            </li>
-            <li>
-              <a href="profile.html">
-                <i class="bi bi-person-square"></i>
-                <span class="menu-text">Profile</span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-code-square"></i>
-                <span class="menu-text">Cards</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="cards.html">Cards</a>
-                </li>
-                <li>
-                  <a href="advanced-cards.html">Advanced Cards</a>
-                </li>
-              </ul>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-pie-chart"></i>
-                <span class="menu-text">Graphs</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="apex.html">Apex</a>
-                </li>
-                <li>
-                  <a href="morris.html">Morris</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="maps.html">
-                <i class="bi bi-pin-map"></i>
-                <span class="menu-text">Maps</span>
-              </a>
-            </li>
-            <li>
-              <a href="tabs.html">
-                <i class="bi bi-slash-square"></i>
-                <span class="menu-text">Tabs</span>
-              </a>
-            </li>
-            <li>
-              <a href="modals.html">
-                <i class="bi bi-terminal"></i>
-                <span class="menu-text">Modals</span>
-              </a>
-            </li>
-            <li>
-              <a href="icons.html">
-                <i class="bi bi-textarea"></i>
-                <span class="menu-text">Icons</span>
-              </a>
-            </li>
-            <li>
-              <a href="typography.html">
-                <i class="bi bi-explicit"></i>
-                <span class="menu-text">Typography</span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-upc-scan"></i>
-                <span class="menu-text">Login/Signup</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="login.html">Login</a>
-                </li>
-                <li>
-                  <a href="signup.html">Signup</a>
-                </li>
-                <li>
-                  <a href="forgot-password.html">Forgot Password</a>
-                </li>
-                <li>
-                  <a href="reset-password.html">Reset Password</a>
-                </li>
-                <li>
-                  <a href="lock-screen.html">Lock Screen</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a href="page-not-found.html">
-                <i class="bi bi-exclamation-diamond"></i>
-                <span class="menu-text">Page Not Found</span>
-              </a>
-            </li>
-            <li>
-              <a href="maintenance.html">
-                <i class="bi bi-exclamation-octagon"></i>
-                <span class="menu-text">Maintenance</span>
-              </a>
-            </li>
-            <li class="treeview">
-              <a href="#!">
-                <i class="bi bi-code-square"></i>
-                <span class="menu-text">Nested Menu</span>
-              </a>
-              <ul class="treeview-menu">
-                <li>
-                  <a href="#!">Nested 1</a>
-                </li>
-                <li>
-                  <a href="#!">
-                    Nested 2
-                    <i class="bi bi-caret-right-fill"></i>
-                  </a>
-                  <ul class="treeview-menu">
-                    <li>
-                      <a href="#!">Nested 2.1</a>
-                    </li>
-                    <li>
-                      <a href="#!"
-                        >Nested 2.2
-                        <i class="bi bi-caret-right-fill"></i>
-                      </a>
-                      <ul class="treeview-menu">
-                        <li>
-                          <a href="#!">Nested 2.2.1</a>
-                        </li>
-                        <li>
-                          <a href="#!">Nested 2.2.2</a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
+            </li> -->
           </ul>
         </div>
         <!-- Sidebar menu ends -->
@@ -349,190 +108,13 @@ onMounted(async () => {
           <!-- App brand start -->
           <div class="app-brand-sm">
             <a href="index.html" class="d-lg-none d-md-block">
-              <img src="/dog.svg" class="logo" alt="Bootstrap Gallery" />
+              <img src="/dog.svg" class="logo" alt="" />
             </a>
           </div>
           <!-- App brand end -->
 
           <!-- App header actions start -->
           <div class="header-actions gap-3">
-            <!-- Search container starts -->
-            <div class="search-container d-lg-flex d-none">
-              <input type="text" class="form-control" id="searchData" placeholder="Search" />
-              <i class="bi bi-search"></i>
-            </div>
-            <!-- Search container ends -->
-
-            <!-- Header action starts -->
-            <div class="header-actions-block rounded-5 p-2 gap-2 d-sm-flex d-none">
-              <div class="dropdown">
-                <a
-                  class="dropdown-toggle action-icon"
-                  href="#!"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="bi bi-clipboard-check"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-md">
-                  <h5 class="p-3 pb-0">Activity</h5>
-                  <!-- Activity start -->
-                  <div class="scroll300">
-                    <div class="header-activity d-grid p-3">
-                      <div class="activity-details info">
-                        <div class="ms-4">
-                          <p class="mb-1">2 hours ago</p>
-                          <p>Messages accepted with attachments.</p>
-                        </div>
-                      </div>
-                      <div class="activity-details danger">
-                        <div class="ms-4">
-                          <p class="mb-1">3 hours ago</p>
-                          <p>Send email notifications of subscriptions and deletions to list owner.</p>
-                        </div>
-                      </div>
-                      <div class="activity-details success">
-                        <div class="ms-4">
-                          <p class="mb-1">6 hours ago</p>
-                          <p>Required change logs activity reports.</p>
-                        </div>
-                      </div>
-                      <div class="activity-details warning">
-                        <div class="ms-4">
-                          <p class="mb-1">9 hours ago</p>
-                          <p>Strategic partnership plan.</p>
-                        </div>
-                      </div>
-                      <div class="activity-details info">
-                        <div class="ms-4">
-                          <p class="mb-1">3 days ago</p>
-                          <p>Send email notifications of subscriptions and deletions to list product manager.</p>
-                        </div>
-                      </div>
-                      <div class="activity-details danger">
-                        <div class="ms-4">
-                          <p class="mb-1">5 days ago</p>
-                          <p>Sharing change logs and activity reports with customer.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Activity end -->
-                </div>
-              </div>
-              <div class="dropdown">
-                <a
-                  class="dropdown-toggle action-icon"
-                  href="#!"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="bi bi-handbag"></i>
-                  <span class="count-label info">6</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-md">
-                  <div class="d-grid gap-2 p-3">
-                    <div class="p-3 border rounded-2">
-                      <h3 class="mb-1">$35,000</h3>
-                      <div class="mb-1 d-flex justify-content-between">
-                        <span>Revenue</span>
-                        <span class="text-primary">+2%</span>
-                      </div>
-                      <div class="progress small">
-                        <div
-                          class="progress-bar bg-primary"
-                          role="progressbar"
-                          style="width: 25%"
-                          aria-valuenow="25"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                    </div>
-                    <div class="p-3 border rounded-2">
-                      <h3 class="mb-1">$48,000</h3>
-                      <div class="mb-1 d-flex justify-content-between">
-                        <span>Income</span>
-                        <span class="text-primary">+7%</span>
-                      </div>
-                      <div class="progress small">
-                        <div
-                          class="progress-bar bg-primary"
-                          role="progressbar"
-                          style="width: 50%"
-                          aria-valuenow="50"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                    </div>
-                    <div class="p-3 border rounded-2">
-                      <h3 class="mb-1">2800</h3>
-                      <div class="mb-1 d-flex justify-content-between">
-                        <span>Sales</span>
-                        <span class="text-danger">+3%</span>
-                      </div>
-                      <div class="progress small">
-                        <div
-                          class="progress-bar bg-danger"
-                          role="progressbar"
-                          style="width: 75%"
-                          aria-valuenow="75"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                    </div>
-                    <a href="javascript:void(0)" class="btn btn-primary">View all</a>
-                  </div>
-                </div>
-              </div>
-              <div class="dropdown">
-                <a
-                  class="dropdown-toggle action-icon"
-                  href="#!"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <i class="bi bi-exclamation-triangle"></i>
-                  <span class="count-label danger">9</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-end dropdown-menu-md">
-                  <div class="d-grid gap-4 p-3">
-                    <div class="d-flex">
-                      <img src="/assets/images/user.png" class="img-3x me-3 rounded-2" alt="Dark Admin Template" />
-                      <div class="m-0">
-                        <h6>Alexandra Santos</h6>
-                        <p class="mb-2">Membership has been ended.</p>
-                        <span class="badge bg-danger">Important</span>
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <img src="/assets/images/user2.png" class="img-3x me-3 rounded-2" alt="Dark Admin Template" />
-                      <div class="m-0">
-                        <h6>Oliver Hardin</h6>
-                        <p class="mb-1">Congratulate, James for new job.</p>
-                        <span class="badge bg-info">Remainder</span>
-                      </div>
-                    </div>
-                    <div class="d-flex">
-                      <img src="/assets/images/user1.png" class="img-3x me-3 rounded-2" alt="Dark Admin Template" />
-                      <div class="m-0">
-                        <h6>Murray Patrick</h6>
-                        <p class="mb-1">Lewis added new schedule release.</p>
-                        <span class="badge bg-success">Network</span>
-                      </div>
-                    </div>
-                    <a href="javascript:void(0)" class="btn btn-primary">View all</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Header action ends -->
-
             <!-- Header settings starts -->
             <div class="dropdown">
               <a
@@ -543,17 +125,16 @@ onMounted(async () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <div class="icon-box md bg-info text-white rounded-5">YM</div>
+                <div class="icon-box md bg-info text-white rounded-5">
+                  {{ user.firstName[0].toUpperCase() }}{{ user.lastName[0].toUpperCase() }}
+                </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end">
-                <a class="dropdown-item d-flex align-items-center" href="profile.html"
-                  ><i class="bi bi-person fs-4 me-2"></i>Profile</a
+                <RouterLink class="dropdown-item d-flex align-items-center" :to="`/user/${user?.userId}`"
+                  ><i class="bi bi-person fs-4 me-2"></i>Profile</RouterLink
                 >
-                <a class="dropdown-item d-flex align-items-center" href="settings.html"
-                  ><i class="bi bi-gear fs-4 me-2"></i>Settings</a
-                >
-                <a class="dropdown-item d-flex align-items-center" href="login.html"
-                  ><i class="bi bi-escape fs-4 me-2"></i>Logout</a
+                <RouterLink class="dropdown-item d-flex align-items-center" to="/logout"
+                  ><i class="bi bi-escape fs-4 me-2"></i>Logout</RouterLink
                 >
               </div>
             </div>
@@ -569,23 +150,11 @@ onMounted(async () => {
           <ol class="breadcrumb d-none d-lg-flex">
             <li class="breadcrumb-item">
               <i class="bi bi-house lh-1"></i>
-              <a href="index.html" class="text-decoration-none">Home</a>
+              <RouterLink :to="userProfileLink" class="text-decoration-none">Profile</RouterLink>
             </li>
             <li class="breadcrumb-item" aria-current="page">Dashboard</li>
           </ol>
           <!-- Breadcrumb end -->
-
-          <!-- Filter start -->
-          <div class="ms-auto d-flex flex-row gap-1 day-filters">
-            <button class="btn btn-sm">Today</button>
-            <button class="btn btn-sm">7D</button>
-            <button class="btn btn-sm">2W</button>
-            <button class="btn btn-sm">1M</button>
-            <button class="btn btn-sm">3M</button>
-            <button class="btn btn-sm">6M</button>
-            <button class="btn btn-sm btn-info">1Y</button>
-          </div>
-          <!-- Filter end -->
         </div>
         <!-- App Hero header ends -->
 
@@ -968,7 +537,7 @@ onMounted(async () => {
 
         <!-- App footer start -->
         <div class="app-footer">
-          <span>© Bootstrap Gallery 2024</span>
+          <span>© NABBR Appraisal {{ currentYear }}</span>
         </div>
         <!-- App footer end -->
       </div>
