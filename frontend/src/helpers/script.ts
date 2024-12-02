@@ -12,8 +12,8 @@ export function formValidationAreAllFieldsFilled(reactiveFormObject: Reactive<an
   return true;
 }
 
-export function loadThirdPartyJS(jsFilePaths: string[]) {
+export async function loadThirdPartyJS(jsFilePaths: string[]) {
   for (const filepath of jsFilePaths) {
-    postscribe('#thirdPartyScripts', `<script src="${filepath}"><\/script>`);
+    await postscribe('#thirdPartyScripts', `<script src="${filepath}"><\/script>`);
   }
 }

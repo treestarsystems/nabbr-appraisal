@@ -13149,7 +13149,7 @@ input[type='file']::file-selector-button {
 }
 .activity-block:before {
   content: '';
-  background: url(../images/curve-line.svg) repeat-y;
+  background: url(/auth/images/curve-line.svg) repeat-y;
   position: absolute;
   left: 30px;
   top: 0;
@@ -13274,7 +13274,7 @@ input[type='file']::file-selector-button {
   margin: auto;
 }
 .login-bg {
-  background: url(../images/login.svg) no-repeat;
+  background: url(/auth/images/login.svg) no-repeat;
   background-position: left bottom;
   background-size: 40%;
 }
@@ -13289,7 +13289,7 @@ input[type='file']::file-selector-button {
   left: 10px;
   top: 10px;
   bottom: 10px;
-  background: url(../images/sidebar-bg.svg) no-repeat;
+  background: url(/assets/images/sidebar-bg.svg) no-repeat;
   background-size: 100%;
   min-width: 50vw;
   max-width: 50vw;
@@ -13303,7 +13303,7 @@ input[type='file']::file-selector-button {
   position: absolute;
   left: 20px;
   bottom: 0px;
-  background: url(../images/login.svg) no-repeat;
+  background: url(/assets/images/login.svg) no-repeat;
   background-size: 100%;
   width: 300px;
   height: 300px;
@@ -13334,7 +13334,7 @@ input[type='file']::file-selector-button {
   max-height: 45px;
 }
 .error-screen {
-  background: url(../images/dots.svg) no-repeat;
+  background: url(/auth/images/dots.svg) no-repeat;
   background-position: center center;
   background-size: cover;
 }

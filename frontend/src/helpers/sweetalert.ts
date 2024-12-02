@@ -29,7 +29,7 @@ export function SwalToastWarn(swal: any, message: any): void {
       timer: 1500,
     })
     .fire({
-      icon: 'warn',
+      icon: 'warning',
       title: message,
     });
 }

@@ -8,7 +8,7 @@ onMounted(async () => {
   const authStore = useAuthStore();
   const swal: any = inject('$swal');
   // Check for non-null user
-  await authStore.protectView;
+  // await authStore.protectView;
   // Check for unprivileged user
   const currentRouteUserId = router.currentRoute.value.params.userId as string;
   const isAuthorizedUserId = authStore.checkUserIdAuthorized(currentRouteUserId);

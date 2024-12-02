@@ -12,15 +12,11 @@ export const useAuthStore = defineStore('auth', {
     getState(): userState | null {
       return this.user;
     },
-    async protectView(): Promise<void> {
-      if (this.user === null) await router.back();
-    },
+    // async protectView(): Promise<void> {
+    //   if (this.user === null) await router.back();
+    // },
   },
   actions: {
-    // checkUserIfLoggedIn(): boolean {
-    //   if (!this.user) return false;
-    //   return true;
-    // },
     checkUserPrivilegeLevel(authorizedPrivilegeLevel: string[]): boolean {
       if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
       return true;
