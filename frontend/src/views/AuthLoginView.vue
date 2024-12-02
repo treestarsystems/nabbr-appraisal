@@ -7,10 +7,20 @@ import router from '../router';
 import { formValidationAreAllFieldsFilled } from '../helpers/script';
 import { apiResponseDefault } from '../types/auth';
 import { formDataLoginSubmit } from '@/types/form';
-import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
+import { SwalToastError, SwalToastSuccess, SwalToastWarn } from '../helpers/sweetalert';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
+// If logged in redirect user to default landing page with toast message.
+if (authStore.getState) {
+  SwalToastWarn(swal, 'Please log out first...');
+  const user = authStore.getState;
+  if (user?.userPrivilegeLevel === 'PETOWNER') {
+    await router.push(`/user/${user?.userId}`);
+  } else {
+    await router.push('/dashboard');
+  }
+}
 let wasValidated = ref('');
 
 const formLogin: formDataLoginSubmit = reactive({

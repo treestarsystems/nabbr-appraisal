@@ -16,6 +16,24 @@ export function SwalToastSuccess(swal: any, message: any): void {
     });
 }
 
+export function SwalToastWarn(swal: any, message: any): void {
+  swal
+    .mixin({
+      toast: true,
+      position: 'top-right',
+      iconColor: 'white',
+      customClass: {
+        popup: 'colored-toast',
+      },
+      showConfirmButton: false,
+      timer: 1500,
+    })
+    .fire({
+      icon: 'warn',
+      title: message,
+    });
+}
+
 export function SwalToastError(swal: any, message: any): void {
   swal
     .mixin({

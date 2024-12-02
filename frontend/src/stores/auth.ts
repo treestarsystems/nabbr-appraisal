@@ -17,6 +17,10 @@ export const useAuthStore = defineStore('auth', {
     },
   },
   actions: {
+    // checkUserIfLoggedIn(): boolean {
+    //   if (!this.user) return false;
+    //   return true;
+    // },
     checkUserPrivilegeLevel(authorizedPrivilegeLevel: string[]): boolean {
       if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
       return true;
