@@ -2,6 +2,9 @@
 import { toRaw } from 'vue';
 import { useAuthStore } from '../stores/auth';
 
+defineProps<{
+  breadCrumbCurrentPageTitle?: String;
+}>();
 const authStore = useAuthStore();
 const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
@@ -72,7 +75,8 @@ const logout = async () => {
         <i class="bi bi-house lh-1"></i>
         <RouterLink :to="userProfileLink" class="text-decoration-none">Profile</RouterLink>
       </li>
-      <li class="breadcrumb-item" aria-current="page">Dashboard</li>
+      <!-- <li class="breadcrumb-item" aria-current="page">{{ props.breadCrumbCurrentPageTitle }}</li> -->
+      <li class="breadcrumb-item" aria-current="page">{{ breadCrumbCurrentPageTitle }}</li>
     </ol>
     <!-- Breadcrumb end -->
   </div>

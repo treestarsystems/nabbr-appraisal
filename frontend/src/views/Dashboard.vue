@@ -36,7 +36,7 @@ onMounted(async () => {
       <NavSideBar />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeader />
+        <NavHeader breadCrumbCurrentPageTitle="Dashboard" />
         <DashboardBody />
         <Footer />
       </div>
