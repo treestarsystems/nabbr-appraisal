@@ -33,7 +33,13 @@ const router = createRouter({
         requiresAuth: true,
       },
     },
-    { path: '/:catchAll(.*)', component: NotFoundView },
+    {
+      path: '/:catchAll(.*)',
+      component: NotFoundView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
   ],
 });
 
