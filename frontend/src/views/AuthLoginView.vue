@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LogoAuth from '../components/LogoAuth.vue';
-import { reactive, ref, inject } from 'vue';
+import { reactive, ref, inject, toRaw } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import router from '../router';
@@ -11,7 +11,7 @@ import { SwalToastError, SwalToastSuccess, SwalToastWarn } from '../helpers/swee
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
-const user = authStore.getState;
+const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
