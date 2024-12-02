@@ -7,8 +7,6 @@ import { SwalToastError } from '../helpers/sweetalert';
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 onMounted(async () => {
-  // Check for non-null user
-  // await authStore.protectView;
   // Check for unprivileged user
   const currentRouteUserId = router.currentRoute.value.params.userId as string;
   const isAuthorizedUserId = authStore.checkUserIdAuthorized(currentRouteUserId);
