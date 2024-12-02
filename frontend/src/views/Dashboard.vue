@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { onMounted, inject } from 'vue';
+import { onMounted, inject, toRaw } from 'vue';
 import router from '../router';
 import { useAuthStore } from '../stores/auth';
 import { SwalToastError } from '../helpers/sweetalert';
 import { loadThirdPartyJS } from '../helpers/script';
 import { thirdPartyJSFilePaths } from '../helpers/thirdPartyFIlesList';
 
+const authStore = useAuthStore();
+const user = toRaw(authStore.getState);
+
 onMounted(async () => {
-  const authStore = useAuthStore();
   const swal: any = inject('$swal');
   // Check for non-null user
   // await authStore.protectView;
@@ -42,7 +44,7 @@ onMounted(async () => {
           <img src="/assets/images/user1.png" class="img-3x me-3 rounded-3" alt="Admin Dashboard" />
           <div class="m-0">
             <p class="m-0">Hello &#128075;</p>
-            <h6 class="m-0 text-nowrap">Mr. Yuki Michiels</h6>
+            <h6 class="m-0 text-nowrap">{{ user.firstName }} {{ user.lastName }}</h6>
           </div>
         </div>
         <!-- Sidebar profile ends -->
@@ -347,7 +349,7 @@ onMounted(async () => {
           <!-- App brand start -->
           <div class="app-brand-sm">
             <a href="index.html" class="d-lg-none d-md-block">
-              <img src="/assets/images/logo-sm.svg" class="logo" alt="Bootstrap Gallery" />
+              <img src="/dog.svg" class="logo" alt="Bootstrap Gallery" />
             </a>
           </div>
           <!-- App brand end -->
