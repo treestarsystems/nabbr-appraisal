@@ -4,13 +4,16 @@ import { reactive, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import router from '../router';
-import { apiResponseDefault, formDataRegistration } from '../types/auth';
+import { formValidationAreAllFieldsFilled } from '../helpers/script';
+import { apiResponseDefault } from '../types/auth';
+import { formDataRegistration, formDataRegistrationSubmit } from '@/types/form';
+import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
-const formRegister = reactive({
+const formRegister: formDataRegistration = reactive({
   firstName: '',
   lastName: '',
   email: '',
@@ -23,7 +26,7 @@ const formRegister = reactive({
 
 async function submitRegistrationForm() {
   try {
-    const userRegistrationFormData: formDataRegistration = {
+    const userRegistrationFormData: formDataRegistrationSubmit = {
       firstName: formRegister.firstName,
       lastName: formRegister.lastName,
       email: formRegister.email,
@@ -33,60 +36,24 @@ async function submitRegistrationForm() {
       registrationKey: formRegister.registrationKey,
     };
 
-    for (const key in formRegister) {
-      const value = formRegister[key as keyof typeof formRegister];
-      if (!value) {
-        console.log(key);
-        wasValidated.value = 'was-validated';
-        return;
-      }
+    if (!formValidationAreAllFieldsFilled(formRegister, wasValidated)) {
+      return;
     }
 
     // Final check for password fields
     if (formRegister.password !== formRegister.confirmPassword) return;
 
-    // Show a visual queue that the form has been submitted.
+    // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
     const apiResponse: apiResponseDefault = await authStore.register(userRegistrationFormData);
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
     }
 
-    await swal
-      .mixin({
-        toast: true,
-        position: 'top-right',
-        iconColor: 'white',
-        customClass: {
-          popup: 'colored-toast',
-        },
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-      })
-      .fire({
-        icon: 'success',
-        title: `User Created!`,
-      });
+    SwalToastSuccess(swal, 'User Created!');
     await router.push('/login');
   } catch (err: any) {
-    swal
-      .mixin({
-        toast: true,
-        position: 'top-right',
-        iconColor: 'white',
-        customClass: {
-          popup: 'colored-toast',
-        },
-        showConfirmButton: false,
-        timer: 5000,
-        timerProgressBar: true,
-      })
-      .fire({
-        icon: 'error',
-        title: `${err.response.data.message || err.data.message}`,
-      });
-    console.log(err);
+    SwalToastError(swal, err);
   }
 }
 </script>

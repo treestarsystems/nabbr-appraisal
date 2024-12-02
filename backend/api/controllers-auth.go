@@ -19,10 +19,9 @@ var validate = validator.New()
 func SignUp(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	var userRegistrationRequest utils.UserRegistrationRequest
-	var user utils.UserMongoDb
+	var user utils.User
 
-	if err := c.BindJSON(&userRegistrationRequest); err != nil {
+	if err := c.BindJSON(&user); err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusBadRequest,
@@ -34,7 +33,7 @@ func SignUp(c *gin.Context) {
 	}
 
 	// validate the userPrivilegeLevel
-	if !utils.ValidateUserPrivilegeLevel(userRegistrationRequest.UserPrivilegeLevel) {
+	if !utils.ValidateUserPrivilegeLevel(user.UserPrivilegeLevel) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusBadRequest,
@@ -45,7 +44,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	if !utils.ValidateRegistrationKey(userRegistrationRequest.UserPrivilegeLevel, userRegistrationRequest.RegistrationKey) {
+	if !utils.ValidateRegistrationKey(user.UserPrivilegeLevel, user.RegistrationKey) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusBadRequest,
@@ -56,7 +55,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	validationErr := validate.Struct(userRegistrationRequest)
+	validationErr := validate.Struct(user)
 	if validationErr != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -68,7 +67,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	count, err := utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"email": userRegistrationRequest.Email})
+	count, err := utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"email": user.Email})
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -91,7 +90,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	count, err = utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"phone": userRegistrationRequest.Phone})
+	count, err = utils.CollectionMongoUsers.CountDocuments(ctx, bson.M{"phone": user.Phone})
 	if err != nil {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
@@ -114,12 +113,7 @@ func SignUp(c *gin.Context) {
 		return
 	}
 
-	password := utils.HashPassword(*userRegistrationRequest.Password)
-	user.FirstName = userRegistrationRequest.FirstName
-	user.LastName = userRegistrationRequest.LastName
-	user.Email = userRegistrationRequest.Email
-	user.Phone = userRegistrationRequest.Phone
-	user.UserPrivilegeLevel = userRegistrationRequest.UserPrivilegeLevel
+	password := utils.HashPassword(*user.Password)
 	user.Password = &password
 	user.CreatedAt, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 	user.UpdatedAt, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -167,8 +161,8 @@ func SignUp(c *gin.Context) {
 func Login(c *gin.Context) {
 	var ctx, cancel = context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	var user utils.UserMongoDb
-	var foundUser utils.UserMongoDb
+	var user utils.User
+	var foundUser utils.User
 
 	if err := c.BindJSON(&user); err != nil {
 		msg := fmt.Sprintf("error - Login: (%v)", err.Error())

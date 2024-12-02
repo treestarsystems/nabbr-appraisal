@@ -4,85 +4,49 @@ import { reactive, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import router from '../router';
-import { apiResponseDefault, formDataLogin } from '../types/auth';
-
-import axios from 'axios';
+import { formValidationAreAllFieldsFilled } from '../helpers/script';
+import { apiResponseDefault } from '../types/auth';
+import { formDataLoginSubmit } from '@/types/form';
+import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
-const formLogin = reactive({
+const formLogin: formDataLoginSubmit = reactive({
   email: '',
   password: '',
 });
 
 async function submitLoginForm() {
   try {
-    const userLoginFormData: formDataLogin = {
+    const userLoginFormData: formDataLoginSubmit = {
       email: formLogin.email,
       password: formLogin.password,
     };
 
-    for (const key in formLogin) {
-      const value = formLogin[key as keyof typeof formLogin];
-      if (!value) {
-        console.log(key);
-        wasValidated.value = 'was-validated';
-        return;
-      }
+    if (!formValidationAreAllFieldsFilled(formLogin, wasValidated)) {
+      return;
     }
 
-    // Show a visual queue that the form has been submitted.
+    // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
-    // console.log(userLoginFormData);
-    // const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
-
     const apiResponse: apiResponseDefault = await authStore.login(userLoginFormData);
     if (apiResponse.httpStatus > 299) {
-      throw apiResponse;
+      throw apiResponse.message;
     }
 
-    await swal
-      .mixin({
-        toast: true,
-        position: 'top-right',
-        iconColor: 'white',
-        customClass: {
-          popup: 'colored-toast',
-        },
-        showConfirmButton: false,
-        timer: 1500,
-      })
-      .fire({
-        icon: 'success',
-        title: `Login Successful!`,
-      });
+    SwalToastSuccess(swal, 'Login Successful!');
 
-    const { userPrivilegeLevel, userId } = apiResponse.payload[0];
-    if (userPrivilegeLevel === 'PETOWNER') {
-      await router.push(`/user/${userId}`);
+    // Our user state should be defined at this point.
+    const user = authStore.getState;
+    if (user?.userPrivilegeLevel === 'PETOWNER') {
+      await router.push(`/user/${user?.userId}`);
     } else {
       await router.push('/dashboard');
     }
   } catch (err: any) {
-    swal
-      .mixin({
-        toast: true,
-        position: 'top-right',
-        iconColor: 'white',
-        customClass: {
-          popup: 'colored-toast',
-        },
-        showConfirmButton: false,
-        timer: 5000,
-        timerProgressBar: true,
-      })
-      .fire({
-        icon: 'error',
-        title: `${err.response.data.message || err.data.message}`,
-      });
-    console.log(err);
+    SwalToastError(swal, err);
   }
 }
 </script>

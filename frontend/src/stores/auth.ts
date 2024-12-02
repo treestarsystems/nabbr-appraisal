@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { apiResponseDefault, formDataLogin, formDataRegistration, userState } from '../types/auth';
+import { apiResponseDefault, userState } from '../types/auth';
+import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/form';
 import router from '../router';
 
 export const useAuthStore = defineStore('auth', {
@@ -14,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     async protectView() {
-      console.log(this.user);
+      console.log('protectedView', this.getState);
       // if (this.user === null) await router.back();
     },
     async checkUserPrivilegeLevel(userPrivilegeLevel: string, authorizedPrivilegeLevel: string[]) {
@@ -23,16 +24,25 @@ export const useAuthStore = defineStore('auth', {
         // await router.back();
       }
     },
-    async register(userRegistrationFormData: formDataRegistration): Promise<apiResponseDefault> {
+    async register(userRegistrationFormData: formDataRegistrationSubmit): Promise<apiResponseDefault> {
       const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/signup', userRegistrationFormData)).data;
       return apiResponse;
     },
-    async login(userLoginFormData: formDataLogin): Promise<apiResponseDefault> {
-      const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
-      console.log(apiResponse);
-      // console.log(apiResponse.payload[0])
-      // this.user = apiResponse.payload[0];
-      return apiResponse;
+    async login(userLoginFormData: formDataLoginSubmit): Promise<apiResponseDefault> {
+      try {
+        const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
+        if (apiResponse.httpStatus < 300) {
+          this.user = apiResponse.payload[0];
+        }
+        return apiResponse;
+      } catch (err: any) {
+        return {
+          status: 'failure',
+          httpStatus: 400,
+          message: err,
+          payload: [],
+        };
+      }
     },
     async logout() {
       this.user = null;
