@@ -34,6 +34,13 @@ const router = createRouter({
       },
     },
     {
+      path: '/appraisal/:chartId',
+      component: AppraisalView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/:catchAll(.*)',
       component: NotFoundView,
       meta: {

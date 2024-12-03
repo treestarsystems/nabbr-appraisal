@@ -3,9 +3,16 @@ import { onMounted, inject } from 'vue';
 import router from '../router';
 import { useAuthStore } from '../stores/auth';
 import { SwalToastError } from '../helpers/sweetalert';
+import { loadThirdPartyJS } from '../helpers/script';
+import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
+import NavHeader from '../components/NavHeader.vue';
+import NavSideBar from '../components/NavSideBar.vue';
+import Footer from '../components/Footer.vue';
+import UserProfileBody from '../components/UserProfileBody.vue';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
+
 onMounted(async () => {
   // Check for unprivileged user
   const currentRouteUserId = router.currentRoute.value.params.userId as string;
@@ -14,28 +21,26 @@ onMounted(async () => {
     router.push(`/user/${authStore.getState?.userId}`);
     SwalToastError(swal, 'User Unauthorized ');
   }
+  await loadThirdPartyJS(thirdPartyJSFilePathsBase);
 });
 </script>
 
 <template>
-  <!-- Page wrapper starts -->
-  <div class="page-wrapper">
-    <!-- Auth container starts -->
-    <div class="auth-container">
-      <div class="row justify-content-center">
-        <div class="col-9">
-          <div class="d-flex align-items-center justify-content-center vh-100">
-            <div class="text-center text-white">
-              <!-- <h1 class="error-title mb-3">User Profile: {{ userId }}</h1> -->
-              <h1 class="error-title mb-3">
-                User Profile: {{ authStore.getState?.firstName }} {{ authStore.getState?.lastName }}
-              </h1>
-            </div>
-          </div>
-        </div>
+  <!-- Page wrapper start -->
+  <div class="page-wrapper pinned">
+    <!-- Main container start -->
+    <div class="main-container">
+      <NavSideBar />
+      <!-- App container starts -->
+      <div class="app-container">
+        <NavHeader breadCrumbCurrentPageTitle="User Profile" />
+        <UserProfileBody />
+        <Footer />
       </div>
+      <!-- App container ends -->
     </div>
-    <!-- Auth container ends -->
+    <!-- Main container end -->
   </div>
-  <!-- Page wrapper ends -->
+  <!-- Page wrapper end -->
+  <div id="thirdPartyScripts"></div>
 </template>

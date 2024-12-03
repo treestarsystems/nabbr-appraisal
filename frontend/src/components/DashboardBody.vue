@@ -1,51 +1,64 @@
-<script setup></script>
+<script setup>
+import { RouterLink } from 'vue-router';
+</script>
 <template>
   <!-- App body starts -->
   <div class="app-body">
     <div class="app-body">
       <!-- Row start -->
-      <div class="row gx-3">
-        <div class="col-xxl-12">
-          <div class="card mb-3">
-            <div class="card-body">
-              <div class="table-responsive">
-                <div class="table-outer">
-                  <table class="table m-0">
-                    <thead>
-                      <tr>
-                        <th>Appraiser Name:</th>
-                        <th>Member Name:</th>
-                        <th>Dog Name:</th>
-                        <th>Sex:</th>
-                        <th>Age:</th>
-                        <th>Weight:</th>
-                        <th>Score:</th>
-                        <th>MC#:</th>
-                        <th>DNA#:</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>#00001</td>
-                        <td><a href="#" class="text-red">Alia</a></td>
-                        <td>Willams</td>
-                        <td>+143-148-60985</td>
-                        <td>info@example.com</td>
-                        <td>250</td>
-                        <td>250</td>
-                        <td>$4500</td>
-                        <td>10/10/2022 4:30pm</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+      <div class="col-xxl-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered m-0">
+                <thead>
+                  <tr>
+                    <th>
+                      <div class="d-flex justify-content-center">
+                        <i class="bi bi-list fs-5"></i>
+                      </div>
+                    </th>
+                    <th>Appraiser Name:</th>
+                    <th>Member Name:</th>
+                    <th>Dog Name:</th>
+                    <th>Sex:</th>
+                    <th>Age:</th>
+                    <th>Weight:</th>
+                    <th>Score:</th>
+                    <th>MC#:</th>
+                    <th>DNA#:</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="align-items-center">
+                      <div class="d-flex justify-content-center">
+                        <RouterLink to="/appraisal/asdfasd"><i class="bi bi-calculator fs-4"></i></RouterLink>
+                      </div>
+                    </td>
+                    <td class="align-middle">Melinda</td>
+                    <td class="align-middle">Michael Bogle</td>
+                    <td class="align-middle">Getsuga</td>
+                    <td class="align-middle">M</td>
+                    <td class="align-middle">2yr</td>
+                    <td class="align-middle">137lbs.</td>
+                    <td class="align-middle">
+                      <div class="d-flex justify-content-center">
+                        <span class="badge border border-success text-success">87%</span>
+                      </div>
+                    </td>
+                    <td class="align-middle">61685158</td>
+                    <td class="align-middle">A19649A</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
+      <!-- </div> -->
+      <!-- Row end -->
     </div>
-    <!-- Row end -->
   </div>
   <!-- App body end -->
 </template>

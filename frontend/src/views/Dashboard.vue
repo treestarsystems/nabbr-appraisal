@@ -24,7 +24,7 @@ onMounted(async () => {
     router.push(`/user/${authStore.getState?.userId}`);
     SwalToastError(swal, 'User Unauthorized ');
   }
-  await loadThirdPartyJS([...thirdPartyJSFilePathsBase, ...thirdPartyJSFilePathsCharts, ...thirdPartyJSFilePathsMaps]);
+  await loadThirdPartyJS(thirdPartyJSFilePathsBase);
 });
 </script>
 

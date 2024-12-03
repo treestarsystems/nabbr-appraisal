@@ -29,7 +29,7 @@ async function submitRegistrationForm() {
     const userRegistrationFormData: formDataRegistrationSubmit = {
       firstName: formRegister.firstName,
       lastName: formRegister.lastName,
-      email: formRegister.email,
+      email: formRegister.email.toLowerCase(),
       phone: formRegister.phone,
       password: formRegister.password,
       userPrivilegeLevel: formRegister.userPrivilegeLevel,

@@ -23,7 +23,7 @@ const formLogin: formDataLoginSubmit = reactive({
 async function submitLoginForm() {
   try {
     const userLoginFormData: formDataLoginSubmit = {
-      email: formLogin.email,
+      email: formLogin.email.toLowerCase(),
       password: formLogin.password,
     };
 

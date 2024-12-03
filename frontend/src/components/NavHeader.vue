@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { toRaw } from 'vue';
 import { useAuthStore } from '../stores/auth';
+import { RouterLink } from 'vue-router';
 
 defineProps<{
   breadCrumbCurrentPageTitle?: String;
@@ -30,9 +31,9 @@ const logout = async () => {
 
     <!-- App brand start -->
     <div class="app-brand-sm">
-      <a href="index.html" class="d-lg-none d-md-block">
-        <img src="/dog.svg" class="logo" alt="" />
-      </a>
+      <RouterLink :to="userProfileLink" class="d-lg-none d-md-block">
+        <img src="/vite.svg" class="logo" alt="" />
+      </RouterLink>
     </div>
     <!-- App brand end -->
 
