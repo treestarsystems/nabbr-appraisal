@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import AppraisalChart from './AppraisalChart.vue';
+import { generateCalendarDateString } from '../helpers/script';
 </script>
 <template>
   <!-- App body starts -->
@@ -372,8 +373,8 @@ import AppraisalChart from './AppraisalChart.vue';
                                     id="appraisalDate"
                                     class="form-control datepicker"
                                     name="birthday"
+                                    :value="generateCalendarDateString()"
                                   />
-                                  <!-- <input type="text" id="abc3" class="form-control datepicker" /> -->
                                 </div>
                               </div>
                             </div>
@@ -485,8 +486,7 @@ import AppraisalChart from './AppraisalChart.vue';
 
             <!-- Buttons start -->
             <div class="d-flex gap-2 justify-content-end">
-              <button type="button" class="btn btn-outline-secondary">Cancel</button>
-              <button type="button" class="btn btn-primary">Update</button>
+              <button type="button" class="btn btn-primary">Submit Appraisal</button>
             </div>
             <!-- Buttons end -->
           </div>

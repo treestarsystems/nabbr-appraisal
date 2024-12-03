@@ -17,3 +17,7 @@ export async function loadThirdPartyJS(jsFilePaths: string[]) {
     await postscribe('#thirdPartyScripts', `<script src="${filepath}"><\/script>`);
   }
 }
+
+export function generateCalendarDateString() {
+  return new Date().toISOString().split('T')[0];
+}
