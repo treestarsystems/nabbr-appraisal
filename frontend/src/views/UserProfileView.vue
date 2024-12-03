@@ -12,7 +12,7 @@ import UserProfileBody from '../components/UserProfileBody.vue';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
-
+const breadCrumbTitle = `User Profile: ${authStore.getState?.firstName} ${authStore.getState?.lastName}`;
 onMounted(async () => {
   // Check for unprivileged user
   const currentRouteUserId = router.currentRoute.value.params.userId as string;
@@ -33,7 +33,7 @@ onMounted(async () => {
       <NavSideBar />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeader breadCrumbCurrentPageTitle="User Profile" />
+        <NavHeader :breadCrumbCurrentPageTitle="breadCrumbTitle" />
         <UserProfileBody />
         <Footer />
       </div>

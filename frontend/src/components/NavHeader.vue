@@ -77,7 +77,9 @@ const logout = async () => {
         <RouterLink :to="userProfileLink" class="text-decoration-none">Profile</RouterLink>
       </li>
       <!-- <li class="breadcrumb-item" aria-current="page">{{ props.breadCrumbCurrentPageTitle }}</li> -->
-      <li class="breadcrumb-item" aria-current="page">{{ breadCrumbCurrentPageTitle }}</li>
+      <li class="breadcrumb-item" aria-current="page">
+        {{ breadCrumbCurrentPageTitle }}
+      </li>
     </ol>
     <!-- Breadcrumb end -->
   </div>
