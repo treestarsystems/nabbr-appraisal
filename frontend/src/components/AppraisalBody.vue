@@ -14,7 +14,7 @@ import { generateCalendarDateString } from '../helpers/script';
             <!-- Custom tabs start -->
             <div class="custom-tabs-container">
               <!-- Nav tabs start -->
-              <ul class="nav nav-tabs" id="customTab2" role="tablist">
+              <ul class="nav nav-tabs tab-nav-ul" id="customTab2" role="tablist">
                 <li class="nav-item" role="presentation">
                   <a
                     class="nav-link active"
@@ -52,6 +52,22 @@ import { generateCalendarDateString } from '../helpers/script';
                     tabindex="-1"
                     ><i class="bi bi-ui-radios me-2"></i> Results</a
                   >
+                </li>
+                <li class="nav-item px-5">
+                  <!-- Form field start -->
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-trophy"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="appraisalTotalScore"
+                      disabled="disabled"
+                      placeholder="Total Score"
+                    />
+                  </div>
+                  <!-- Form field end -->
                 </li>
               </ul>
               <!-- Nav tabs end -->
@@ -361,7 +377,7 @@ import { generateCalendarDateString } from '../helpers/script';
                           <!-- Row starts -->
                           <div class="row gx-3">
                             <!-- Form placeholder fields start -->
-                            <div class="col-sm-2 col-2">
+                            <div class="col-sm-2 col-4">
                               <div class="m-0">
                                 <label class="form-label" for="abc3">Date:</label>
                                 <div class="input-group">
@@ -378,9 +394,9 @@ import { generateCalendarDateString } from '../helpers/script';
                                 </div>
                               </div>
                             </div>
-                            <div class="col-sm-8 col-8"></div>
+                            <div class="col-sm-6"></div>
                             <!-- Form placeholder fields start -->
-                            <div class="col-sm-2 col-2">
+                            <div class="col-sm-2 col-4">
                               <!-- Form field start -->
                               <div class="mb-2">
                                 <label for="appraisalPlace" class="form-label">Place:</label>
@@ -404,6 +420,14 @@ import { generateCalendarDateString } from '../helpers/script';
                               </div>
                               <!-- Form field end -->
                             </div>
+                            <div class="col-sm-2 col-4">
+                              <label class="form-label"></label>
+                              <!-- Buttons start -->
+                              <div class="d-flex gap-2 justify-content-end">
+                                <button type="button" class="btn btn-primary">Submit Appraisal</button>
+                              </div>
+                              <!-- Buttons end -->
+                            </div>
                           </div>
                           <!-- Row ends -->
                         </div>
@@ -416,12 +440,6 @@ import { generateCalendarDateString } from '../helpers/script';
               <!-- Tab content end -->
             </div>
             <!-- Custom tabs end -->
-
-            <!-- Buttons start -->
-            <div class="d-flex gap-2 justify-content-end">
-              <button type="button" class="btn btn-primary">Submit Appraisal</button>
-            </div>
-            <!-- Buttons end -->
           </div>
         </div>
       </div>

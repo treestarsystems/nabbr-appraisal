@@ -4,7 +4,7 @@ import router from '../router';
 import { useAuthStore } from '../stores/auth';
 import { SwalToastError } from '../helpers/sweetalert';
 import { loadThirdPartyJS } from '../helpers/script';
-import { thirdPartyJSFilePathsBase, thirdPartyJSFilePathsDate } from '../helpers/thirdPartyFIlesList';
+import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
 import NavSideBar from '../components/NavSideBar.vue';
 import NavHeader from '../components/NavHeader.vue';
 import AppraisalBody from '../components/AppraisalBody.vue';

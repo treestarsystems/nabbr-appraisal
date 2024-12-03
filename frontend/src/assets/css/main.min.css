@@ -13303,7 +13303,8 @@ input[type='file']::file-selector-button {
   position: absolute;
   left: 20px;
   bottom: 0px;
-  background: url(/assets/images/login.svg) no-repeat;
+  /* background: url(/assets/images/dog.svg) no-repeat; */
+  background: url(/dog.svg) no-repeat;
   background-size: 100%;
   width: 300px;
   height: 300px;

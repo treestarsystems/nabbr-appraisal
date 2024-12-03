@@ -43,3 +43,7 @@
 .side-bar-ul > :last-child {
   margin-top: auto;
 }
+
+.tab-nav-ul > :last-child {
+  margin-left: auto;
+}

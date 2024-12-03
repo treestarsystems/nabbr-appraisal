@@ -30,11 +30,11 @@ const logout = async () => {
     <!-- Toggle buttons end -->
 
     <!-- App brand start -->
-    <div class="app-brand-sm">
+    <!-- <div class="app-brand-sm">
       <RouterLink :to="userProfileLink" class="d-lg-none d-md-block">
         <img src="/vite.svg" class="logo" alt="" />
       </RouterLink>
-    </div>
+    </div> -->
     <!-- App brand end -->
 
     <!-- App header actions start -->
