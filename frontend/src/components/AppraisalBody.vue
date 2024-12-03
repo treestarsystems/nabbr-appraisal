@@ -360,7 +360,24 @@ import AppraisalChart from './AppraisalChart.vue';
                           <!-- Row starts -->
                           <div class="row gx-3">
                             <!-- Form placeholder fields start -->
-                            <div class="col-sm-10 col-10"></div>
+                            <div class="col-sm-2 col-2">
+                              <div class="m-0">
+                                <label class="form-label" for="abc3">Date:</label>
+                                <div class="input-group">
+                                  <span class="input-group-text">
+                                    <i class="bi bi-calendar4"></i>
+                                  </span>
+                                  <input
+                                    type="date"
+                                    id="appraisalDate"
+                                    class="form-control datepicker"
+                                    name="birthday"
+                                  />
+                                  <!-- <input type="text" id="abc3" class="form-control datepicker" /> -->
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-8 col-8"></div>
                             <!-- Form placeholder fields start -->
                             <div class="col-sm-2 col-2">
                               <!-- Form field start -->

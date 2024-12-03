@@ -20,3 +20,8 @@ export const thirdPartyJSFilePathsMaps = [
   '/assets/vendor/jvectormap/usa.js',
   '/assets/vendor/jvectormap/custom/map-usa4.js',
 ];
+
+export const thirdPartyJSFilePathsDate = [
+  '/assets/vendor/daterange/daterange.js',
+  '/assets/vendor/daterange/custom-daterange.js',
+];

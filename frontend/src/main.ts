@@ -9,6 +9,7 @@ import './assets/css/bootstrap-icons.min.css';
 import './assets/css/main.min.css';
 import './assets/css/style.css';
 import './assets/css/OverlayScrollbars.min.css';
+import './assets/css/daterange.css';
 
 // Create Pinia instance
 const pinia = createPinia();
