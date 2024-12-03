@@ -7,6 +7,7 @@ import { loadThirdPartyJS } from '../helpers/script';
 import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
 import NavSideBar from '../components/NavSideBar.vue';
 import NavHeader from '../components/NavHeader.vue';
+import AppraisalBody from '../components/AppraisalBody.vue';
 import Footer from '../components/Footer.vue';
 
 const authStore = useAuthStore();
@@ -32,6 +33,7 @@ onMounted(async () => {
       <!-- App container starts -->
       <div class="app-container">
         <NavHeader breadCrumbCurrentPageTitle="Appraisal" />
+        <AppraisalBody />
         <Footer />
       </div>
       <!-- App container ends -->

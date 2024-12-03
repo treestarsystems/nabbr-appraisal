@@ -25,7 +25,7 @@ const isActiveLink = (routePath: string) => {
 
     <!-- Sidebar profile starts -->
     <div class="sidebar-profile">
-      <img src="/assets/images/user1.png" class="img-3x me-3 rounded-3" alt="Admin Dashboard" />
+      <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="Admin Dashboard" />
       <div class="m-0">
         <p class="m-0">Hello &#128075;</p>
         <h6 class="m-0 text-nowrap">{{ user.firstName }} {{ user.lastName }}</h6>
@@ -35,7 +35,7 @@ const isActiveLink = (routePath: string) => {
 
     <!-- Sidebar menu starts -->
     <div class="sidebarMenuScroll">
-      <ul class="sidebar-menu">
+      <ul class="sidebar-menu side-bar-ul">
         <li
           v-if="user?.userPrivilegeLevel === 'ADMIN'"
           class=""
@@ -67,13 +67,17 @@ const isActiveLink = (routePath: string) => {
             <span class="menu-text">Logout</span>
           </a>
         </li>
-        <!-- <li>
-              <a href="widgets.html">
-                <i class="bi bi-box"></i>
-                <span class="menu-text">Widgets</span>
-              </a>
-            </li> -->
       </ul>
+      <!-- <div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="#" @click="authStore.logout">
+              <i class="bi bi-escape"></i>
+              <span class="menu-text">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </div> -->
     </div>
     <!-- Sidebar menu ends -->
   </nav>
