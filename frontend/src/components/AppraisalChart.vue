@@ -72,7 +72,7 @@
           <span class="input-group-text">
             <i class="bi bi-trophy"></i>
           </span>
-          <input type="text" class="form-control" id="appraisalTotalScore" />
+          <input type="text" class="form-control" id="appraisalTotalScore" disabled="disabled" />
         </div>
       </div>
       <!-- Form field end -->
