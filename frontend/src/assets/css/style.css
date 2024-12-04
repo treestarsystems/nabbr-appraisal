@@ -52,3 +52,7 @@
   width: 1rem !important;
   height: 1rem !important;
 }
+
+.p-10 {
+  padding: 10px !important;
+}

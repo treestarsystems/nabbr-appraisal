@@ -52,7 +52,7 @@ function generateRadioIds(...string: string[]) {
                     <td class="align-middle">{{ ci == 0 ? division.percentageWeight : '' }}</td>
                     <td class="align-middle">{{ characteristic[0]?.subDivision?.name || '' }}</td>
                     <td class="align-middle">{{ characteristic[0].name }}</td>
-                    <td class="align-middle" style="padding: 10px">
+                    <td class="align-middle p-10">
                       <div class="col-sm-12 col-12">
                         <div class="row">
                           <div class="col-sm-4 d-flex justify-content-center">
