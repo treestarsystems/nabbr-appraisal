@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { apiResponseDefault, userState } from '../types/auth';
+import { userState } from '../types/auth';
+import { ResponseObjectDefaultInterface } from '../types/model';
 import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/form';
 import router from '../router';
 
@@ -25,13 +26,16 @@ export const useAuthStore = defineStore('auth', {
       if (this.user?.userId !== userId) return false;
       return true;
     },
-    async register(userRegistrationFormData: formDataRegistrationSubmit): Promise<apiResponseDefault> {
-      const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/signup', userRegistrationFormData)).data;
+    async register(userRegistrationFormData: formDataRegistrationSubmit): Promise<ResponseObjectDefaultInterface> {
+      const apiResponse: ResponseObjectDefaultInterface = (
+        await axios.post('/api/v1/auth/signup', userRegistrationFormData)
+      ).data;
       return apiResponse;
     },
-    async login(userLoginFormData: formDataLoginSubmit): Promise<apiResponseDefault> {
+    async login(userLoginFormData: formDataLoginSubmit): Promise<ResponseObjectDefaultInterface> {
       try {
-        const apiResponse: apiResponseDefault = (await axios.post('/api/v1/auth/login', userLoginFormData)).data;
+        const apiResponse: ResponseObjectDefaultInterface = (await axios.post('/api/v1/auth/login', userLoginFormData))
+          .data;
         if (apiResponse.httpStatus < 300) {
           this.user = apiResponse.payload[0];
         }

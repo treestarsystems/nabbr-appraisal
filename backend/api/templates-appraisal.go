@@ -16,21 +16,13 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Gender Authenticity",
-				Score:  0,
-				Value:  4,
-				Factor: 7,
-			},
-		},
-		{
-			{
 				Name:   "Balance",
 				Score:  0,
 				Value:  4,
 				Factor: 7,
 			},
 			{
-				Name:   "Impressive",
+				Name:   "Musculature",
 				Score:  0,
 				Value:  4,
 				Factor: 7,
@@ -38,7 +30,13 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 		},
 		{
 			{
-				Name:   "Musculature",
+				Name:   "Gender Authenticity",
+				Score:  0,
+				Value:  4,
+				Factor: 7,
+			},
+			{
+				Name:   "Impressive",
 				Score:  0,
 				Value:  4,
 				Factor: 7,
@@ -62,45 +60,30 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Square",
-				Score:  0,
-				Value:  3,
-				Factor: 7,
-			},
-			{
-				Name:        "Large in circumference",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Skull"},
-			},
-		},
-		{
-			{
 				Name:   "Broad",
 				Score:  0,
 				Value:  4,
 				Factor: 7,
 			},
 			{
-				Name:   "Filled",
+				Name:   "Deep",
 				Score:  0,
-				Value:  3,
+				Value:  4,
 				Factor: 7,
-			},
-			{
-				Name:        "Flat",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Skull"},
 			},
 		},
 		{
 			{
-				Name:   "Deep",
+				Name:   "Square",
 				Score:  0,
-				Value:  4,
+				Value:  3,
+				Factor: 7,
+			},
+
+			{
+				Name:   "Filled",
+				Score:  0,
+				Value:  3,
 				Factor: 7,
 			},
 			{
@@ -109,6 +92,23 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  3,
 				Factor: 7,
 			},
+		},
+		{
+			{
+				Name:        "Large in circumference",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Skull"},
+			},
+			{
+				Name:        "Flat",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Skull"},
+			},
+
 			{
 				Name:        "Muscular",
 				Score:       0,
@@ -129,36 +129,20 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Lips",
+				Name:   "Stop",
+				Score:  0,
+				Value:  3,
+				Factor: 7,
+			}, {
+				Name:   "Well Filled Between Eyes",
 				Score:  0,
 				Value:  3,
 				Factor: 7,
 			},
-			{
-				Name:        "Straight And Parallel",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Nasal Bone"},
-			},
-			{
-				Name:        "Eyes-Setting",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Eyes"},
-			},
-			{
-				Name:        "Earflaps-Setting",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Earflaps"},
-			},
 		},
 		{
 			{
-				Name:   "Stop",
+				Name:   "Lips",
 				Score:  0,
 				Value:  3,
 				Factor: 7,
@@ -170,11 +154,42 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
+				Name:   "Jaws",
+				Score:  0,
+				Value:  3,
+				Factor: 7,
+			},
+		},
+		{
+			{
+				Name:        "Straight And Parallel",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Nasal Bone"},
+			},
+			{
 				Name:        "Deep And Broad",
 				Score:       0,
 				Value:       3,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Nasal Bone"},
+			},
+			{
+				Name:        "Length 8-10 Cm",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Nasal Bone"},
+			},
+		},
+		{
+			{
+				Name:        "Eyes-Setting",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Eyes"},
 			},
 			{
 				Name:        "Eyelids",
@@ -184,39 +199,27 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Eyes"},
 			},
 			{
-				Name:        "Shape",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Earflaps"},
-			},
-		},
-		{
-			{
-				Name:   "Well Filled Between Eyes",
-				Score:  0,
-				Value:  3,
-				Factor: 7,
-			},
-			{
-				Name:   "Jaws",
-				Score:  0,
-				Value:  3,
-				Factor: 7,
-			},
-			{
-				Name:        "Length 8-10 Cm",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Nasal Bone"},
-			},
-			{
 				Name:        "Colour And Pigmentation",
 				Score:       0,
 				Value:       3,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Eyes"},
+			},
+		},
+		{
+			{
+				Name:        "Earflaps-Setting",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Earflaps"},
+			},
+			{
+				Name:        "Shape",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Earflaps"},
 			},
 			{
 				Name:        "Propotion",
@@ -237,16 +240,12 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  5,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Length",
 				Score:  0,
 				Value:  5,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Dewlap",
 				Score:  0,
@@ -267,34 +266,27 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Shoulders"},
 			},
 			{
-				Name:        "Thick And Strong",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forelegs"},
-			},
-			{
-				Name:        "Length",
-				Score:       0,
-				Value:       2,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Pasterns"},
-			},
-			{
-				Name:        "Size",
-				Score:       0,
-				Value:       4,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forepaws"},
-			},
-		},
-		{
-			{
 				Name:        "Angulation",
 				Score:       0,
 				Value:       3,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Shoulders"},
+			},
+			{
+				Name:        "Elbow",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Shoulders"},
+			},
+		},
+		{
+			{
+				Name:        "Thick And Strong",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forelegs"},
 			},
 			{
 				Name:        "Musculature",
@@ -304,6 +296,21 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forelegs"},
 			},
 			{
+				Name:        "Vertical",
+				Score:       0,
+				Value:       3,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forelegs"},
+			},
+		}, {
+			{
+				Name:        "Length",
+				Score:       0,
+				Value:       2,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Pasterns"},
+			},
+			{
 				Name:        "Thickness",
 				Score:       0,
 				Value:       2,
@@ -311,34 +318,27 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Pasterns"},
 			},
 			{
-				Name:        "Shape",
-				Score:       0,
-				Value:       4,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forepaws"},
-			},
-		},
-		{
-			{
-				Name:        "Elbow",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Shoulders"},
-			},
-			{
-				Name:        "Vertical",
-				Score:       0,
-				Value:       3,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forelegs"},
-			},
-			{
 				Name:        "Position",
 				Score:       0,
 				Value:       2,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Pasterns"},
+			},
+		},
+		{
+			{
+				Name:        "Size",
+				Score:       0,
+				Value:       4,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forepaws"},
+			},
+			{
+				Name:        "Shape",
+				Score:       0,
+				Value:       4,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Forepaws"},
 			},
 			{
 				Name:        "Tread",
@@ -360,43 +360,27 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Back",
-				Score:  0,
-				Value:  3,
-				Factor: 7,
-			},
-			{
-				Name:        "Broad",
-				Score:       0,
-				Value:       4,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Chest"},
-			},
-		},
-		{
-			{
 				Name:   "Loin",
 				Score:  0,
 				Value:  3,
 				Factor: 7,
 			},
 			{
-				Name:   "Crop",
+				Name:   "Tail",
+				Score:  0,
+				Value:  3,
+				Factor: 7,
+			},
+		},
+		{
+			{
+				Name:   "Back",
 				Score:  0,
 				Value:  3,
 				Factor: 7,
 			},
 			{
-				Name:        "Deep",
-				Score:       0,
-				Value:       4,
-				Factor:      7,
-				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Chest"},
-			},
-		},
-		{
-			{
-				Name:   "Tail",
+				Name:   "Croup",
 				Score:  0,
 				Value:  3,
 				Factor: 7,
@@ -406,6 +390,22 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Score:  0,
 				Value:  3,
 				Factor: 7,
+			},
+		},
+		{
+			{
+				Name:        "Broad",
+				Score:       0,
+				Value:       4,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Chest"},
+			},
+			{
+				Name:        "Deep",
+				Score:       0,
+				Value:       4,
+				Factor:      7,
+				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Chest"},
 			},
 			{
 				Name:        "Ribcage",
@@ -427,19 +427,25 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
+				Name:   "Angulation",
+				Score:  0,
+				Value:  11,
+				Factor: 7,
+			},
+			{
+				Name:   "Stance",
+				Score:  0,
+				Value:  11,
+				Factor: 7,
+			},
+		},
+		{
+			{
 				Name:        "Shape And Size",
 				Score:       0,
 				Value:       4,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Hind Paws"},
-			},
-		},
-		{
-			{
-				Name:   "Angulation",
-				Score:  0,
-				Value:  11,
-				Factor: 7,
 			},
 			{
 				Name:        "Hind Pasterns, Hocks",
@@ -447,14 +453,6 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:       4,
 				Factor:      7,
 				SubDivision: utils.NabbrAppraisalChartScoreCharacteristicsSubDivision{Name: "Hind Paws"},
-			},
-		},
-		{
-			{
-				Name:   "Stance",
-				Score:  0,
-				Value:  11,
-				Factor: 7,
 			},
 			{
 				Name:        "Tread",
@@ -475,16 +473,12 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  5,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Short And Thick Hair",
 				Score:  0,
 				Value:  5,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Pigmentation",
 				Score:  0,
@@ -503,16 +497,12 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  4,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Genitals",
 				Score:  0,
 				Value:  4,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Condition",
 				Score:  0,
@@ -532,16 +522,12 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  8,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Reliable",
 				Score:  0,
 				Value:  8,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Self-Confident",
 				Score:  0,
@@ -560,17 +546,12 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Value:  8,
 				Factor: 7,
 			},
-		},
-		{
 			{
 				Name:   "Parallel",
 				Score:  0,
 				Value:  8,
 				Factor: 7,
 			},
-		},
-		{
-
 			{
 				Name:   "Topline",
 				Score:  0,

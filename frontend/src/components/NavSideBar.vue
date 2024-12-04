@@ -18,7 +18,7 @@ const isActiveLink = (routePath: string) => {
     <!-- App brand starts -->
     <div class="app-brand px-3 py-2 d-flex align-items-center">
       <a href="index.html">
-        <img src="/dog.svg" class="logo" alt="Bootstrap Gallery" />
+        <img src="/dog.svg" class="logo" alt="NABBR Appraisal Tool" />
       </a>
     </div>
     <!-- App brand ends -->

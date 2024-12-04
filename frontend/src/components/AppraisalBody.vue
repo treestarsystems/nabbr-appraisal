@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
-import AppraisalChart from './AppraisalChart.vue';
-import { generateCalendarDateString } from '../helpers/script';
+import AppraisalChartComponent from './AppraisalChartComponent.vue';
+import { generateCalendarDateString } from '../helpers/utils';
 </script>
 <template>
   <!-- App body starts -->
@@ -269,7 +268,7 @@ import { generateCalendarDateString } from '../helpers/script';
                   <!-- Row ends -->
                 </div>
                 <div class="tab-pane fade" id="appraisalScore" role="tabpanel" aria-labelledby="tab-appraisalScore">
-                  <AppraisalChart />
+                  <AppraisalChartComponent />
                 </div>
                 <div class="tab-pane fade" id="appraisalResults" role="tabpanel" aria-labelledby="tab-appraisalResults">
                   <!-- Row starts -->

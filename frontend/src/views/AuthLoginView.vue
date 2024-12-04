@@ -4,10 +4,10 @@ import { reactive, ref, inject, toRaw } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import router from '../router';
-import { formValidationAreAllFieldsFilled } from '../helpers/script';
+import { formValidationAreAllFieldsFilled } from '../helpers/utils';
 import { apiResponseDefault } from '../types/auth';
 import { formDataLoginSubmit } from '../types/form';
-import { SwalToastError, SwalToastSuccess, SwalToastWarn } from '../helpers/sweetalert';
+import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');

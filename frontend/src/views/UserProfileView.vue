@@ -3,7 +3,7 @@ import { onMounted, inject } from 'vue';
 import router from '../router';
 import { useAuthStore } from '../stores/auth';
 import { SwalToastError } from '../helpers/sweetalert';
-import { loadThirdPartyJS } from '../helpers/script';
+import { loadThirdPartyJS } from '../helpers/utils';
 import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
 import NavHeader from '../components/NavHeader.vue';
 import NavSideBar from '../components/NavSideBar.vue';
@@ -27,7 +27,7 @@ onMounted(async () => {
 
 <template>
   <!-- Page wrapper start -->
-  <div class="page-wrapper pinned">
+  <div class="page-wrapper">
     <!-- Main container start -->
     <div class="main-container">
       <NavSideBar />

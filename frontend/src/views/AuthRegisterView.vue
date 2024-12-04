@@ -4,8 +4,8 @@ import { reactive, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import router from '../router';
-import { formValidationAreAllFieldsFilled } from '../helpers/script';
-import { apiResponseDefault } from '../types/auth';
+import { formValidationAreAllFieldsFilled } from '../helpers/utils';
+import { ResponseObjectDefaultInterface } from '../types/model';
 import { formDataRegistration, formDataRegistrationSubmit } from '@/types/form';
 import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
 
@@ -45,7 +45,7 @@ async function submitRegistrationForm() {
 
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
-    const apiResponse: apiResponseDefault = await authStore.register(userRegistrationFormData);
+    const apiResponse: ResponseObjectDefaultInterface = await authStore.register(userRegistrationFormData);
     if (apiResponse.httpStatus > 299) {
       throw apiResponse;
     }

@@ -7,7 +7,7 @@
  * @property {any[any]} payload - The payload of the response.
  */
 
-interface ResponseObjectDefaultInterface {
+export interface ResponseObjectDefaultInterface {
   status: string;
   httpStatus: number;
   message: string;
