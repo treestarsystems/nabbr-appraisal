@@ -1,6 +1,846 @@
 <script setup lang="ts">
-import AppraisalChartComponent from './AppraisalChartComponent.vue';
+import { ref, inject, toRaw, provide, reactive, onMounted, onBeforeMount } from 'vue';
+import { useAuthStore } from '../stores/auth';
+import { getAppraisalChartTemplate } from '../helpers/chart';
 import { generateCalendarDateString } from '../helpers/utils';
+import { Chart } from '../types/chart';
+import AppraisalChartComponent from './AppraisalChartComponent.vue';
+import { formatDate } from '@vueuse/core';
+
+let chartData = ref('');
+provide('chartData', chartData);
+// const formChartData = reactive({
+//   appraisalId: '',
+//   memberInformation: {
+//     name: '',
+//     email: '',
+//     memberNumber: '',
+//   },
+//   petInformation: {
+//     name: '',
+//     type: '',
+//     breed: '',
+//     age: '',
+//     dnaNumber: '',
+//     weight: '',
+//     color: '',
+//     markings: '',
+//     microchip: '',
+//     sex: '',
+//     registrationNumber: '',
+//   },
+//   appraisalInformation: {
+//     mainDivision: {
+//       appearance: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Big And Strong',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Gender Authenticity',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Balance',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Impressive',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Musculature',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Bearing',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'General Appearance',
+//         percentageWeight: 8,
+//       },
+//       head: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Short',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Square',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Large in circumference',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Skull',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Broad',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Filled',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Flat',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Skull',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Deep',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Characteristics Typically Boerboel',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Muscular',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Skull',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Head',
+//         percentageWeight: 7,
+//       },
+//       face: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Fusion (Skull And Mouth)',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Lips',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Straight And Parallel',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Nasal Bone',
+//               },
+//             },
+//             {
+//               name: 'Eyes-Setting',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Eyes',
+//               },
+//             },
+//             {
+//               name: 'Earflaps-Setting',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Earflaps',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Stop',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Teeth',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Deep And Broad',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Nasal Bone',
+//               },
+//             },
+//             {
+//               name: 'Eyelids',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Eyes',
+//               },
+//             },
+//             {
+//               name: 'Shape',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Earflaps',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Well Filled Between Eyes',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Jaws',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Length 8-10 Cm',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Nasal Bone',
+//               },
+//             },
+//             {
+//               name: 'Colour And Pigmentation',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Eyes',
+//               },
+//             },
+//             {
+//               name: 'Propotion',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Earflaps',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Face',
+//         percentageWeight: 15,
+//       },
+//       neck: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Shape',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Length',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Dewlap',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Neck',
+//         percentageWeight: 5,
+//       },
+//       forequarter: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Attachment',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Shoulders',
+//               },
+//             },
+//             {
+//               name: 'Thick And Strong',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forelegs',
+//               },
+//             },
+//             {
+//               name: 'Length',
+//               score: 0,
+//               value: 2,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Pasterns',
+//               },
+//             },
+//             {
+//               name: 'Size',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forepaws',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Angulation',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Shoulders',
+//               },
+//             },
+//             {
+//               name: 'Musculature',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forelegs',
+//               },
+//             },
+//             {
+//               name: 'Thickness',
+//               score: 0,
+//               value: 2,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Pasterns',
+//               },
+//             },
+//             {
+//               name: 'Shape',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forepaws',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Elbow',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Shoulders',
+//               },
+//             },
+//             {
+//               name: 'Vertical',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forelegs',
+//               },
+//             },
+//             {
+//               name: 'Position',
+//               score: 0,
+//               value: 2,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Pasterns',
+//               },
+//             },
+//             {
+//               name: 'Tread',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Forepaws',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Forequarter',
+//         percentageWeight: 12,
+//       },
+//       centerPiece: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Topline',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Back',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Broad',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Chest',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Loin',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Crop',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Deep',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Chest',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Tail',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Musculature',
+//               score: 0,
+//               value: 3,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Ribcage',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Chest',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Center Piece',
+//         percentageWeight: 10,
+//       },
+//       hindquarter: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Strong And Sturdy',
+//               score: 0,
+//               value: 11,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Shape And Size',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Hind Paws',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Angulation',
+//               score: 0,
+//               value: 11,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Hind Pasterns, Hocks',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Hind Paws',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Stance',
+//               score: 0,
+//               value: 11,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//             {
+//               name: 'Tread',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: 'Hind Paws',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Hindquarter',
+//         percentageWeight: 15,
+//       },
+//       skinCoat: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Thick And Loose Skin',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Short And Thick Hair',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Pigmentation',
+//               score: 0,
+//               value: 5,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Skin/Coat',
+//         percentageWeight: 5,
+//       },
+//       health: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Condition Versus Age',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Genitals',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Condition',
+//               score: 0,
+//               value: 4,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Health',
+//         percentageWeight: 4,
+//       },
+//       temperament: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Obedient And Manageable',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Reliable',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Self-Confident',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Temperament',
+//         percentageWeight: 8,
+//       },
+//       movement: {
+//         characteristics: [
+//           [
+//             {
+//               name: 'Buoyant',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Parallel',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//           [
+//             {
+//               name: 'Topline',
+//               score: 0,
+//               value: 8,
+//               factor: 7,
+//               subDivision: {
+//                 name: '',
+//               },
+//             },
+//           ],
+//         ],
+//         name: 'Movement',
+//         percentageWeight: 8,
+//       },
+//     },
+//     appraiser: '',
+//     appraiserNumber: '',
+//     seniorAppraiser: '',
+//     seniorAppraiserNumber: '',
+//     date: '',
+//     value: '',
+//     notes: '',
+//     additionalComments: '',
+//     place: '',
+//   },
+// });
+
+// const formChartData = reactive({
+//   template: null,
+// });
+
+onMounted(async () => {
+  const authStore = useAuthStore();
+  const swal: any = inject('$swal');
+  const token = toRaw(authStore.getState)?.token as string;
+  const chartTemplate = await getAppraisalChartTemplate(swal, token);
+  chartData.value = chartTemplate as any;
+  // formChartData.template = chartTemplate;
+});
+
+async function submitChart() {
+  // const t = formChartData.template as any;
+  // console.log(t?.memberInformation?.name);
+}
 </script>
 <template>
   <!-- App body starts -->
@@ -94,7 +934,13 @@ import { generateCalendarDateString } from '../helpers/utils';
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="fullName" placeholder="Full name" />
+                                  <input
+                                    v-model="formChartData.memberInformation.name"
+                                    type="text"
+                                    class="form-control"
+                                    id="fullName"
+                                    placeholder="Full Name"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -423,7 +1269,9 @@ import { generateCalendarDateString } from '../helpers/utils';
                               <label class="form-label"></label>
                               <!-- Buttons start -->
                               <div class="d-flex gap-2 justify-content-end">
-                                <button type="button" class="btn btn-primary">Submit Appraisal</button>
+                                <button type="button" @click="submitChart" class="btn btn-primary">
+                                  Submit Appraisal
+                                </button>
                               </div>
                               <!-- Buttons end -->
                             </div>

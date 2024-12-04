@@ -1,22 +1,7 @@
 <script setup lang="ts">
-import { ref, inject, toRaw, onMounted } from 'vue';
-import { useAuthStore } from '../stores/auth';
-import { getAppraisalChartTemplate } from '../helpers/chart';
-
-let chartData = ref('');
-onMounted(async () => {
-  const authStore = useAuthStore();
-  const swal: any = inject('$swal');
-  const token = toRaw(authStore.getState)?.token as string;
-  chartData.value = (await getAppraisalChartTemplate(swal, token)) as any;
-});
-
-function generateRadioIds(...string: string[]) {
-  const id = string.reduce(function (acc, cur) {
-    return acc.split(' ').join('-').toLowerCase() + `-${cur.split(' ').join('-').toLowerCase()}`;
-  });
-  return id;
-}
+import { inject } from 'vue';
+import { generateRadioIds } from '../helpers/chart';
+const chartData = inject('chartData');
 </script>
 
 <template>
