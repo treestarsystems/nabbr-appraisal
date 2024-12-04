@@ -26,7 +26,7 @@ onMounted(async () => {
 
 <template>
   <!-- Page wrapper start -->
-  <div class="page-wrapper">
+  <div class="page-wrapper pinned">
     <!-- Main container start -->
     <div class="main-container">
       <NavSideBar />

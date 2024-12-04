@@ -47,3 +47,8 @@
 .tab-nav-ul > :last-child {
   margin-left: auto;
 }
+
+.chart-form-check-input[type='radio'] {
+  width: 1rem !important;
+  height: 1rem !important;
+}
