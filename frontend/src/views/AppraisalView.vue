@@ -43,3 +43,17 @@ onMounted(async () => {
   <!-- Page wrapper end -->
   <div id="thirdPartyScripts"></div>
 </template>
+
+<style scoped>
+/* Apply styles for screens larger than 1440px */
+@media (min-width: 1440px) {
+  .page-wrapper.pinned .main-container {
+    padding-left: 80px;
+  }
+}
+@media (max-width: 1439px) {
+  .page-wrapper.pinned .main-container {
+    padding: 0px;
+  }
+}
+</style>

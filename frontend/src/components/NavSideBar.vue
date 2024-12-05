@@ -14,7 +14,7 @@ const isActiveLink = (routePath: string) => {
 
 <template>
   <!-- Sidebar wrapper start -->
-  <nav id="sidebar" class="sidebar-wrapper">
+  <nav id="sidebar" class="sidebar-wrapper d-none d-xxl-block">
     <!-- App brand starts -->
     <div class="app-brand px-3 py-2 d-flex align-items-center">
       <a href="index.html">

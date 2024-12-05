@@ -97,7 +97,7 @@ async function submitChart() {
                       id="appraisalTotalScore"
                       disabled="disabled"
                       placeholder="Total Score"
-                      :value="totalScore"
+                      :value="`${totalScore}%`"
                     />
                   </div>
                   <!-- Form field end -->
