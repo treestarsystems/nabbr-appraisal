@@ -18,6 +18,18 @@ function calculateTotal(characteristics: any[]): number {
 function allRadiosFilled(characteristic: any[]): boolean {
   return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
 }
+
+function updateTotalScore() {
+  const rows = document.querySelectorAll('tbody tr');
+  let total = 0;
+  rows.forEach(row => {
+    const lastTd = row.querySelector('td:last-child span');
+    if (lastTd) {
+      total += parseFloat(lastTd.textContent || '0');
+    }
+  });
+  totalScoreRef.value = total;
+}
 </script>
 
 <template>
@@ -46,7 +58,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
               </tr>
             </thead>
             <tbody>
-              <template v-for="(division, dn) in chartData?.appraisalInformation?.mainDivision">
+              <template v-for="division in chartData?.appraisalInformation?.mainDivision">
                 <template v-for="(characteristic, ci) in division.characteristics">
                   <tr>
                     <td class="align-middle">{{ ci == 0 ? division.name : '' }}</td>
@@ -79,6 +91,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value - 1"
+                              @change="updateTotalScore"
                               required
                             />
                           </div>
@@ -90,6 +103,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value"
+                              @change="updateTotalScore"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
@@ -100,6 +114,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value + 1"
+                              @change="updateTotalScore"
                             />
                           </div>
                         </div>
@@ -132,6 +147,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value - 1"
+                              @change="updateTotalScore"
                               required
                             />
                           </div>
@@ -143,6 +159,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value"
+                              @change="updateTotalScore"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
@@ -153,6 +170,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value + 1"
+                              @change="updateTotalScore"
                             />
                           </div>
                         </div>
@@ -185,6 +203,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value - 1"
+                              @change="updateTotalScore"
                               required
                             />
                           </div>
@@ -193,14 +212,10 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               class="form-check-input chart-form-check-input"
                               type="radio"
                               :id="`${generateRadioIds(division.name, characteristic[2].name, 'zero')}`"
-                              :name="`${generateRadioIds(
-                                division.name,
-                                characteristic[2].name,
-
-                                'score',
-                              )}`"
+                              :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value"
+                              @change="updateTotalScore"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
@@ -211,6 +226,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value + 1"
+                              @change="updateTotalScore"
                             />
                           </div>
                         </div>
@@ -244,13 +260,11 @@ function allRadiosFilled(characteristic: any[]): boolean {
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span v-if="allRadiosFilled(characteristic)" class="badge border border-success text-success"
-                          >{{
-                            ((calculateTotal(division.characteristics[ci]) + characteristic[0].factor) *
-                              characteristic[0].value) /
-                            10
-                          }}%</span
-                        >
+                        <span v-if="allRadiosFilled(characteristic)" class="badge border border-success text-success">{{
+                          ((calculateTotal(division.characteristics[ci]) + characteristic[0].factor) *
+                            characteristic[0].value) /
+                          10
+                        }}</span>
                         <span v-else></span>
                       </div>
                     </td>
