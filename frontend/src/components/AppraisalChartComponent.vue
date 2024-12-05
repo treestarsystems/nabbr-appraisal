@@ -9,29 +9,15 @@ const totalScore = inject<number>('totalScore');
 const totalScoreRef = ref(totalScore || 0);
 
 function calculateTotal(characteristics: any[]): number {
-  // console.log(characteristics[0][0]);
   return characteristics.reduce((total, characteristic) => {
-    const value1 = parseInt(characteristic[0]?.score) || 0;
-    const value2 = parseInt(characteristic[1]?.score) || 0;
-    const value3 = parseInt(characteristic[2]?.score) || 0;
-    return total + value1 + value2 + value3;
+    const value = parseInt(characteristic?.score) || 0;
+    return total + value;
   }, 0);
 }
 
 function allRadiosFilled(characteristic: any[]): boolean {
   return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
-  // return characteristic.every(char => char.score !== 0 && char.score !== null);
 }
-
-// function generateRadioIds(
-//   divisionName: string,
-//   characteristicName: string,
-//   type: string,
-//   dn: number,
-//   ci: number,
-// ): string {
-//   return `${divisionName}-${characteristicName}-${type}-${dn}-${ci}`;
-// }
 </script>
 
 <template>
@@ -73,39 +59,15 @@ function allRadiosFilled(characteristic: any[]): boolean {
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[0].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :for="`${generateRadioIds(division.name, characteristic[0].name, 'minus')}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[0].name,
-                                'zero',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >0</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[0].name, 'zero')}`">0</label>
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[0].name,
-                                'plus',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >+</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[0].name, 'plus')}`">+</label>
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -113,13 +75,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(
-                                division.name,
-                                characteristic[0].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'minus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value - 1"
@@ -130,7 +86,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'zero', dn, String(ci))}`"
+                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'zero')}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value"
@@ -140,7 +96,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'plus', dn, String(ci))}`"
+                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'plus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
                               @input="characteristic[0].score = $event.target.value + 1"
@@ -156,39 +112,15 @@ function allRadiosFilled(characteristic: any[]): boolean {
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[1].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :for="`${generateRadioIds(division.name, characteristic[1].name, 'minus')}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[1].name,
-                                'zero',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >0</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[1].name, 'zero')}`">0</label>
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[1].name,
-                                'plus',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >+</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[1].name, 'plus')}`">+</label>
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -196,13 +128,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(
-                                division.name,
-                                characteristic[1].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'minus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value - 1"
@@ -213,7 +139,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'zero', dn, String(ci))}`"
+                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'zero')}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value"
@@ -223,7 +149,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'plus', dn, String(ci))}`"
+                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'plus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
                               @input="characteristic[1].score = $event.target.value + 1"
@@ -239,39 +165,15 @@ function allRadiosFilled(characteristic: any[]): boolean {
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[2].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :for="`${generateRadioIds(division.name, characteristic[2].name, 'minus')}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[2].name,
-                                'zero',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >0</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[2].name, 'zero')}`">0</label>
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label
-                              :for="`${generateRadioIds(
-                                division.name,
-                                characteristic[2].name,
-                                'plus',
-                                dn,
-                                String(ci),
-                              )}`"
-                              >+</label
-                            >
+                            <label :for="`${generateRadioIds(division.name, characteristic[2].name, 'plus')}`">+</label>
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -279,13 +181,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(
-                                division.name,
-                                characteristic[2].name,
-                                'minus',
-                                dn,
-                                String(ci),
-                              )}`"
+                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'minus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value - 1"
@@ -296,8 +192,13 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'zero', dn, String(ci))}`"
-                              :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'zero')}`"
+                              :name="`${generateRadioIds(
+                                division.name,
+                                characteristic[2].name,
+
+                                'score',
+                              )}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value"
                             />
@@ -306,7 +207,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'plus', dn, String(ci))}`"
+                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'plus')}`"
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
                               @input="characteristic[2].score = $event.target.value + 1"
@@ -318,7 +219,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
                         <span v-if="allRadiosFilled(characteristic)" class="badge border border-white text-white">{{
-                          calculateTotal(division.characteristics)
+                          calculateTotal(division.characteristics[ci])
                         }}</span>
                         <span v-else></span>
                       </div>
@@ -331,7 +232,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
                         <span v-if="allRadiosFilled(characteristic)" class="badge border border-info text-info">{{
-                          calculateTotal(division.characteristics) + characteristic[0].factor
+                          calculateTotal(division.characteristics[ci]) + characteristic[0].factor
                         }}</span>
                         <span v-else></span>
                       </div>
@@ -345,7 +246,7 @@ function allRadiosFilled(characteristic: any[]): boolean {
                       <div class="d-flex justify-content-center">
                         <span v-if="allRadiosFilled(characteristic)" class="badge border border-success text-success"
                           >{{
-                            ((calculateTotal(division.characteristics) + characteristic[0].factor) *
+                            ((calculateTotal(division.characteristics[ci]) + characteristic[0].factor) *
                               characteristic[0].value) /
                             10
                           }}%</span
