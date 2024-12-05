@@ -50,12 +50,13 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const authStore = useAuthStore();
     const authenticated = authStore.getState;
     if (authenticated !== null) {
-      // User is authenticated, proceed to the route
+      // User is authenticated, proceed to the route if token is not expired or invalid.
+      await authStore.checkTokenExpired();
       next();
     } else {
       // User is not authenticated, redirect to login

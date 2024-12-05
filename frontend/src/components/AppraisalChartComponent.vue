@@ -1,7 +1,37 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { ref, inject } from 'vue';
 import { generateRadioIds } from '../helpers/chart';
-const chartData = inject('chartData');
+import { Chart } from '../types/chart';
+const chartData = inject<Chart>('chartData');
+// TODO: Ensure this works properly.
+// let totalScore = inject<number>('totalScore') || 0;
+const totalScore = inject<number>('totalScore');
+const totalScoreRef = ref(totalScore || 0);
+
+function calculateTotal(characteristics: any[]): number {
+  // console.log(characteristics[0][0]);
+  return characteristics.reduce((total, characteristic) => {
+    const value1 = parseInt(characteristic[0]?.score) || 0;
+    const value2 = parseInt(characteristic[1]?.score) || 0;
+    const value3 = parseInt(characteristic[2]?.score) || 0;
+    return total + value1 + value2 + value3;
+  }, 0);
+}
+
+function allRadiosFilled(characteristic: any[]): boolean {
+  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
+  // return characteristic.every(char => char.score !== 0 && char.score !== null);
+}
+
+// function generateRadioIds(
+//   divisionName: string,
+//   characteristicName: string,
+//   type: string,
+//   dn: number,
+//   ci: number,
+// ): string {
+//   return `${divisionName}-${characteristicName}-${type}-${dn}-${ci}`;
+// }
 </script>
 
 <template>
@@ -43,15 +73,39 @@ const chartData = inject('chartData');
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(division.name, characteristic[0].name, 'minus')}`"
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[0].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[0].name, 'zero')}`">0</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[0].name,
+                                'zero',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >0</label
+                            >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[0].name, 'plus')}`">+</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[0].name,
+                                'plus',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >+</label
+                            >
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -59,9 +113,16 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'minus')}`"
+                              :id="`${generateRadioIds(
+                                division.name,
+                                characteristic[0].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
-                              value="-1"
+                              value="0"
+                              @input="characteristic[0].score = $event.target.value - 1"
                               required
                             />
                           </div>
@@ -69,18 +130,20 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'zero')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'zero', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
                               value="0"
+                              @input="characteristic[0].score = $event.target.value"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'plus')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[0].name, 'plus', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[0].name, 'score')}`"
-                              value="1"
+                              value="0"
+                              @input="characteristic[0].score = $event.target.value + 1"
                             />
                           </div>
                         </div>
@@ -93,15 +156,39 @@ const chartData = inject('chartData');
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(division.name, characteristic[1].name, 'minus')}`"
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[1].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[1].name, 'zero')}`">0</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[1].name,
+                                'zero',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >0</label
+                            >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[1].name, 'plus')}`">+</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[1].name,
+                                'plus',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >+</label
+                            >
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -109,9 +196,16 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'minus')}`"
+                              :id="`${generateRadioIds(
+                                division.name,
+                                characteristic[1].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
-                              value="-1"
+                              value="0"
+                              @input="characteristic[1].score = $event.target.value - 1"
                               required
                             />
                           </div>
@@ -119,18 +213,20 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'zero')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'zero', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
                               value="0"
+                              @input="characteristic[1].score = $event.target.value"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'plus')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[1].name, 'plus', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[1].name, 'score')}`"
-                              value="1"
+                              value="0"
+                              @input="characteristic[1].score = $event.target.value + 1"
                             />
                           </div>
                         </div>
@@ -143,15 +239,39 @@ const chartData = inject('chartData');
                           <div class="col-sm-4 d-flex justify-content-center">
                             <label
                               class="form-label"
-                              :for="`${generateRadioIds(division.name, characteristic[2].name, 'minus')}`"
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[2].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               >-</label
                             >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[2].name, 'zero')}`">0</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[2].name,
+                                'zero',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >0</label
+                            >
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
-                            <label :for="`${generateRadioIds(division.name, characteristic[2].name, 'plus')}`">+</label>
+                            <label
+                              :for="`${generateRadioIds(
+                                division.name,
+                                characteristic[2].name,
+                                'plus',
+                                dn,
+                                String(ci),
+                              )}`"
+                              >+</label
+                            >
                           </div>
                         </div>
                         <div class="row was-validated">
@@ -159,9 +279,16 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input was-validate"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'minus')}`"
+                              :id="`${generateRadioIds(
+                                division.name,
+                                characteristic[2].name,
+                                'minus',
+                                dn,
+                                String(ci),
+                              )}`"
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
-                              value="-1"
+                              value="0"
+                              @input="characteristic[2].score = $event.target.value - 1"
                               required
                             />
                           </div>
@@ -169,36 +296,63 @@ const chartData = inject('chartData');
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'zero')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'zero', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
                               value="0"
+                              @input="characteristic[2].score = $event.target.value"
                             />
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
                               class="form-check-input chart-form-check-input"
                               type="radio"
-                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'plus')}`"
+                              :id="`${generateRadioIds(division.name, characteristic[2].name, 'plus', dn, String(ci))}`"
                               :name="`${generateRadioIds(division.name, characteristic[2].name, 'score')}`"
-                              value="1"
+                              value="0"
+                              @input="characteristic[2].score = $event.target.value + 1"
                             />
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td class="align-middle"></td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span class="badge border border-info text-info">{{ characteristic[0].factor }}</span>
+                        <span v-if="allRadiosFilled(characteristic)" class="badge border border-white text-white">{{
+                          calculateTotal(division.characteristics)
+                        }}</span>
+                        <span v-else></span>
                       </div>
                     </td>
-                    <td class="align-middle"></td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span class="badge border border-info text-info">{{ characteristic[0].value }}</span>
+                        <span class="badge border border-muted text-muted">{{ characteristic[0].factor }}</span>
                       </div>
                     </td>
-                    <td class="align-middle"></td>
+                    <td class="align-middle">
+                      <div class="d-flex justify-content-center">
+                        <span v-if="allRadiosFilled(characteristic)" class="badge border border-info text-info">{{
+                          calculateTotal(division.characteristics) + characteristic[0].factor
+                        }}</span>
+                        <span v-else></span>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex justify-content-center">
+                        <span class="badge border border-muted text-muted">{{ characteristic[0].value }}</span>
+                      </div>
+                    </td>
+                    <td class="align-middle">
+                      <div class="d-flex justify-content-center">
+                        <span v-if="allRadiosFilled(characteristic)" class="badge border border-success text-success"
+                          >{{
+                            ((calculateTotal(division.characteristics) + characteristic[0].factor) *
+                              characteristic[0].value) /
+                            10
+                          }}%</span
+                        >
+                        <span v-else></span>
+                      </div>
+                    </td>
                   </tr>
                 </template>
               </template>
