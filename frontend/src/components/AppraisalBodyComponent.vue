@@ -169,7 +169,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
-                                    @input="chartData.memberInformation.name = $event.target.value"
+                                    @input="chartData.petInformation.name = $event.target.value"
                                     type="text"
                                     class="form-control"
                                     id="dogName"
@@ -278,7 +278,28 @@ async function submitChart() {
                               </div>
                               <!-- Form field end -->
                             </div>
-                            <div class="col-sm-3 col-12">
+                            <div class="col-sm-2 col-12">
+                              <!-- Form field start -->
+                              <div class="mb-2">
+                                <label for="weight" class="form-label">Weight:</label>
+                                <div class="input-group">
+                                  <span class="input-group-text">
+                                    <i class="bi bi-123"></i>
+                                  </span>
+                                  <input
+                                    @input="chartData.petInformation.weight = $event.target.value"
+                                    type="number"
+                                    name="weight"
+                                    class="form-control"
+                                    id="weight"
+                                    placeholder="Weight"
+                                  />
+                                </div>
+                              </div>
+                              <!-- Form field end -->
+                            </div>
+
+                            <div class="col-sm-2 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
                                 <label for="age" class="form-label">Age:</label>
@@ -318,7 +339,7 @@ async function submitChart() {
                               </div>
                               <!-- Form field end -->
                             </div>
-                            <div class="col-sm-3 col-12">
+                            <div class="col-sm-2 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
                                 <label for="sex" class="form-label">Sex:</label>

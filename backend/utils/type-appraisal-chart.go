@@ -56,7 +56,6 @@ type NabbrAppraisalChartScoreAppraisalInformation struct {
 	SeniorAppraiserName   string                            `bson:"seniorAppraiserName" json:"seniorAppraiserName" binding:"required"`
 	SeniorAppraiserNumber string                            `bson:"seniorAppraiserNumber" json:"seniorAppraiserNumber" binding:"required"`
 	Date                  string                            `bson:"date" json:"date" binding:"required"`
-	Value                 string                            `bson:"value" json:"value" binding:"required"`
 	AdditionalComments    string                            `bson:"additionalComments" json:"additionalComments" binding:"required"`
 	Place                 string                            `bson:"place" json:"place" binding:"required"`
 	AppraisalScore        string                            `bson:"appraisalScore" json:"appraisalScore" binding:"required"`
