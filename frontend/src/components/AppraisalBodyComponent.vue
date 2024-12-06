@@ -520,8 +520,8 @@ async function submitChart() {
                                     @input="chartData.appraisalInformation.date = $event.target.value"
                                     type="date"
                                     id="appraisalDate"
-                                    class="form-control was-validate datepicker"
-                                    name="birthday"
+                                    class="form-control datepicker"
+                                    name="date"
                                     :value="generateCalendarDateStringHelper()"
                                   />
                                 </div>
@@ -543,7 +543,7 @@ async function submitChart() {
                                     id="appraisalPlace"
                                     aria-label="Default select example"
                                   >
-                                    <option selected="" value="1">1st</option>
+                                    <option value="1">1st</option>
                                     <option value="2">2nd</option>
                                     <option value="3">3rd</option>
                                     <option value="4">4th</option>
@@ -553,6 +553,7 @@ async function submitChart() {
                                     <option value="8">8th</option>
                                     <option value="9">9th</option>
                                     <option value="10">10th</option>
+                                    <option selected="" value="">No Place</option>
                                   </select>
                                 </div>
                               </div>
