@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserState } from '../types/authTypes';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
-import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/formTypes';
+import { FormDataLoginSubmit, FormDataRegistrationSubmit } from '../types/formTypes';
 import router from '../router';
 
 export const useAuthStore = defineStore('auth', {
@@ -44,13 +44,13 @@ export const useAuthStore = defineStore('auth', {
         // return;
       }
     },
-    async register(userRegistrationFormData: formDataRegistrationSubmit): Promise<ResponseObjectDefaultInterface> {
+    async register(userRegistrationFormData: FormDataRegistrationSubmit): Promise<ResponseObjectDefaultInterface> {
       const apiResponse: ResponseObjectDefaultInterface = (
         await axios.post('/api/v1/auth/signup', userRegistrationFormData)
       ).data;
       return apiResponse;
     },
-    async login(userLoginFormData: formDataLoginSubmit): Promise<ResponseObjectDefaultInterface> {
+    async login(userLoginFormData: FormDataLoginSubmit): Promise<ResponseObjectDefaultInterface> {
       try {
         const apiResponse: ResponseObjectDefaultInterface = (await axios.post('/api/v1/auth/login', userLoginFormData))
           .data;

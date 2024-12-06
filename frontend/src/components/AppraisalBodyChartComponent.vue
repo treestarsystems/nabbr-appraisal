@@ -68,7 +68,7 @@ const updateTotalScore = () => {
                         <div class="row was-validated">
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
-                              class="form-check-input chart-form-check-input was-validate"
+                              class="form-check-input chart-form-check-input"
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
@@ -128,7 +128,7 @@ const updateTotalScore = () => {
                         <div class="row was-validated">
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
-                              class="form-check-input chart-form-check-input was-validate"
+                              class="form-check-input chart-form-check-input"
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
@@ -188,7 +188,7 @@ const updateTotalScore = () => {
                         <div class="row was-validated">
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
-                              class="form-check-input chart-form-check-input was-validate"
+                              class="form-check-input chart-form-check-input"
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"

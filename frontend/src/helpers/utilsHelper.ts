@@ -43,9 +43,9 @@ export function breadCrumbPageLinkPreviousHelper(
   authStore: any,
 ): Record<string, string> {
   const user = authStore.getState;
-  const returnProfile = { link: `/user/${user.userId}`, linkName: 'Profile' };
+  const returnProfile = { link: `/user/${user?.userId}`, linkName: 'Profile' };
   const returnDashboard = { link: '/dashboard', linkName: 'Dashboard' };
   if (route.path === '/dashboard') return { link: '#', linkName: ' ' };
-  if (user.userPrivilegeLevel === 'e') return returnDashboard;
+  if (user?.userPrivilegeLevel === 'ADMIN') return returnDashboard;
   return returnProfile;
 }

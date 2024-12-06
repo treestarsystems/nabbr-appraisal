@@ -6,6 +6,7 @@ import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
 import { Chart } from '../types/chartTypes';
+// import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
@@ -23,6 +24,10 @@ onMounted(async () => {
 
 async function submitChart() {
   try {
+    // if (!formValidationAreAllFieldsFilledHelper(formLogin, wasValidated)) {
+    //   return;
+    // }
+
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
     chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
     // Show a visual cue that the form has been submitted.
@@ -115,7 +120,7 @@ async function submitChart() {
                   aria-labelledby="tab-appraisalDetails"
                 >
                   <!-- Row starts -->
-                  <div class="row gx-3">
+                  <div class="row gx-3 was-validated">
                     <div class="col-sm-12 col-12">
                       <div class="card border mb-3">
                         <div class="card-body">
@@ -130,6 +135,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.memberInformation.name = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -149,6 +155,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.memberInformation.memberNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -172,6 +179,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.name = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -191,8 +199,9 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.registrationNumber = $event.target.value"
-                                    type="email"
+                                    type="text"
                                     class="form-control"
                                     id="registrationNumber"
                                     placeholder="Dog Registration #"
@@ -210,6 +219,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.microchip = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -229,6 +239,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.dnaNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -252,6 +263,7 @@ async function submitChart() {
                                     <i class="bi bi-palette"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.color = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -271,6 +283,7 @@ async function submitChart() {
                                     <i class="bi bi-palette"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.markings = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -290,6 +303,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.petInformation.weight = $event.target.value"
                                     type="number"
                                     name="weight"
@@ -378,7 +392,7 @@ async function submitChart() {
                 </div>
                 <div class="tab-pane fade" id="appraisalResults" role="tabpanel" aria-labelledby="tab-appraisalResults">
                   <!-- Row starts -->
-                  <div class="row gx-3">
+                  <div class="row gx-3 was-validated">
                     <div class="col-sm-12 col-12">
                       <div class="card border mb-3">
                         <div class="card-body">
@@ -393,6 +407,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.appraisalInformation.seniorAppraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -412,6 +427,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.appraisalInformation.seniorAppraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -435,6 +451,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.appraisalInformation.appraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -454,6 +471,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    required
                                     @input="chartData.appraisalInformation.appraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -502,7 +520,7 @@ async function submitChart() {
                                     @input="chartData.appraisalInformation.date = $event.target.value"
                                     type="date"
                                     id="appraisalDate"
-                                    class="form-control datepicker"
+                                    class="form-control was-validate datepicker"
                                     name="birthday"
                                     :value="generateCalendarDateStringHelper()"
                                   />
