@@ -22,12 +22,15 @@ onMounted(async () => {
 });
 
 async function submitChart() {
-  const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
-  chartData.value.appraisalInformation.appraisalScore = appraisalTotalScore.value;
   try {
+    const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
+    chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
     // API call here
+
+    console.log(chartData.value);
+
     SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
   } catch (err: any) {
     SwalToastErrorHelper(swal, err);

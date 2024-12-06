@@ -26,12 +26,10 @@ onMounted(async () => {
   <!-- App header starts -->
   <div class="app-header">
     <!-- Toggle buttons start -->
-    <div :class="['d-flex', { 'd-none d-xxl-block': hideNavSidebarRef }]">
-      <!-- <button @click="hideSidebar" class="btn btn-outline-info btn-sm me-3 toggle-sidebar" id="toggle-sidebar"> -->
+    <div :class="['d-flex', { 'd-none d-xs-block d-xxl-block': hideNavSidebarRef }]">
       <button class="btn btn-outline-info btn-sm me-3 toggle-sidebar" id="toggle-sidebar">
         <i class="bi bi-list fs-5"></i>
       </button>
-      <!-- <button @click="hideSidebar" class="btn btn-outline-info btn-sm me-3 pin-sidebar" id="pin-sidebar"> -->
       <button class="btn btn-outline-info btn-sm me-3 pin-sidebar" id="pin-sidebar">
         <i class="bi bi-list fs-5"></i>
       </button>

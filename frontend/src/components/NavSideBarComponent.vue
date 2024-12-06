@@ -20,7 +20,7 @@ onMounted(async () => {
 
 <template>
   <!-- Sidebar wrapper start -->
-  <nav id="sidebar" :class="['sidebar-wrapper', { 'd-none d-xxl-block': hideNavSidebarRef }]">
+  <nav id="sidebar" :class="['sidebar-wrapper', { 'd-none d-xs-block d-xxl-block': hideNavSidebarRef }]">
     <!-- App brand starts -->
     <div class="app-brand px-3 py-2 d-flex align-items-center"></div>
     <!-- App brand ends -->

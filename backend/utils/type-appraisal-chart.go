@@ -58,7 +58,7 @@ type NabbrAppraisalChartScoreAppraisalInformation struct {
 	Date                  string                            `bson:"date" json:"date" binding:"required"`
 	AdditionalComments    string                            `bson:"additionalComments" json:"additionalComments" binding:"required"`
 	Place                 string                            `bson:"place" json:"place" binding:"required"`
-	AppraisalScore        string                            `bson:"appraisalScore" json:"appraisalScore" binding:"required"`
+	AppraisalScore        float32                           `bson:"appraisalScore" json:"appraisalScore" binding:"required"`
 }
 
 type NabbrAppraisalChart struct {

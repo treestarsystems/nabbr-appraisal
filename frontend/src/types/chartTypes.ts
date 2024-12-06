@@ -7,14 +7,12 @@ export interface Chart {
 
 export interface MemberInformation {
   name: string;
-  email: string;
+  // email: string;
   memberNumber: string;
 }
 
 export interface PetInformation {
   name: string;
-  type: string;
-  breed: string;
   age: string;
   dnaNumber: string;
   weight: string;
@@ -27,15 +25,14 @@ export interface PetInformation {
 
 export interface AppraisalInformation {
   mainDivision: MainDivision;
-  appraiser: string;
+  appraiserName: string;
   appraiserNumber: string;
-  seniorAppraiser: string;
+  seniorAppraiserName: string;
   seniorAppraiserNumber: string;
   date: string;
-  value: string;
-  notes: string;
   additionalComments: string;
   place: string;
+  appraisalScore: number;
 }
 
 export interface MainDivision {
