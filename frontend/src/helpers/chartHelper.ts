@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { SwalToastError } from '../helpers/sweetalert';
-import { ResponseObjectDefaultInterface } from '../types/model';
-import { Chart } from '../types/chart';
+import { SwalToastErrorHelper } from './sweetalertHelper';
+import { ResponseObjectDefaultInterface } from '../types/generalTypes';
+import { Chart } from '../types/chartTypes';
 
-// export async function getAppraisalChartTemplate(swal: any, token: string): Promise<void | Chart> {
-export async function getAppraisalChartTemplate(swal: any, token: string): Promise<any> {
+export async function getAppraisalChartTemplateHelper(swal: any, token: string): Promise<any> {
   try {
     const chartTemplatePostRequest = {
       method: 'GET',
@@ -15,18 +14,18 @@ export async function getAppraisalChartTemplate(swal: any, token: string): Promi
     };
     const response: ResponseObjectDefaultInterface = (await axios(chartTemplatePostRequest))?.data;
     if (response.httpStatus > 299) {
-      SwalToastError(swal, response?.message);
+      SwalToastErrorHelper(swal, response?.message);
       return;
     }
     const chartTemplate: Chart = response.payload[0];
     return chartTemplate;
   } catch (err) {
-    SwalToastError(swal, err);
+    SwalToastErrorHelper(swal, err);
     return;
   }
 }
 
-export function generateRadioIds(...string: string[]) {
+export function generateRadioIdsHelper(...string: string[]) {
   const id = string.reduce(function (acc, cur) {
     return acc.split(' ').join('-').toLowerCase() + `-${cur.split(' ').join('-').toLowerCase()}`;
   });

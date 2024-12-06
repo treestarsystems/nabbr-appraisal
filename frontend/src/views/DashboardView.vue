@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, inject } from 'vue';
 import router from '../router';
-import { useAuthStore } from '../stores/auth';
-import { SwalToastError } from '../helpers/sweetalert';
-import { loadThirdPartyJS } from '../helpers/utils';
-import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
-import DashboardBody from '../components/DashboardBody.vue';
-import NavSideBar from '../components/NavSideBar.vue';
-import NavHeader from '../components/NavHeader.vue';
-import Footer from '../components/Footer.vue';
+import { useAuthStore } from '../stores/authStore';
+import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
+import { loadThirdPartyJSHelper } from '../helpers/utilsHelper';
+import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesListHelper';
+import DashboardBodyComponent from '../components/DashboardBodyComponent.vue';
+import NavSideBarComponent from '../components/NavSideBarComponent.vue';
+import NavHeaderComponent from '../components/NavHeaderComponent.vue';
+import FooterComponent from '../components/FooterComponent.vue';
 
 const authStore = useAuthStore();
 onMounted(async () => {
@@ -18,9 +18,9 @@ onMounted(async () => {
   const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
   if (!isAuthorized) {
     router.push(`/user/${authStore.getState?.userId}`);
-    SwalToastError(swal, 'User Unauthorized ');
+    SwalToastErrorHelper(swal, 'User Unauthorized ');
   }
-  await loadThirdPartyJS(thirdPartyJSFilePathsBase);
+  await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
 </script>
 
@@ -29,12 +29,12 @@ onMounted(async () => {
   <div class="page-wrapper">
     <!-- Main container start -->
     <div class="main-container">
-      <NavSideBar />
+      <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeader breadCrumbCurrentPageTitle="Dashboard" />
-        <DashboardBody />
-        <Footer />
+        <NavHeaderComponent breadCrumbPageTitleCurrent="Dashboard" />
+        <DashboardBodyComponent />
+        <FooterComponent />
       </div>
       <!-- App container ends -->
     </div>

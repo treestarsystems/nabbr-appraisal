@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import LogoAuth from '../components/LogoAuth.vue';
+import LogoAuthComponent from '../components/LogoAuthComponent.vue';
 import { reactive, ref, inject } from 'vue';
 import { RouterLink } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
 import router from '../router';
-import { formValidationAreAllFieldsFilled } from '../helpers/utils';
-import { ResponseObjectDefaultInterface } from '../types/model';
-import { formDataRegistration, formDataRegistrationSubmit } from '@/types/form';
-import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
+import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
+import { ResponseObjectDefaultInterface } from '../types/generalTypes';
+import { FormDataRegistration, FormDataRegistrationSubmit } from '../types/formTypes';
+import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
-const formRegister: formDataRegistration = reactive({
+const formRegister: FormDataRegistration = reactive({
   firstName: '',
   lastName: '',
   email: '',
@@ -26,7 +26,7 @@ const formRegister: formDataRegistration = reactive({
 
 async function submitRegistrationForm() {
   try {
-    const userRegistrationFormData: formDataRegistrationSubmit = {
+    const userRegistrationFormData: FormDataRegistrationSubmit = {
       firstName: formRegister.firstName,
       lastName: formRegister.lastName,
       email: formRegister.email.toLowerCase(),
@@ -36,7 +36,7 @@ async function submitRegistrationForm() {
       registrationKey: formRegister.registrationKey,
     };
 
-    if (!formValidationAreAllFieldsFilled(formRegister, wasValidated)) {
+    if (!formValidationAreAllFieldsFilledHelper(formRegister, wasValidated)) {
       return;
     }
 
@@ -50,10 +50,10 @@ async function submitRegistrationForm() {
       throw apiResponse;
     }
 
-    SwalToastSuccess(swal, 'User Created!');
+    SwalToastSuccessHelper(swal, 'User Created!');
     await router.push('/login');
   } catch (err: any) {
-    SwalToastError(swal, err);
+    SwalToastErrorHelper(swal, err);
   }
 }
 </script>
@@ -66,7 +66,7 @@ async function submitRegistrationForm() {
       <div class="d-flex justify-content-center">
         <!-- Form starts -->
         <form @submit.prevent="submitRegistrationForm" class="need-validation" :class="wasValidated" novalidate>
-          <LogoAuth />
+          <LogoAuthComponent />
           <!-- Authbox starts -->
           <div class="auth-box">
             <h4 class="mb-4">Signup</h4>

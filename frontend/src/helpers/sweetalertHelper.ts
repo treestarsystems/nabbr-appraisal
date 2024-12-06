@@ -1,4 +1,4 @@
-export function SwalToastSuccess(swal: any, message: any): void {
+export function SwalToastSuccessHelper(swal: any, message: any): void {
   swal
     .mixin({
       toast: true,
@@ -16,7 +16,7 @@ export function SwalToastSuccess(swal: any, message: any): void {
     });
 }
 
-export function SwalToastWarn(swal: any, message: any): void {
+export function SwalToastWarnHelper(swal: any, message: any): void {
   swal
     .mixin({
       toast: true,
@@ -34,7 +34,7 @@ export function SwalToastWarn(swal: any, message: any): void {
     });
 }
 
-export function SwalToastError(swal: any, message: any): void {
+export function SwalToastErrorHelper(swal: any, message: any): void {
   swal
     .mixin({
       toast: true,

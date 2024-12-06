@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const currentYear = new Date().getFullYear();
+import { currentYearHelper } from '../helpers/utilsHelper';
 </script>
 
 <template>
   <!-- App footer start -->
   <div class="app-footer">
-    <span>© NABBR Appraisal {{ currentYear }}</span>
+    <span>© NABBR Appraisal {{ currentYearHelper() }}</span>
   </div>
   <!-- App footer end -->
 </template>

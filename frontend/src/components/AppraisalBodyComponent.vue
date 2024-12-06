@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, inject, toRaw, provide, reactive, onMounted, onBeforeMount } from 'vue';
-import { formatDate } from '@vueuse/core';
-import { useAuthStore } from '../stores/auth';
-import { getAppraisalChartTemplate } from '../helpers/chart';
-import { generateCalendarDateString } from '../helpers/utils';
-import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
+import { ref, inject, toRaw, provide, onMounted } from 'vue';
+import { useAuthStore } from '../stores/authStore';
+import { getAppraisalChartTemplateHelper } from '../helpers/chartHelper';
+import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
+import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 import AppraisalChartComponent from './AppraisalChartComponent.vue';
 
 const totalScore = ref(0);
@@ -16,9 +15,8 @@ let wasValidated = ref('');
 
 onMounted(async () => {
   const authStore = useAuthStore();
-  const swal: any = inject('$swal');
   const token = toRaw(authStore.getState)?.token as string;
-  const chartTemplate = await getAppraisalChartTemplate(swal, token);
+  const chartTemplate = await getAppraisalChartTemplateHelper(swal, token);
   chartData.value = chartTemplate as any;
 });
 
@@ -26,12 +24,10 @@ async function submitChart() {
   try {
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
-
     // API call here
-
-    SwalToastSuccess(swal, 'Appraisal Submitted Successfully!');
+    SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
   } catch (err: any) {
-    SwalToastError(swal, err);
+    SwalToastErrorHelper(swal, err);
   }
 }
 </script>
@@ -423,7 +419,7 @@ async function submitChart() {
                                     id="appraisalDate"
                                     class="form-control datepicker"
                                     name="birthday"
-                                    :value="generateCalendarDateString()"
+                                    :value="generateCalendarDateStringHelper()"
                                   />
                                 </div>
                               </div>

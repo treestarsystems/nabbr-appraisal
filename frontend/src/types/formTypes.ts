@@ -1,4 +1,4 @@
-export interface formDataRegistrationSubmit {
+export interface FormDataRegistrationSubmit {
   firstName: string;
   lastName: string;
   email: string;
@@ -8,11 +8,11 @@ export interface formDataRegistrationSubmit {
   registrationKey: string;
 }
 
-export interface formDataRegistration extends formDataRegistrationSubmit {
+export interface FormDataRegistration extends FormDataRegistrationSubmit {
   confirmPassword: string;
 }
 
-export interface formDataLoginSubmit {
+export interface FormDataLoginSubmit {
   email: string;
   password: string;
 }

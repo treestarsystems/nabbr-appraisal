@@ -1,28 +1,37 @@
 <script setup lang="ts">
-import { toRaw } from 'vue';
-import { useAuthStore } from '../stores/auth';
+import { toRaw, ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
 import { RouterLink } from 'vue-router';
+import { hideNavSidebarHelper, breadCrumbPageLinkPreviousHelper } from '../helpers/utilsHelper';
 
 defineProps<{
-  breadCrumbCurrentPageTitle?: String;
+  breadCrumbPageTitleCurrent?: String;
 }>();
+const route = useRoute();
+const hideNavSidebarRef = ref(false);
 const authStore = useAuthStore();
 const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
-const logout = async () => {
-  console.log('Logout');
-  authStore.logout();
+const breadCrumbPageLinkPrevious = () => {
+  return breadCrumbPageLinkPreviousHelper(route, authStore);
 };
+
+onMounted(async () => {
+  hideNavSidebarHelper(route, hideNavSidebarRef);
+});
 </script>
 
 <template>
   <!-- App header starts -->
   <div class="app-header">
     <!-- Toggle buttons start -->
-    <div class="d-flex">
+    <div :class="['d-flex', { 'd-none d-xxl-block': hideNavSidebarRef }]">
+      <!-- <button @click="hideSidebar" class="btn btn-outline-info btn-sm me-3 toggle-sidebar" id="toggle-sidebar"> -->
       <button class="btn btn-outline-info btn-sm me-3 toggle-sidebar" id="toggle-sidebar">
         <i class="bi bi-list fs-5"></i>
       </button>
+      <!-- <button @click="hideSidebar" class="btn btn-outline-info btn-sm me-3 pin-sidebar" id="pin-sidebar"> -->
       <button class="btn btn-outline-info btn-sm me-3 pin-sidebar" id="pin-sidebar">
         <i class="bi bi-list fs-5"></i>
       </button>
@@ -30,11 +39,11 @@ const logout = async () => {
     <!-- Toggle buttons end -->
 
     <!-- App brand start -->
-    <!-- <div class="app-brand-sm">
+    <div class="app-brand-sm">
       <RouterLink :to="userProfileLink" class="d-lg-none d-md-block">
-        <img src="/vite.svg" class="logo" alt="" />
+        <img src="/dog.svg" class="logo" alt="" />
       </RouterLink>
-    </div> -->
+    </div>
     <!-- App brand end -->
 
     <!-- App header actions start -->
@@ -74,11 +83,12 @@ const logout = async () => {
     <ol class="breadcrumb d-none d-lg-flex">
       <li class="breadcrumb-item">
         <i class="bi bi-house lh-1"></i>
-        <RouterLink :to="userProfileLink" class="text-decoration-none">Profile</RouterLink>
+        <RouterLink :to="breadCrumbPageLinkPrevious().link" class="text-decoration-none">{{
+          breadCrumbPageLinkPrevious().linkName || 'Profile'
+        }}</RouterLink>
       </li>
-      <!-- <li class="breadcrumb-item" aria-current="page">{{ props.breadCrumbCurrentPageTitle }}</li> -->
       <li class="breadcrumb-item" aria-current="page">
-        {{ breadCrumbCurrentPageTitle }}
+        {{ breadCrumbPageTitleCurrent }}
       </li>
     </ol>
     <!-- Breadcrumb end -->

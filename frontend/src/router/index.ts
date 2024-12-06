@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AuthRegisterView from '../views/AuthRegisterView.vue';
 import AuthLoginView from '../views/AuthLoginView.vue';
 import AppraisalView from '../views/AppraisalView.vue';
-import DashboardView from '../views/Dashboard.vue';
+import DashboardView from '../views/DashboardView.vue';
 import UserProfileView from '../views/UserProfileView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { onMounted, inject } from 'vue';
 import router from '../router';
-import { useAuthStore } from '../stores/auth';
-import { SwalToastError } from '../helpers/sweetalert';
-import { loadThirdPartyJS } from '../helpers/utils';
-import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesList';
-import NavSideBar from '../components/NavSideBar.vue';
-import NavHeader from '../components/NavHeader.vue';
-import AppraisalBody from '../components/AppraisalBody.vue';
-import Footer from '../components/Footer.vue';
+import { useAuthStore } from '../stores/authStore';
+import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
+import { loadThirdPartyJSHelper } from '../helpers/utilsHelper';
+import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesListHelper';
+import NavSideBarComponent from '../components/NavSideBarComponent.vue';
+import NavHeaderComponent from '../components/NavHeaderComponent.vue';
+import AppraisalBodyComponent from '../components/AppraisalBodyComponent.vue';
+import FooterComponent from '../components/FooterComponent.vue';
 
 const authStore = useAuthStore();
 onMounted(async () => {
@@ -18,9 +18,9 @@ onMounted(async () => {
   const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
   if (!isAuthorized) {
     router.push(`/user/${authStore.getState?.userId}`);
-    SwalToastError(swal, 'User Unauthorized ');
+    SwalToastErrorHelper(swal, 'User Unauthorized ');
   }
-  await loadThirdPartyJS(thirdPartyJSFilePathsBase);
+  await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
 </script>
 
@@ -29,12 +29,12 @@ onMounted(async () => {
   <div class="page-wrapper pinned">
     <!-- Main container start -->
     <div class="main-container">
-      <NavSideBar />
+      <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeader breadCrumbCurrentPageTitle="Appraisal" />
-        <AppraisalBody />
-        <Footer />
+        <NavHeaderComponent breadCrumbPageTitleCurrent="Appraisal" />
+        <AppraisalBodyComponent />
+        <FooterComponent />
       </div>
       <!-- App container ends -->
     </div>
@@ -43,17 +43,3 @@ onMounted(async () => {
   <!-- Page wrapper end -->
   <div id="thirdPartyScripts"></div>
 </template>
-
-<style scoped>
-/* Apply styles for screens larger than 1440px */
-@media (min-width: 1440px) {
-  .page-wrapper.pinned .main-container {
-    padding-left: 80px;
-  }
-}
-@media (max-width: 1439px) {
-  .page-wrapper.pinned .main-container {
-    padding: 0px;
-  }
-}
-</style>

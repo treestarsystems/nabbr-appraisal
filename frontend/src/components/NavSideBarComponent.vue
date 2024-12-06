@@ -1,31 +1,33 @@
 <script setup lang="ts">
-import { toRaw } from 'vue';
+import { ref, toRaw, onMounted } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
+import { hideNavSidebarHelper } from '../helpers/utilsHelper';
+
+const hideNavSidebarRef = ref(false);
+const route = useRoute();
 const authStore = useAuthStore();
 const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
-
 const isActiveLink = (routePath: string) => {
-  const route = useRoute();
   return route.path === routePath;
 };
+
+onMounted(async () => {
+  hideNavSidebarHelper(route, hideNavSidebarRef);
+});
 </script>
 
 <template>
   <!-- Sidebar wrapper start -->
-  <nav id="sidebar" class="sidebar-wrapper d-none d-xxl-block">
+  <nav id="sidebar" :class="['sidebar-wrapper', { 'd-none d-xxl-block': hideNavSidebarRef }]">
     <!-- App brand starts -->
-    <div class="app-brand px-3 py-2 d-flex align-items-center">
-      <a href="index.html">
-        <img src="/dog.svg" class="logo" alt="NABBR Appraisal Tool" />
-      </a>
-    </div>
+    <div class="app-brand px-3 py-2 d-flex align-items-center"></div>
     <!-- App brand ends -->
 
     <!-- Sidebar profile starts -->
     <div class="sidebar-profile">
-      <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="Admin Dashboard" />
+      <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
       <div class="m-0">
         <p class="m-0">Hello &#128075;</p>
         <h6 class="m-0 text-nowrap">{{ user.firstName }} {{ user.lastName }}</h6>
@@ -68,16 +70,6 @@ const isActiveLink = (routePath: string) => {
           </a>
         </li>
       </ul>
-      <!-- <div>
-        <ul class="sidebar-menu">
-          <li>
-            <a href="#" @click="authStore.logout">
-              <i class="bi bi-escape"></i>
-              <span class="menu-text">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </div> -->
     </div>
     <!-- Sidebar menu ends -->
   </nav>

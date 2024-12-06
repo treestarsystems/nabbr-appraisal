@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import LogoAuth from '../components/LogoAuth.vue';
+import LogoAuth from '../components/LogoAuthComponent.vue';
 import { reactive, ref, inject, toRaw } from 'vue';
 import { RouterLink } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/authStore';
 import router from '../router';
-import { formValidationAreAllFieldsFilled } from '../helpers/utils';
-import { ResponseObjectDefaultInterface } from '../types/model';
-import { formDataLoginSubmit } from '../types/form';
-import { SwalToastError, SwalToastSuccess } from '../helpers/sweetalert';
+import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
+import { ResponseObjectDefaultInterface } from '../types/generalTypes';
+import { FormDataLoginSubmit } from '../types/formTypes';
+import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
@@ -15,19 +15,19 @@ const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
-const formLogin: formDataLoginSubmit = reactive({
+const formLogin: FormDataLoginSubmit = reactive({
   email: '',
   password: '',
 });
 
 async function submitLoginForm() {
   try {
-    const userLoginFormData: formDataLoginSubmit = {
+    const userLoginFormData: FormDataLoginSubmit = {
       email: formLogin.email.toLowerCase(),
       password: formLogin.password,
     };
 
-    if (!formValidationAreAllFieldsFilled(formLogin, wasValidated)) {
+    if (!formValidationAreAllFieldsFilledHelper(formLogin, wasValidated)) {
       return;
     }
 
@@ -38,7 +38,7 @@ async function submitLoginForm() {
       throw apiResponse.message;
     }
 
-    SwalToastSuccess(swal, 'Login Successful!');
+    SwalToastSuccessHelper(swal, 'Login Successful!');
 
     // Our user state should be defined at this point.
     const user = authStore.getState;
@@ -48,7 +48,7 @@ async function submitLoginForm() {
       await router.push('/dashboard');
     }
   } catch (err: any) {
-    SwalToastError(swal, err);
+    SwalToastErrorHelper(swal, err);
   }
 }
 </script>
@@ -107,7 +107,6 @@ async function submitLoginForm() {
             </div> -->
 
             <div class="d-grid gap-2">
-              <!-- <button type="submit" :disable="authStore.getState !== null" class="btn btn-primary">Login</button> -->
               <button type="submit" class="btn btn-primary">Login</button>
               <RouterLink to="/register" class="btn btn-outline-secondary">Not registered? Signup</RouterLink>
             </div>
@@ -122,11 +121,7 @@ async function submitLoginForm() {
         <div class="col-9">
           <div class="d-flex align-items-center justify-content-center vh-100">
             <div class="text-center text-white">
-              <!-- <h1 class="error-title mb-3">User Profile: {{ userId }}</h1> -->
               <h1 class="error-title mb-3">Please Logout First</h1>
-              <!-- <RouterLink @click="router.push(`/user/${user?.userId}`)" class="btn btn-warning px-5 shadow-lg py-3 fs-5"
-                >Go back to User Profile</RouterLink
-              > -->
               <RouterLink :to="userProfileLink" class="btn btn-warning px-5 shadow-lg py-3 fs-5"
                 >Go back to User Profile</RouterLink
               >

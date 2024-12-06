@@ -1,24 +1,19 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { userState } from '../types/auth';
-import { ResponseObjectDefaultInterface } from '../types/model';
-import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/form';
+import { UserState } from '../types/authTypes';
+import { ResponseObjectDefaultInterface } from '../types/generalTypes';
+import { formDataLoginSubmit, formDataRegistrationSubmit } from '../types/formTypes';
 import router from '../router';
-import { SwalToastError } from '../helpers/sweetalert';
-import { NavigationGuardNext } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', {
-  state: (): { user: userState | null } => ({
+  state: (): { user: UserState | null } => ({
     user: null,
   }),
   getters: {
-    getState(): userState | null {
+    getState(): UserState | null {
       return this.user;
     },
-    // async protectView(): Promise<void> {
-    //   if (this.user === null) await router.back();
-    // },
   },
   actions: {
     checkUserPrivilegeLevel(authorizedPrivilegeLevel: string[]): boolean {
