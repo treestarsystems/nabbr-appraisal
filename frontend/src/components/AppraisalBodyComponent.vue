@@ -90,7 +90,7 @@ async function submitChart() {
                       <i class="bi bi-trophy"></i>
                     </span>
                     <input
-                      @input="chartData.appraisalInformation.appraisalScore = $event.target.value"
+                      @input="chartData.appraisalInformation.appraisalScore = totalScore.value"
                       type="text"
                       class="form-control"
                       id="appraisalTotalScore"
