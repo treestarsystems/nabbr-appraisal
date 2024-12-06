@@ -22,7 +22,8 @@ onMounted(async () => {
 });
 
 async function submitChart() {
-  console.log(toRaw(chartData.value));
+  const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
+  chartData.value.appraisalInformation.appraisalScore = appraisalTotalScore.value;
   try {
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
@@ -90,7 +91,6 @@ async function submitChart() {
                       <i class="bi bi-trophy"></i>
                     </span>
                     <input
-                      @input="chartData.appraisalInformation.appraisalScore = totalScore.value"
                       type="text"
                       class="form-control"
                       id="appraisalTotalScore"
