@@ -38,29 +38,6 @@ export function hideNavSidebarHelper(
   }
 }
 
-export function calculateTotalHelper(characteristics: any[]): number {
-  return characteristics.reduce((total, characteristic) => {
-    const value = parseInt(characteristic?.score) || 0;
-    return total + value;
-  }, 0);
-}
-
-export function allRadiosFilledHelper(characteristic: any[]): boolean {
-  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
-}
-
-export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number, number>) {
-  const rows = document.querySelectorAll('tbody tr');
-  let total = 0;
-  rows.forEach((row: HTMLTableRowElement) => {
-    const lastTd = row.querySelector('td:last-child span');
-    if (lastTd) {
-      total += parseFloat(lastTd.textContent || '0');
-    }
-  });
-  totalScoreRef.value = parseFloat(total.toFixed(2));
-}
-
 export function breadCrumbPageLinkPreviousHelper(
   route: RouteLocationNormalizedLoadedGeneric,
   authStore: any,

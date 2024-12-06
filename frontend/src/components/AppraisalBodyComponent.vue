@@ -4,11 +4,12 @@ import { useAuthStore } from '../stores/authStore';
 import { getAppraisalChartTemplateHelper } from '../helpers/chartHelper';
 import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
-import AppraisalChartComponent from './AppraisalChartComponent.vue';
+import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
+import { Chart } from '../types/chartTypes';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
-const chartData = ref('');
+const chartData: any = ref('');
 provide('chartData', chartData);
 provide('totalScore', totalScore);
 let wasValidated = ref('');
@@ -21,6 +22,7 @@ onMounted(async () => {
 });
 
 async function submitChart() {
+  console.log(toRaw(chartData.value));
   try {
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
@@ -88,6 +90,7 @@ async function submitChart() {
                       <i class="bi bi-trophy"></i>
                     </span>
                     <input
+                      @input="chartData.appraisalInformation.appraisalScore = $event.target.value"
                       type="text"
                       class="form-control"
                       id="appraisalTotalScore"
@@ -100,7 +103,6 @@ async function submitChart() {
                 </li>
               </ul>
               <!-- Nav tabs end -->
-
               <!-- Tab content start -->
               <div class="tab-content">
                 <div
@@ -124,8 +126,13 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <!-- v-model="formChartData.memberInformation.name" -->
-                                  <input type="text" class="form-control" id="fullName" placeholder="Full Name" />
+                                  <input
+                                    @input="chartData.memberInformation.name = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="fullName"
+                                    placeholder="Full Name"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -138,7 +145,13 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="memberNumber" placeholder="Member #" />
+                                  <input
+                                    @input="chartData.memberInformation.memberNumber = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="memberNumber"
+                                    placeholder="Member #"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -155,7 +168,13 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="dogName" placeholder="Dog Name" />
+                                  <input
+                                    @input="chartData.memberInformation.name = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="dogName"
+                                    placeholder="Dog Name"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -163,15 +182,16 @@ async function submitChart() {
                             <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="dogRegistrationNumber" class="form-label">Dog Registration #:</label>
+                                <label for="registrationNumber" class="form-label">Dog Registration #:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    @input="chartData.petInformation.registrationNumber = $event.target.value"
                                     type="email"
                                     class="form-control"
-                                    id="dogRegistrationNumber"
+                                    id="registrationNumber"
                                     placeholder="Dog Registration #"
                                   />
                                 </div>
@@ -181,15 +201,16 @@ async function submitChart() {
                             <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
-                                <label for="microChipNumber" class="form-label">Microchip #:</label>
+                                <label for="microchip" class="form-label">Microchip #:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    @input="chartData.petInformation.microchip = $event.target.value"
                                     type="text"
                                     class="form-control"
-                                    id="microChipNumber"
+                                    id="microchip"
                                     placeholder="Microchip #"
                                   />
                                 </div>
@@ -204,7 +225,13 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="dnaNumber" placeholder="DNA #" />
+                                  <input
+                                    @input="chartData.petInformation.dnaNumber = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="dnaNumber"
+                                    placeholder="DNA #"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -221,7 +248,13 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-palette"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="dogColor" placeholder="Brown" />
+                                  <input
+                                    @input="chartData.petInformation.color = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="dogColor"
+                                    placeholder="Brown"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -229,12 +262,18 @@ async function submitChart() {
                             <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="dogMask" class="form-label">Mask:</label>
+                                <label for="markings" class="form-label">Mask/Markings:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-palette"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="dogMask" placeholder="Black" />
+                                  <input
+                                    @input="chartData.petInformation.markings = $event.target.value"
+                                    type="text"
+                                    class="form-control"
+                                    id="markings"
+                                    placeholder="Black"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -242,12 +281,17 @@ async function submitChart() {
                             <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
-                                <label for="contactNumber" class="form-label">Age:</label>
+                                <label for="age" class="form-label">Age:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
-                                  <select class="form-select" id="age" aria-label="Default select example">
+                                  <select
+                                    @input="chartData.petInformation.age = $event.target.value"
+                                    class="form-select"
+                                    id="age"
+                                    aria-label="Default select example"
+                                  >
                                     <option value="0">&lt;1yr</option>
                                     <option selected="" value="1">1yr</option>
                                     <option value="2">2yr</option>
@@ -277,12 +321,17 @@ async function submitChart() {
                             <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
-                                <label for="birthDay" class="form-label">Sex:</label>
+                                <label for="sex" class="form-label">Sex:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-gender-ambiguous"></i>
                                   </span>
-                                  <select class="form-select" id="a5" aria-label="Default select example">
+                                  <select
+                                    @input="chartData.petInformation.sex = $event.target.value"
+                                    class="form-select"
+                                    id="sex"
+                                    aria-label="Default select example"
+                                  >
                                     <option selected="" value="male">Male</option>
                                     <option value="female">Female</option>
                                   </select>
@@ -299,7 +348,9 @@ async function submitChart() {
                   <!-- Row ends -->
                 </div>
                 <div class="tab-pane fade" id="appraisalScore" role="tabpanel" aria-labelledby="tab-appraisalScore">
-                  <AppraisalChartComponent />
+                  <!-- Appraisal Chart start -->
+                  <AppraisalBodyChartComponent />
+                  <!-- Appraisal Chart end -->
                 </div>
                 <div class="tab-pane fade" id="appraisalResults" role="tabpanel" aria-labelledby="tab-appraisalResults">
                   <!-- Row starts -->
@@ -318,6 +369,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    @input="chartData.appraisalInformation.seniorAppraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
                                     id="seniorAppraiserName"
@@ -336,6 +388,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    @input="chartData.appraisalInformation.seniorAppraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
                                     id="seniorAppraiserNumber"
@@ -358,6 +411,7 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <input
+                                    @input="chartData.appraisalInformation.appraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
                                     id="appraiserName"
@@ -376,6 +430,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
+                                    @input="chartData.appraisalInformation.appraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
                                     id="appraiserNumber"
@@ -392,12 +447,17 @@ async function submitChart() {
                             <div class="col-sm-12 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="additionalCommentary" class="form-label">Additonal Commentary:</label>
+                                <label for="additionalComments" class="form-label">Additonal Commentary:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <textarea class="form-control" id="additionalCommentary" rows="6"></textarea>
+                                  <textarea
+                                    @input="chartData.appraisalInformation.additionalComments = $event.target.value"
+                                    class="form-control"
+                                    id="additionalComments"
+                                    rows="6"
+                                  ></textarea>
                                 </div>
                               </div>
                               <!-- Form field end -->
@@ -409,12 +469,13 @@ async function submitChart() {
                             <!-- Form placeholder fields start -->
                             <div class="col-sm-2 col-4">
                               <div class="m-0">
-                                <label class="form-label" for="abc3">Date:</label>
+                                <label class="form-label" for="appraisalDate">Date:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-calendar4"></i>
                                   </span>
                                   <input
+                                    @input="chartData.appraisalInformation.date = $event.target.value"
                                     type="date"
                                     id="appraisalDate"
                                     class="form-control datepicker"
@@ -434,7 +495,12 @@ async function submitChart() {
                                   <span class="input-group-text">
                                     <i class="bi bi-trophy-fill"></i>
                                   </span>
-                                  <select class="form-select" id="appraisalPlace" aria-label="Default select example">
+                                  <select
+                                    @input="chartData.appraisalInformation.place = $event.target.value"
+                                    class="form-select"
+                                    id="appraisalPlace"
+                                    aria-label="Default select example"
+                                  >
                                     <option selected="" value="1">1st</option>
                                     <option value="2">2nd</option>
                                     <option value="3">3rd</option>

@@ -81,7 +81,7 @@
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="fullName" placeholder="Full name" />
+                                  <input type="text" class="form-control" id="fullName" placeholder="Full Name" />
                                 </div>
                               </div>
                               <!-- Form field end -->

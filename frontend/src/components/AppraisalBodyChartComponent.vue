@@ -2,7 +2,7 @@
 import { ref, inject } from 'vue';
 import { generateRadioIdsHelper } from '../helpers/chartHelper';
 import { Chart } from '../types/chartTypes';
-import { calculateTotalHelper, allRadiosFilledHelper, updateTotalScoreHelper } from '../helpers/utilsHelper';
+import { calculateTotalHelper, allRadiosFilledHelper, updateTotalScoreHelper } from '../helpers/chartHelper';
 const chartData = inject<Chart>('chartData');
 const totalScore = inject<number>('totalScore');
 const totalScoreRef = ref(totalScore || 0);
