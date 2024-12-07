@@ -6,14 +6,13 @@ import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
 import { Chart } from '../types/chartTypes';
-// import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
 const chartData: any = ref('');
 provide('chartData', chartData);
 provide('totalScore', totalScore);
-let wasValidated = ref('');
+// let wasValidated = ref('');
 
 onMounted(async () => {
   const authStore = useAuthStore();
@@ -24,24 +23,23 @@ onMounted(async () => {
 
 async function submitChart() {
   try {
-    // if (!formValidationAreAllFieldsFilledHelper(formLogin, wasValidated)) {
-    //   return;
-    // }
-
+    // We have to get these because they are
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
-    const appraisalDate: any = document.getElementById('appraisalDate');
-    const age: any = document.getElementById('age');
-    const sex: any = document.getElementById('sex');
+    // const appraisalDate: any = document.getElementById('appraisalDate');
+    // const age: any = document.getElementById('age');
+    // const sex: any = document.getElementById('sex');
     chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
-    chartData.value.appraisalInformation.date = appraisalDate.value;
-    chartData.value.petInformation.age = parseInt(age.value);
-    chartData.value.petInformation.sex = sex.value;
+    // chartData.value.appraisalInformation.date = appraisalDate.value;
+    // chartData.value.petInformation.age = parseInt(age.value);
+    // chartData.value.petInformation.sex = sex.value;
     // Show a visual cue that the form has been submitted.
-    wasValidated.value = 'was-validated';
+    // wasValidated.value = 'was-validated';
+    // chartData.value.appraisalInformation.appraisalScore = parseFloat(
+    //   chartData.value.appraisalInformation.appraisalScore.replace('%', ''),
+    // );
+
     // API call here
-
     console.log(toRaw(chartData.value));
-
     SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
   } catch (err: any) {
     SwalToastErrorHelper(swal, err);
@@ -111,6 +109,7 @@ async function submitChart() {
                       disabled="disabled"
                       placeholder="Total Score"
                       :value="`${totalScore}%`"
+                      @change="chartData.appraisalInformation.appraisalScore = $event.target.value"
                     />
                   </div>
                   <!-- Form field end -->
@@ -332,7 +331,7 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <select
-                                    @input="chartData.petInformation.age = parseInt($event.target.value)"
+                                    @change="chartData.petInformation.age = parseInt($event.target.value)"
                                     class="form-select"
                                     id="age"
                                     aria-label="Default select example"
@@ -365,7 +364,7 @@ async function submitChart() {
                                     <i class="bi bi-gender-ambiguous"></i>
                                   </span>
                                   <select
-                                    @input="chartData.petInformation.sex = $event.target.value"
+                                    @change="chartData.petInformation.sex = $event.target.value"
                                     class="form-select"
                                     id="sex"
                                     aria-label="Default select example"
@@ -519,7 +518,7 @@ async function submitChart() {
                                     <i class="bi bi-calendar4"></i>
                                   </span>
                                   <input
-                                    @input="chartData.appraisalInformation.date = $event.target.value"
+                                    @change="chartData.appraisalInformation.date = $event.target.value"
                                     type="date"
                                     id="appraisalDate"
                                     class="form-control datepicker"
@@ -540,7 +539,7 @@ async function submitChart() {
                                     <i class="bi bi-trophy-fill"></i>
                                   </span>
                                   <select
-                                    @input="chartData.appraisalInformation.place = $event.target.value"
+                                    @change="chartData.appraisalInformation.place = parseInt($event.target.value)"
                                     class="form-select"
                                     id="appraisalPlace"
                                     aria-label="Default select example"
@@ -555,7 +554,7 @@ async function submitChart() {
                                     <option value="8">8th</option>
                                     <option value="9">9th</option>
                                     <option value="10">10th</option>
-                                    <option selected value="">No Place</option>
+                                    <option selected value="0">No Place</option>
                                   </select>
                                 </div>
                               </div>

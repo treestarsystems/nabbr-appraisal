@@ -31,7 +31,7 @@ export interface AppraisalInformation {
   seniorAppraiserNumber: string;
   date: string;
   additionalComments: string;
-  place: string;
+  place: number;
   appraisalScore: number;
 }
 
@@ -57,7 +57,7 @@ export interface Division {
 
 export interface Characteristic {
   name: string;
-  score: number;
+  score: string;
   value: number;
   factor: number;
   subDivision?: SubDivision;

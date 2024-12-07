@@ -41,7 +41,8 @@ export function calculateTotalHelper(characteristics: any[]): number {
 }
 
 export function allRadiosFilledHelper(characteristic: any[]): boolean {
-  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
+  // return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
+  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== '');
 }
 
 export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number, number>) {
@@ -53,5 +54,5 @@ export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number,
       total += parseFloat(lastTd.textContent || '0');
     }
   }
-  totalScoreRef.value = parseFloat(total.toFixed(2));
+  totalScoreRef.value = parseFloat(total.toFixed(3));
 }
