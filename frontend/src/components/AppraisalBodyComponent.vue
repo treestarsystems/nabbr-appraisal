@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, inject, toRaw, provide, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
-import { getAppraisalChartTemplateHelper } from '../helpers/chartHelper';
+import { getAppraisalChartHelper } from '../helpers/chartHelper';
 import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
@@ -10,6 +11,7 @@ import { Chart } from '../types/chartTypes';
 const totalScore = ref(0);
 const swal: any = inject('$swal');
 const chartData: any = ref('');
+const route = useRoute();
 provide('chartData', chartData);
 provide('totalScore', totalScore);
 // let wasValidated = ref('');
@@ -17,9 +19,17 @@ provide('totalScore', totalScore);
 onMounted(async () => {
   const authStore = useAuthStore();
   const token = toRaw(authStore.getState)?.token as string;
-  const chartTemplate = await getAppraisalChartTemplateHelper(swal, token);
-  console.log(chartTemplate);
-  chartData.value = chartTemplate as any;
+  let chart;
+  // If new appraisal then get chart template. Else get stored chart based on route path.
+  if (route.params?.chartId) {
+    const appraisalId = route.params.chartId as string;
+    chart = await getAppraisalChartHelper(swal, token, appraisalId);
+  } else {
+    chart = await getAppraisalChartHelper(swal, token);
+  }
+  // const chartTemplate = await getAppraisalChartTemplateHelper(swal, token);
+  // console.log(chartTemplate);
+  chartData.value = chart as any;
 });
 
 async function submitChart() {

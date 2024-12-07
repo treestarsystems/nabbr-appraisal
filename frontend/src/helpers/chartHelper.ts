@@ -4,11 +4,12 @@ import { SwalToastErrorHelper } from './sweetalertHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
 import { Chart } from '../types/chartTypes';
 
-export async function getAppraisalChartTemplateHelper(swal: any, token: string): Promise<any> {
+export async function getAppraisalChartHelper(swal: any, token: string, appraisalId?: string): Promise<any> {
   try {
     const chartTemplatePostRequest = {
       method: 'GET',
-      url: '/api/v1/appraisal/chart/template',
+      // url: '/api/v1/appraisal/chart/template',
+      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}`:'/api/v1/appraisal/chart/template',
       headers: {
         token: token,
       },

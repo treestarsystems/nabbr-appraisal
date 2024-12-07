@@ -36,10 +36,18 @@ The ./backend/.env file should be formatted as follows (template included reposi
 PORT="8081"
 GIN_MODE="release"
 DB_NAME="nabbrAppraisal"
-DB_TABLE_NAME="appraisals"
+DB_TABLE_NAME_APPRAISALS="appraisals"
 DB_MONGODB_URI="mongodb://localhost:27017"
 AUTH_SECRET_KEY = ""
-AUTH_ADMIN_KEY = ""
+AUTH_REGISTRATION_KEY_ADMIN = ""
+AUTH_REGISTRATION_KEY_APPRAISER = ""
+AUTH_REGISTRATION_KEY_PETOWNER = ""
+```
+
+The ./frontend/.env file should be formatted as follows (template included repository):
+
+```bash
+VITE_BACKEND_API_BASE_URL="http://localhost:8081"
 ```
 
 ## Usage
@@ -62,5 +70,5 @@ With -e flag, the program will use the .env file at the specified path
 
 ```bash
 cd ./frontend
-vm dist <destination dir>
+mv dist <destination dir>
 ```
