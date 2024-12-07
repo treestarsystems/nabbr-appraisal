@@ -13,7 +13,7 @@ export interface MemberInformation {
 
 export interface PetInformation {
   name: string;
-  age: string;
+  age: number;
   dnaNumber: string;
   weight: string;
   color: string;

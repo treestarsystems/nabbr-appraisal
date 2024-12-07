@@ -29,12 +29,18 @@ async function submitChart() {
     // }
 
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
+    const appraisalDate: any = document.getElementById('appraisalDate');
+    const age: any = document.getElementById('age');
+    const sex: any = document.getElementById('sex');
     chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
+    chartData.value.appraisalInformation.date = appraisalDate.value;
+    chartData.value.petInformation.age = parseInt(age.value);
+    chartData.value.petInformation.sex = sex.value;
     // Show a visual cue that the form has been submitted.
     wasValidated.value = 'was-validated';
     // API call here
 
-    console.log(chartData.value);
+    console.log(toRaw(chartData.value));
 
     SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
   } catch (err: any) {
@@ -120,6 +126,7 @@ async function submitChart() {
                   aria-labelledby="tab-appraisalDetails"
                 >
                   <!-- Row starts -->
+                  <!-- <div class="row gx-3 was-validated"> -->
                   <div class="row gx-3 was-validated">
                     <div class="col-sm-12 col-12">
                       <div class="card border mb-3">
@@ -304,7 +311,7 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
-                                    @input="chartData.petInformation.weight = $event.target.value"
+                                    @input="chartData.petInformation.weight = parseInt($event.target.value)"
                                     type="number"
                                     name="weight"
                                     class="form-control"
@@ -325,13 +332,14 @@ async function submitChart() {
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <select
-                                    @input="chartData.petInformation.age = $event.target.value"
+                                    @input="chartData.petInformation.age = parseInt($event.target.value)"
                                     class="form-select"
                                     id="age"
                                     aria-label="Default select example"
+                                    required
                                   >
                                     <option value="0">&lt;1yr</option>
-                                    <option selected="" value="1">1yr</option>
+                                    <option value="1">1yr</option>
                                     <option value="2">2yr</option>
                                     <option value="3">4yr</option>
                                     <option value="4">4yr</option>
@@ -341,16 +349,8 @@ async function submitChart() {
                                     <option value="8">8yr</option>
                                     <option value="9">9yr</option>
                                     <option value="10">10yr</option>
-                                    <option value="11">11yr</option>
-                                    <option value="12">12yr</option>
-                                    <option value="13">13yr</option>
-                                    <option value="14">14yr</option>
-                                    <option value="15">15yr</option>
-                                    <option value="16">16yr</option>
-                                    <option value="17">17yr</option>
-                                    <option value="18">18yr</option>
-                                    <option value="19">19yr</option>
-                                    <option value="20">20yr</option>
+                                    <!-- <option disabled selected value>Select Age</option> -->
+                                    <option disabled selected value="0">Select Age</option>
                                   </select>
                                 </div>
                               </div>
@@ -369,9 +369,11 @@ async function submitChart() {
                                     class="form-select"
                                     id="sex"
                                     aria-label="Default select example"
+                                    required
                                   >
                                     <option selected="" value="male">Male</option>
                                     <option value="female">Female</option>
+                                    <option disabled selected value="">Select Sex</option>
                                   </select>
                                 </div>
                               </div>
@@ -553,7 +555,7 @@ async function submitChart() {
                                     <option value="8">8th</option>
                                     <option value="9">9th</option>
                                     <option value="10">10th</option>
-                                    <option selected="" value="">No Place</option>
+                                    <option selected value="">No Place</option>
                                   </select>
                                 </div>
                               </div>

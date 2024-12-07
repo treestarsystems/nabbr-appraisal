@@ -8,7 +8,7 @@ type NabbrAppraisalChartMemberInfo struct {
 
 type NabbrAppraisalChartPetInfo struct {
 	Name               string `bson:"name" json:"name" binding:"required"`
-	Age                string `bson:"age" json:"age" binding:"required"`
+	Age                int    `bson:"age" json:"age" binding:"required"`
 	DnaNumber          string `bson:"dnaNumber" json:"dnaNumber" binding:"required"`
 	Weight             int    `bson:"weight" json:"weight" binding:"required"`
 	Color              string `bson:"color" json:"color" binding:"required"`
