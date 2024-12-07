@@ -23,7 +23,7 @@ type NabbrAppraisalChartScoreCharacteristicsSubDivision struct {
 }
 type NabbrAppraisalChartScoreCharacteristics struct {
 	Name        string                                             `bson:"name" json:"name" binding:"required"`
-	Score       int                                                `bson:"score" json:"score" binding:"required"`
+	Score       string                                             `bson:"score" json:"score" binding:"required"`
 	Value       int                                                `bson:"value" json:"value" binding:"required"`
 	Factor      int                                                `bson:"factor" json:"factor" binding:"required"`
 	SubDivision NabbrAppraisalChartScoreCharacteristicsSubDivision `bson:"subDivision" json:"subDivision,omitempty"`

@@ -73,7 +73,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
                               value="-1"
-                              @input="characteristic[0].score = parseInt($event.target.value)"
+                              @input="characteristic[0].score = $event.target.value"
                               @change="updateTotalScore"
                               required
                             />
@@ -85,7 +85,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
                               value="0"
-                              @input="characteristic[0].score = parseInt($event.target.value)"
+                              @input="characteristic[0].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -96,7 +96,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
                               value="1"
-                              @input="characteristic[0].score = parseInt($event.target.value)"
+                              @input="characteristic[0].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -133,7 +133,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
                               value="-1"
-                              @input="characteristic[1].score = parseInt($event.target.value)"
+                              @input="characteristic[1].score = $event.target.value"
                               @change="updateTotalScore"
                               required
                             />
@@ -145,7 +145,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
                               value="0"
-                              @input="characteristic[1].score = parseInt($event.target.value)"
+                              @input="characteristic[1].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -156,7 +156,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
                               value="1"
-                              @input="characteristic[1].score = parseInt($event.target.value)"
+                              @input="characteristic[1].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -193,7 +193,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
                               value="-1"
-                              @input="characteristic[2].score = parseInt($event.target.value)"
+                              @input="characteristic[2].score = $event.target.value"
                               @change="updateTotalScore"
                               required
                             />
@@ -205,7 +205,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
                               value="0"
-                              @input="characteristic[2].score = parseInt($event.target.value)"
+                              @input="characteristic[2].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -216,7 +216,7 @@ const updateTotalScore = () => {
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
                               value="1"
-                              @input="characteristic[2].score = parseInt($event.target.value)"
+                              @input="characteristic[2].score = $event.target.value"
                               @change="updateTotalScore"
                             />
                           </div>

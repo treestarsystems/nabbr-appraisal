@@ -42,7 +42,7 @@ export function calculateTotalHelper(characteristics: any[]): number {
 
 export function allRadiosFilledHelper(characteristic: any[]): boolean {
   // return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
-  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== '');
+  return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 'nil');
 }
 
 export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number, number>) {

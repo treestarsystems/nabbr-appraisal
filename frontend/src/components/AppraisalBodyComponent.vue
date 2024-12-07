@@ -18,6 +18,7 @@ onMounted(async () => {
   const authStore = useAuthStore();
   const token = toRaw(authStore.getState)?.token as string;
   const chartTemplate = await getAppraisalChartTemplateHelper(swal, token);
+  console.log(chartTemplate);
   chartData.value = chartTemplate as any;
 });
 
