@@ -1,6 +1,7 @@
 import { Ref } from 'vue';
 import axios from 'axios';
-import { SwalToastErrorHelper } from './sweetalertHelper';
+import router from '../router';
+import { SwalToastSuccessHelper, SwalToastErrorHelper } from './sweetalertHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
 import { Chart } from '../types/chartTypes';
 
@@ -16,9 +17,11 @@ export async function getAppraisalChartHelper(swal: any, token: string, appraisa
     const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
     if (response.httpStatus > 299) {
       SwalToastErrorHelper(swal, response?.message);
+      if (response.httpStatus === 404) router.push('/appraisal');
       return;
     }
     const chartTemplate: Chart = response.payload[0];
+    SwalToastSuccessHelper(swal, 'Appraisal Loaded Successfully');
     return chartTemplate;
   } catch (err) {
     SwalToastErrorHelper(swal, err);
@@ -26,16 +29,11 @@ export async function getAppraisalChartHelper(swal: any, token: string, appraisa
   }
 }
 
-export async function PostPutAppraisalChartHelper(
-  swal: any,
-  token: string,
-  appraisalId?: string,
-  putMethod?: boolean,
-): Promise<Chart | void> {
+export async function getAppraisalChartAllHelper(swal: any, token: string): Promise<Chart[] | void> {
   try {
     const chartRequest = {
-      method: putMethod ? 'PUT' : 'POST',
-      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}` : '/api/v1/appraisal/chart',
+      method: 'GET',
+      url: '/api/v1/appraisal/chart',
       headers: {
         token: token,
       },
@@ -45,8 +43,37 @@ export async function PostPutAppraisalChartHelper(
       SwalToastErrorHelper(swal, response?.message);
       return;
     }
-    const chartTemplate: Chart = response.payload[0];
-    return chartTemplate;
+    return response.payload as Chart[];
+  } catch (err) {
+    SwalToastErrorHelper(swal, err);
+    return;
+  }
+}
+
+export async function postPutAppraisalChartHelper(
+  swal: any,
+  token: string,
+  data: Chart,
+  appraisalId?: string,
+): Promise<void> {
+  try {
+    const chartRequest = {
+      method: appraisalId ? 'PUT' : 'POST',
+      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}` : '/api/v1/appraisal/chart',
+      headers: {
+        token: token,
+      },
+      data: data,
+    };
+    const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
+    if (response.httpStatus > 299) {
+      SwalToastErrorHelper(swal, response?.message);
+      return;
+    }
+    SwalToastSuccessHelper(swal, `Appraisal Submitted Successfully (${response.payload[0]})`);
+    router.go(0);
+    // router.push(`/appraisal/${response.payload[0]}`);
+    return;
   } catch (err) {
     SwalToastErrorHelper(swal, err);
     return;
@@ -68,7 +95,6 @@ export function calculateTotalHelper(characteristics: any[]): number {
 }
 
 export function allRadiosFilledHelper(characteristic: any[]): boolean {
-  // return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 0);
   return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 'nil');
 }
 

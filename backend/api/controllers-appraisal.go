@@ -60,6 +60,17 @@ func PostPutAppraisalChartJSON(c *gin.Context) {
 func GetAppraisalChartAllJSON(c *gin.Context) {
 	// Get all appraisal charts
 	appraisalCharts := retrieve.RetrieveDbDataAll()
+
+	if len(appraisalCharts) == 0 {
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusNotFound,
+			"No charts available",
+			[]string{},
+		)
+		c.JSON(http.StatusNotFound, apiResponse)
+		return
+	}
 	apiResponse := utils.NewAPIResponse(
 		"success",
 		http.StatusOK,
@@ -83,7 +94,16 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 		c.JSON(http.StatusNotFound, apiResponse)
 		return
 	}
-
+	if len(appraisalChart) == 0 {
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusNotFound,
+			"This chart is not available",
+			[]string{},
+		)
+		c.JSON(http.StatusNotFound, apiResponse)
+		return
+	}
 	apiResponse := utils.NewAPIResponse(
 		"success",
 		http.StatusOK,

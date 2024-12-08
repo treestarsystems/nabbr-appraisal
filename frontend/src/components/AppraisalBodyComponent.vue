@@ -2,32 +2,29 @@
 import { ref, inject, toRaw, provide, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
-import { getAppraisalChartHelper } from '../helpers/chartHelper';
+import { getAppraisalChartHelper, postPutAppraisalChartHelper } from '../helpers/chartHelper';
 import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
-import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
+import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
 import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
 import { Chart } from '../types/chartTypes';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
-const chartData = ref<Chart>();
 const route = useRoute();
+const chartData = ref<Chart>();
 provide('chartData', chartData);
 provide('totalScore', totalScore);
+const authStore = useAuthStore();
+const token = toRaw(authStore.getState)?.token as string;
 
 onMounted(async () => {
   try {
-    const authStore = useAuthStore();
-    const token = toRaw(authStore.getState)?.token as string;
-    // If new appraisal then get chart template. Else get stored chart based on route path.
     if (!route.params?.appraisalId) {
       const chart = (await getAppraisalChartHelper(swal, token)) as Chart;
       chartData.value = chart;
     } else {
       const appraisalId = route.params.appraisalId as string;
-      const chart = (await getAppraisalChartHelper(swal, token, appraisalId)) as Chart;
-      chartData.value = chart;
-      SwalToastSuccessHelper(swal, `Appraisal Loaded Successfully`);
+      chartData.value = (await getAppraisalChartHelper(swal, token, appraisalId)) as Chart;
     }
   } catch (err: any) {
     SwalToastErrorHelper(swal, err);
@@ -36,14 +33,19 @@ onMounted(async () => {
 
 async function submitChart() {
   try {
+    // TODO: Fire Swal then return early if all fields are not checked.
+
     // We have to get these because they are
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
     if (chartData.value && chartData.value.appraisalInformation) {
       chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
     }
-    // API call here
-    console.log(toRaw(chartData.value));
-    SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
+    if (!route.params?.appraisalId) {
+      await postPutAppraisalChartHelper(swal, token, chartData.value as Chart);
+    } else {
+      const appraisalId = route.params.appraisalId as string;
+      await postPutAppraisalChartHelper(swal, token, chartData.value as Chart, appraisalId);
+    }
   } catch (err: any) {
     SwalToastErrorHelper(swal, err);
   }

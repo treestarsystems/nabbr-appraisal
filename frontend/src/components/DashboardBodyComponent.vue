@@ -1,5 +1,25 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { ref, inject, toRaw, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
+import { getAppraisalChartAllHelper } from '../helpers/chartHelper';
+import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
+import { Chart } from '../types/chartTypes';
+
+const swal: any = inject('$swal');
+const route = useRoute();
+const authStore = useAuthStore();
+const chartDataAll = ref<Chart[]>();
+const token = toRaw(authStore.getState)?.token as string;
+
+onMounted(async () => {
+  try {
+    chartDataAll.value = (await getAppraisalChartAllHelper(swal, token)) as Chart[];
+  } catch (err: any) {
+    SwalToastErrorHelper(swal, err);
+  }
+});
 </script>
 <template>
   <!-- App body starts -->
@@ -30,26 +50,32 @@ import { RouterLink } from 'vue-router';
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="align-items-center">
-                      <div class="d-flex justify-content-center">
-                        <RouterLink to="/appraisal/asdfasd"><i class="bi bi-calculator fs-4"></i></RouterLink>
-                      </div>
-                    </td>
-                    <td class="align-middle">Melinda</td>
-                    <td class="align-middle">Michael Bogle</td>
-                    <td class="align-middle">Getsuga</td>
-                    <td class="align-middle">M</td>
-                    <td class="align-middle">2yr</td>
-                    <td class="align-middle">137lbs.</td>
-                    <td class="align-middle">
-                      <div class="d-flex justify-content-center">
-                        <span class="badge border border-success text-success">87%</span>
-                      </div>
-                    </td>
-                    <td class="align-middle">61685158</td>
-                    <td class="align-middle">A19649A</td>
-                  </tr>
+                  <template v-for="chart in chartDataAll">
+                    <tr>
+                      <td class="align-items-center">
+                        <div class="d-flex justify-content-center">
+                          <RouterLink :to="`/appraisal/${chart.appraisalId}`"
+                            ><i class="bi bi-calculator fs-4"></i
+                          ></RouterLink>
+                        </div>
+                      </td>
+                      <td class="align-middle">{{ chart.appraisalInformation.appraiserName }}</td>
+                      <td class="align-middle">{{ chart.memberInformation.name }}</td>
+                      <td class="align-middle">{{ chart.petInformation.name }}</td>
+                      <td class="align-middle">{{ chart.petInformation.sex.toUpperCase() }}</td>
+                      <td class="align-middle">{{ chart.petInformation.age }}</td>
+                      <td class="align-middle">{{ chart.petInformation.weight }}</td>
+                      <td class="align-middle">
+                        <div class="d-flex justify-content-center">
+                          <span class="badge border border-success text-success"
+                            >{{ chart.appraisalInformation.appraisalScore }}%</span
+                          >
+                        </div>
+                      </td>
+                      <td class="align-middle">{{ chart.petInformation.microchip }}</td>
+                      <td class="align-middle">{{ chart.petInformation.dnaNumber }}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
             </div>
