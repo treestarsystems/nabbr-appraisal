@@ -4,17 +4,43 @@ import { SwalToastErrorHelper } from './sweetalertHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
 import { Chart } from '../types/chartTypes';
 
-export async function getAppraisalChartHelper(swal: any, token: string, appraisalId?: string): Promise<any> {
+export async function getAppraisalChartHelper(swal: any, token: string, appraisalId?: string): Promise<Chart | void> {
   try {
-    const chartTemplatePostRequest = {
+    const chartRequest = {
       method: 'GET',
-      // url: '/api/v1/appraisal/chart/template',
-      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}`:'/api/v1/appraisal/chart/template',
+      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}` : '/api/v1/appraisal/chart/template',
       headers: {
         token: token,
       },
     };
-    const response: ResponseObjectDefaultInterface = (await axios(chartTemplatePostRequest))?.data;
+    const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
+    if (response.httpStatus > 299) {
+      SwalToastErrorHelper(swal, response?.message);
+      return;
+    }
+    const chartTemplate: Chart = response.payload[0];
+    return chartTemplate;
+  } catch (err) {
+    SwalToastErrorHelper(swal, err);
+    return;
+  }
+}
+
+export async function PostPutAppraisalChartHelper(
+  swal: any,
+  token: string,
+  appraisalId?: string,
+  putMethod?: boolean,
+): Promise<Chart | void> {
+  try {
+    const chartRequest = {
+      method: putMethod ? 'PUT' : 'POST',
+      url: appraisalId ? `/api/v1/appraisal/chart/${appraisalId}` : '/api/v1/appraisal/chart',
+      headers: {
+        token: token,
+      },
+    };
+    const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
     if (response.httpStatus > 299) {
       SwalToastErrorHelper(swal, response?.message);
       return;

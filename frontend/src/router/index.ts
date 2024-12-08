@@ -13,13 +13,6 @@ const router = createRouter({
     { path: '/register', component: AuthRegisterView },
     { path: '/login', component: AuthLoginView },
     {
-      path: '/appraisal',
-      component: AppraisalView,
-      meta: {
-        requiresAuth: true,
-      },
-    },
-    {
       path: '/dashboard',
       component: DashboardView,
       meta: {
@@ -27,15 +20,22 @@ const router = createRouter({
       },
     },
     {
-      path: '/user/:userId',
-      component: UserProfileView,
+      path: '/appraisal',
+      component: AppraisalView,
       meta: {
         requiresAuth: true,
       },
     },
     {
-      path: '/appraisal/:chartId',
+      path: '/appraisal/:appraisalId',
       component: AppraisalView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/user/:userId',
+      component: UserProfileView,
       meta: {
         requiresAuth: true,
       },

@@ -8,7 +8,7 @@ export function SwalToastSuccessHelper(swal: any, message: any): void {
         popup: 'colored-toast',
       },
       showConfirmButton: false,
-      timer: 1500,
+      timer: 2000,
     })
     .fire({
       icon: 'success',

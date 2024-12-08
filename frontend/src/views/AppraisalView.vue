@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, inject } from 'vue';
+import { useRoute } from 'vue-router';
 import router from '../router';
 import { useAuthStore } from '../stores/authStore';
 import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
@@ -11,6 +12,9 @@ import AppraisalBodyComponent from '../components/AppraisalBodyComponent.vue';
 import FooterComponent from '../components/FooterComponent.vue';
 
 const authStore = useAuthStore();
+const route = useRoute();
+const breadCrumbAppraisalIdString = route.params.appraisalId ? ` (${route.params.appraisalId})` : '';
+const breadCrumbCurrentPageTitle = `Appraisal${breadCrumbAppraisalIdString}`;
 onMounted(async () => {
   const swal: any = inject('$swal');
   // Check for unprivileged user
@@ -32,7 +36,7 @@ onMounted(async () => {
       <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeaderComponent breadCrumbPageTitleCurrent="Appraisal" />
+        <NavHeaderComponent :breadCrumbPageTitleCurrent="breadCrumbCurrentPageTitle" />
         <AppraisalBodyComponent />
         <FooterComponent />
       </div>

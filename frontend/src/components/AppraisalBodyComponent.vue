@@ -10,45 +10,37 @@ import { Chart } from '../types/chartTypes';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
-const chartData: any = ref('');
+const chartData = ref<Chart>();
 const route = useRoute();
 provide('chartData', chartData);
 provide('totalScore', totalScore);
-// let wasValidated = ref('');
 
 onMounted(async () => {
-  const authStore = useAuthStore();
-  const token = toRaw(authStore.getState)?.token as string;
-  let chart;
-  // If new appraisal then get chart template. Else get stored chart based on route path.
-  if (route.params?.chartId) {
-    const appraisalId = route.params.chartId as string;
-    chart = await getAppraisalChartHelper(swal, token, appraisalId);
-  } else {
-    chart = await getAppraisalChartHelper(swal, token);
+  try {
+    const authStore = useAuthStore();
+    const token = toRaw(authStore.getState)?.token as string;
+    // If new appraisal then get chart template. Else get stored chart based on route path.
+    if (!route.params?.appraisalId) {
+      const chart = (await getAppraisalChartHelper(swal, token)) as Chart;
+      chartData.value = chart;
+    } else {
+      const appraisalId = route.params.appraisalId as string;
+      const chart = (await getAppraisalChartHelper(swal, token, appraisalId)) as Chart;
+      chartData.value = chart;
+      SwalToastSuccessHelper(swal, `Appraisal Loaded Successfully`);
+    }
+  } catch (err: any) {
+    SwalToastErrorHelper(swal, err);
   }
-  // const chartTemplate = await getAppraisalChartTemplateHelper(swal, token);
-  // console.log(chartTemplate);
-  chartData.value = chart as any;
 });
 
 async function submitChart() {
   try {
     // We have to get these because they are
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
-    // const appraisalDate: any = document.getElementById('appraisalDate');
-    // const age: any = document.getElementById('age');
-    // const sex: any = document.getElementById('sex');
-    chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
-    // chartData.value.appraisalInformation.date = appraisalDate.value;
-    // chartData.value.petInformation.age = parseInt(age.value);
-    // chartData.value.petInformation.sex = sex.value;
-    // Show a visual cue that the form has been submitted.
-    // wasValidated.value = 'was-validated';
-    // chartData.value.appraisalInformation.appraisalScore = parseFloat(
-    //   chartData.value.appraisalInformation.appraisalScore.replace('%', ''),
-    // );
-
+    if (chartData.value && chartData.value.appraisalInformation) {
+      chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
+    }
     // API call here
     console.log(toRaw(chartData.value));
     SwalToastSuccessHelper(swal, 'Appraisal Submitted Successfully!');
@@ -119,7 +111,7 @@ async function submitChart() {
                       id="appraisalTotalScore"
                       disabled="disabled"
                       placeholder="Total Score"
-                      :value="`${totalScore}%`"
+                      :value="`${totalScore === 0 ? chartData?.appraisalInformation?.appraisalScore : totalScore}%`"
                       @change="chartData.appraisalInformation.appraisalScore = $event.target.value"
                     />
                   </div>
@@ -153,6 +145,9 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.memberInformation?.name ? chartData?.memberInformation?.name : ''
+                                    "
                                     @input="chartData.memberInformation.name = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -173,6 +168,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.memberInformation?.memberNumber
+                                        ? chartData?.memberInformation?.memberNumber
+                                        : ''
+                                    "
                                     @input="chartData.memberInformation.memberNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -197,6 +197,7 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="chartData?.petInformation?.name ? chartData?.petInformation?.name : ''"
                                     @input="chartData.petInformation.name = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -217,6 +218,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.petInformation?.registrationNumber
+                                        ? chartData?.petInformation?.registrationNumber
+                                        : ''
+                                    "
                                     @input="chartData.petInformation.registrationNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -237,6 +243,9 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.petInformation?.microchip ? chartData?.petInformation?.microchip : ''
+                                    "
                                     @input="chartData.petInformation.microchip = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -257,6 +266,9 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.petInformation?.dnaNumber ? chartData?.petInformation?.dnaNumber : ''
+                                    "
                                     @input="chartData.petInformation.dnaNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -281,6 +293,7 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="chartData?.petInformation?.color ? chartData?.petInformation?.color : ''"
                                     @input="chartData.petInformation.color = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -301,6 +314,9 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.petInformation?.markings ? chartData?.petInformation?.markings : ''
+                                    "
                                     @input="chartData.petInformation.markings = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -321,6 +337,7 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="chartData?.petInformation?.weight ? chartData?.petInformation?.weight : ''"
                                     @input="chartData.petInformation.weight = parseInt($event.target.value)"
                                     type="number"
                                     name="weight"
@@ -348,19 +365,18 @@ async function submitChart() {
                                     aria-label="Default select example"
                                     required
                                   >
-                                    <option value="0">&lt;1yr</option>
-                                    <option value="1">1yr</option>
-                                    <option value="2">2yr</option>
-                                    <option value="3">4yr</option>
-                                    <option value="4">4yr</option>
-                                    <option value="5">5yr</option>
-                                    <option value="6">6yr</option>
-                                    <option value="7">7yr</option>
-                                    <option value="8">8yr</option>
-                                    <option value="9">9yr</option>
-                                    <option value="10">10yr</option>
-                                    <!-- <option disabled selected value>Select Age</option> -->
-                                    <option disabled selected value="0">Select Age</option>
+                                    <!-- <option :selected="chartData?.petInformation?.age === 0" value="0">&lt;1yr</option> -->
+                                    <option :selected="chartData?.petInformation?.age === 1" value="1">1yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 2" value="2">2yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 3" value="3">4yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 4" value="4">4yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 5" value="5">5yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 6" value="6">6yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 7" value="7">7yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 8" value="8">8yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 9" value="9">9yr</option>
+                                    <option :selected="chartData?.petInformation?.age === 10" value="10">10yr</option>
+                                    <option disabled :selected="!chartData?.petInformation?.age">Select Age</option>
                                   </select>
                                 </div>
                               </div>
@@ -381,9 +397,15 @@ async function submitChart() {
                                     aria-label="Default select example"
                                     required
                                   >
-                                    <option selected="" value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option disabled selected value="">Select Sex</option>
+                                    <option :selected="chartData?.petInformation?.sex === 'male'" value="male">
+                                      Male
+                                    </option>
+                                    <option :selected="chartData?.petInformation?.sex === 'female'" value="female">
+                                      Female
+                                    </option>
+                                    <option disabled :selected="!chartData?.petInformation?.sex" value="">
+                                      Select Sex
+                                    </option>
                                   </select>
                                 </div>
                               </div>
@@ -420,6 +442,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.appraisalInformation?.seniorAppraiserName
+                                        ? chartData?.appraisalInformation?.seniorAppraiserName
+                                        : ''
+                                    "
                                     @input="chartData.appraisalInformation.seniorAppraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -440,6 +467,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.appraisalInformation?.seniorAppraiserNumber
+                                        ? chartData?.appraisalInformation?.seniorAppraiserNumber
+                                        : ''
+                                    "
                                     @input="chartData.appraisalInformation.seniorAppraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -464,6 +496,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.appraisalInformation?.appraiserName
+                                        ? chartData?.appraisalInformation?.appraiserName
+                                        : ''
+                                    "
                                     @input="chartData.appraisalInformation.appraiserName = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -484,6 +521,11 @@ async function submitChart() {
                                   </span>
                                   <input
                                     required
+                                    :value="
+                                      chartData?.appraisalInformation?.appraiserName
+                                        ? chartData?.appraisalInformation?.appraiserName
+                                        : ''
+                                    "
                                     @input="chartData.appraisalInformation.appraiserNumber = $event.target.value"
                                     type="text"
                                     class="form-control"
@@ -507,6 +549,11 @@ async function submitChart() {
                                     <i class="bi bi-person"></i>
                                   </span>
                                   <textarea
+                                    :value="
+                                      chartData?.appraisalInformation?.additionalComments
+                                        ? chartData?.appraisalInformation?.additionalComments
+                                        : ''
+                                    "
                                     @input="chartData.appraisalInformation.additionalComments = $event.target.value"
                                     class="form-control"
                                     id="additionalComments"
@@ -529,12 +576,16 @@ async function submitChart() {
                                     <i class="bi bi-calendar4"></i>
                                   </span>
                                   <input
+                                    :value="
+                                      chartData?.appraisalInformation?.date
+                                        ? chartData?.appraisalInformation?.date
+                                        : generateCalendarDateStringHelper()
+                                    "
                                     @change="chartData.appraisalInformation.date = $event.target.value"
                                     type="date"
                                     id="appraisalDate"
                                     class="form-control datepicker"
                                     name="date"
-                                    :value="generateCalendarDateStringHelper()"
                                   />
                                 </div>
                               </div>
@@ -555,16 +606,36 @@ async function submitChart() {
                                     id="appraisalPlace"
                                     aria-label="Default select example"
                                   >
-                                    <option value="1">1st</option>
-                                    <option value="2">2nd</option>
-                                    <option value="3">3rd</option>
-                                    <option value="4">4th</option>
-                                    <option value="5">5th</option>
-                                    <option value="6">6th</option>
-                                    <option value="7">7th</option>
-                                    <option value="8">8th</option>
-                                    <option value="9">9th</option>
-                                    <option value="10">10th</option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 1" value="1">
+                                      1st
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 2" value="2">
+                                      2nd
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 3" value="3">
+                                      3rd
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 4" value="4">
+                                      4th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 5" value="5">
+                                      5th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 6" value="6">
+                                      6th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 7" value="7">
+                                      7th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 8" value="8">
+                                      8th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 9" value="9">
+                                      9th
+                                    </option>
+                                    <option :selected="chartData?.appraisalInformation?.place === 10" value="10">
+                                      10th
+                                    </option>
                                     <option selected value="0">No Place</option>
                                   </select>
                                 </div>

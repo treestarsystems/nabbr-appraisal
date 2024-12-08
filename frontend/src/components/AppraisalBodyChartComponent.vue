@@ -72,11 +72,14 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
-                              value="-1"
-                              @input="characteristic[0].score = $event.target.value"
+                              :checked="characteristic[0].score === '-1'"
+                              :value="characteristic[0].score === 'nil' ? '-1' : characteristic[0].score"
+                              @input="characteristic[0].score = '-1'"
                               @change="updateTotalScore"
                               required
                             />
+                            <!-- @input="characteristic[0].score = $event.target.value" -->
+                            <!-- value="-1" -->
                           </div>
                           <div class="col-sm-4 d-flex justify-content-center">
                             <input
@@ -84,8 +87,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
-                              value="0"
-                              @input="characteristic[0].score = $event.target.value"
+                              :checked="characteristic[0].score === '0'"
+                              :value="characteristic[0].score === 'nil' ? '0' : characteristic[0].score"
+                              @input="characteristic[0].score = '0'"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -95,8 +99,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[0].name, 'score')}`"
-                              value="1"
-                              @input="characteristic[0].score = $event.target.value"
+                              :checked="characteristic[0].score === '1'"
+                              :value="characteristic[0].score === 'nil' ? '1' : characteristic[0].score"
+                              @input="characteristic[0].score = '1'"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -132,8 +137,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
-                              value="-1"
-                              @input="characteristic[1].score = $event.target.value"
+                              :checked="characteristic[1].score === '-1'"
+                              :value="characteristic[1].score === 'nil' ? '-1' : characteristic[1].score"
+                              @input="characteristic[1].score = '-1'"
                               @change="updateTotalScore"
                               required
                             />
@@ -144,8 +150,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
-                              value="0"
-                              @input="characteristic[1].score = $event.target.value"
+                              :checked="characteristic[1].score === '0'"
+                              :value="characteristic[1].score === 'nil' ? '0' : characteristic[1].score"
+                              @input="characteristic[1].score = '0'"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -155,8 +162,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[1].name, 'score')}`"
-                              value="1"
-                              @input="characteristic[1].score = $event.target.value"
+                              :checked="characteristic[1].score === '1'"
+                              :value="characteristic[1].score === 'nil' ? '1' : characteristic[1].score"
+                              @input="characteristic[1].score = '1'"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -192,8 +200,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'minus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
-                              value="-1"
-                              @input="characteristic[2].score = $event.target.value"
+                              :checked="characteristic[2].score === '-1'"
+                              :value="characteristic[2].score === 'nil' ? '-1' : characteristic[2].score"
+                              @input="characteristic[2].score = '-1'"
                               @change="updateTotalScore"
                               required
                             />
@@ -204,8 +213,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'zero')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
-                              value="0"
-                              @input="characteristic[2].score = $event.target.value"
+                              :checked="characteristic[2].score === '0'"
+                              :value="characteristic[2].score === 'nil' ? '0' : characteristic[2].score"
+                              @input="characteristic[2].score = '0'"
                               @change="updateTotalScore"
                             />
                           </div>
@@ -215,8 +225,9 @@ const updateTotalScore = () => {
                               type="radio"
                               :id="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'plus')}`"
                               :name="`${generateRadioIdsHelper(division.name, characteristic[2].name, 'score')}`"
-                              value="1"
-                              @input="characteristic[2].score = $event.target.value"
+                              :checked="characteristic[2].score === '1'"
+                              :value="characteristic[2].score === 'nil' ? '1' : characteristic[2].score"
+                              @input="characteristic[2].score = '1'"
                               @change="updateTotalScore"
                             />
                           </div>

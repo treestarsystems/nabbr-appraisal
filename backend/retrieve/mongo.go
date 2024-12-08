@@ -19,7 +19,6 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	defer cancel()
 
 	var cursor *mongo.Cursor
-	defer cursor.Close(ctx)
 	var err error
 
 	// Perform the search query based on the type of filter
@@ -31,6 +30,7 @@ func retrieveDbFromMongoDbQuery(filter interface{}) ([]utils.NabbrAppraisalChart
 	default:
 		return nil, fmt.Errorf("error - MongoDB: Unsupported filter type: %T", filter)
 	}
+	defer cursor.Close(ctx)
 
 	if err != nil {
 		return nil, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
@@ -69,6 +69,7 @@ func retrieveDbFromMongoDbSearch(searchTerm string) ([]utils.NabbrAppraisalChart
 			{"appraisalId": bson.M{"$regex": searchTerm}},
 		},
 	}
+
 	resultAppraisalChart, err := retrieveDbFromMongoDbQuery(filter)
 	if err != nil {
 		return []utils.NabbrAppraisalChart{}, fmt.Errorf("error - MongoDB: Unable to perform search query: %w", err)
