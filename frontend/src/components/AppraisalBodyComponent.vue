@@ -113,7 +113,9 @@ async function submitChart() {
                       id="appraisalTotalScore"
                       disabled="disabled"
                       placeholder="Total Score"
-                      :value="`${totalScore === 0 ? chartData?.appraisalInformation?.appraisalScore : totalScore}%`"
+                      :value="`${
+                        totalScore === 0 ? chartData?.appraisalInformation?.appraisalScore ?? 0 : totalScore
+                      }%`"
                       @change="chartData.appraisalInformation.appraisalScore = $event.target.value"
                     />
                   </div>
