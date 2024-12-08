@@ -30,7 +30,7 @@ onMounted(async () => {
       <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
       <div class="m-0">
         <p class="m-0">Hello &#128075;</p>
-        <h6 class="m-0 text-nowrap">{{ user.firstName }} {{ user.lastName }}</h6>
+        <h6 class="m-0 text-nowrap">{{ user?.firstName }} {{ user?.lastName }}</h6>
       </div>
     </div>
     <!-- Sidebar profile ends -->
@@ -49,7 +49,7 @@ onMounted(async () => {
           </RouterLink>
         </li>
         <li
-          v-if="['ADMIN', 'APPRAISER'].includes(user?.userPrivilegeLevel)"
+          v-if="['ADMIN', 'APPRAISER'].includes(user?.userPrivilegeLevel ?? '')"
           :class="[isActiveLink('/appraisal') ? 'active current-page' : '']"
         >
           <RouterLink to="/appraisal">
