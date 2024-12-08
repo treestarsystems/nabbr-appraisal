@@ -111,13 +111,14 @@ async function submitChart() {
                       type="text"
                       class="form-control"
                       id="appraisalTotalScore"
-                      disabled="disabled"
+                      disabled="true"
                       placeholder="Total Score"
                       :value="`${
                         totalScore === 0 ? chartData?.appraisalInformation?.appraisalScore ?? 0 : totalScore
                       }%`"
                       @change="chartData.appraisalInformation.appraisalScore = $event.target.value"
                     />
+                    <!-- @change="chartData?.appraisalInformation && (chartData.appraisalInformation.appraisalScore = $event.target.value)" -->
                   </div>
                   <!-- Form field end -->
                 </li>

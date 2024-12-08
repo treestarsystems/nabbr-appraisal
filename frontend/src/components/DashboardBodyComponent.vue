@@ -4,7 +4,7 @@ import { ref, inject, toRaw, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { getAppraisalChartAllHelper } from '../helpers/chartHelper';
-import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
+import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
 import { Chart } from '../types/chartTypes';
 
 const swal: any = inject('$swal');

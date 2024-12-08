@@ -57,7 +57,7 @@ onMounted(async () => {
           aria-expanded="false"
         >
           <div class="icon-box md bg-info text-white rounded-5">
-            {{ user.firstName[0].toUpperCase() }}{{ user.lastName[0].toUpperCase() }}
+            {{ user?.firstName[0].toUpperCase() }}{{ user?.lastName[0].toUpperCase() }}
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end">
