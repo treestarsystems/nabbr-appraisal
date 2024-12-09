@@ -15,7 +15,7 @@ export interface PetInformation {
   name: string;
   age: number;
   dnaNumber: string;
-  weight: string;
+  weight: number;
   color: string;
   markings: string;
   microchip: string;
