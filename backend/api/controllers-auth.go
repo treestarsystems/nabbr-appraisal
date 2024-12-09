@@ -33,11 +33,22 @@ func SignUp(c *gin.Context) {
 	}
 
 	// validate the userPrivilegeLevel
-	if !utils.ValidateUserPrivilegeLevel(c, user.UserPrivilegeLevel) {
+	if !utils.ValidateUserPrivilegeLevel(user.UserPrivilegeLevel) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusBadRequest,
 			"error - SignUp: User privilege level is invalid",
+			[]string{},
+		)
+		c.JSON(http.StatusBadRequest, apiResponse)
+		return
+	}
+
+	if !utils.ValidateRegistrationKey(user.UserPrivilegeLevel, user.RegistrationKey) {
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusBadRequest,
+			"error - SignUp: Registration key is invalid",
 			[]string{},
 		)
 		c.JSON(http.StatusBadRequest, apiResponse)
@@ -154,10 +165,11 @@ func Login(c *gin.Context) {
 	var foundUser utils.User
 
 	if err := c.BindJSON(&user); err != nil {
+		msg := fmt.Sprintf("error - Login: (%v)", err.Error())
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: (%v)", err.Error()),
+			msg,
 			[]string{},
 		)
 		c.JSON(http.StatusBadRequest, apiResponse)
@@ -168,7 +180,7 @@ func Login(c *gin.Context) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: (%v)", err.Error()),
+			"error - Login: User not found",
 			[]string{},
 		)
 		c.JSON(http.StatusInternalServerError, apiResponse)
@@ -180,7 +192,7 @@ func Login(c *gin.Context) {
 		apiResponse := utils.NewAPIResponse(
 			"failure",
 			http.StatusInternalServerError,
-			fmt.Sprintf("error - Login: Verify Password (%v)", msg),
+			msg,
 			[]string{},
 		)
 		c.JSON(http.StatusInternalServerError, apiResponse)

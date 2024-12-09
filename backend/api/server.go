@@ -22,8 +22,8 @@ func StartServer() *gin.Engine {
 	RoutesUser(router)
 	RoutesAppraisal(router)
 
+	log.Printf("Server starting on port :%s\n", os.Getenv("PORT"))
 	router.Run()
-	log.Printf("Server started on port :%s\n", os.Getenv("PORT"))
 
 	return router
 }

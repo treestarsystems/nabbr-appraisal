@@ -1,20 +1,19 @@
-import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import VueSweetalert2 from 'vue-sweetalert2';
+import router from './router/';
+import App from './App.vue';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import './assets/css/bootstrap-icons.min.css';
+import './assets/css/main.min.css';
+import './assets/css/style.css';
+import './assets/css/OverlayScrollbars.min.css';
+import './assets/css/daterange.css';
 
-import "./assets/css/bootstrap-icons.min.css";
-import "./assets/css/main.min.css";
-import "./assets/css/style.css";
-import "./assets/css/OverlayScrollbars.min.css";
-import App from "./App.vue";
-import Register from "./components/Register.vue";
-import Login from "./components/Login.vue";
+// Create Pinia instance
+const pinia = createPinia();
+// Use persisted state with Pinia so our store data will persist even after page refresh
+pinia.use(piniaPluginPersistedstate);
 
-const router = createRouter({
- history: createWebHistory(),
- routes: [
-  { path: "/register", component: Register },
-  { path: "/login", component: Login },
- ],
-});
-
-createApp(App).use(router).mount("#app");
+createApp(App).use(pinia).use(router).use(VueSweetalert2).mount('#app');

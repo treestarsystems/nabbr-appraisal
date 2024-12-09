@@ -15,10 +15,32 @@ import (
 var AuthSecretKey = os.Getenv("AUTH_SECRET_KEY")
 
 // Vvalidate the userPrivilegeLevel
-func ValidateUserPrivilegeLevel(c *gin.Context, userPrivilegeLevel string) bool {
+func ValidateUserPrivilegeLevel(userPrivilegeLevel string) bool {
 	pattern := `^(ADMIN|APPRAISER|PETOWNER)$`
 	matched, _ := regexp.MatchString(pattern, userPrivilegeLevel)
 	return matched
+}
+
+// Vvalidate the userPrivilegeLevel
+func ValidateRegistrationKey(userPrivilegeLevel string, registrationKey string) bool {
+	match := false
+	switch userPrivilegeLevel {
+	case "ADMIN":
+		if registrationKey == os.Getenv("AUTH_REGISTRATION_KEY_ADMIN") {
+			match = true
+		}
+	case "APPRAISER":
+		if registrationKey == os.Getenv("AUTH_REGISTRATION_KEY_APPRAISER") {
+			match = true
+		}
+	case "PETOWNER":
+		if registrationKey == os.Getenv("AUTH_REGISTRATION_KEY_PETOWNER") {
+			match = true
+		}
+	default:
+		match = false
+	}
+	return match
 }
 
 // VerifyPassword checks the input password while verifying it with the passward in the DB.

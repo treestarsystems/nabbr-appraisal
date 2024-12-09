@@ -20,6 +20,7 @@ type User struct {
 	UpdatedAt          time.Time          `bson:"updatedAt" json:"updatedAt"`
 	UserId             string             `bson:"userId" json:"userId"`
 	UserPrivilegeLevel string             `bson:"userPrivilegeLevel" json:"userPrivilegeLevel" validate:"required"`
+	RegistrationKey    string             `bson:"registrationKey" json:"registrationKey" validate:"required"`
 }
 
 type UserLoginResponse struct {
