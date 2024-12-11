@@ -6,7 +6,7 @@ import { useAuthStore } from '../stores/authStore';
 import router from '../router';
 import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
-import { FormDataLoginSubmit } from '../types/formTypes';
+import { FormDataUserBase } from '../types/formTypes';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 
 const authStore = useAuthStore();
@@ -15,14 +15,14 @@ const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
-const formLogin: FormDataLoginSubmit = reactive({
+const formLogin: FormDataUserBase = reactive({
   email: '',
   password: '',
 });
 
 async function submitLoginForm() {
   try {
-    const userLoginFormData: FormDataLoginSubmit = {
+    const userLoginFormData: FormDataUserBase = {
       email: formLogin.email.toLowerCase(),
       password: formLogin.password,
     };
