@@ -21,24 +21,31 @@ export const useAuthStore = defineStore('auth', {
       return true;
     },
     async checkUserPrivilegeLevelAuthorized(path: string) {
+      let isAuthorized: boolean;
       const basePath = path.split('/')[1];
       // If not apart of privileged users then push to unauth page.
       switch (basePath) {
         case 'dashboard':
-          const isAuthorized = this.checkUserPrivilegeLevel(['ADMIN', 'APPRAISER']);
+          isAuthorized = this.checkUserPrivilegeLevel(['ADMIN', 'APPRAISER']);
           if (!isAuthorized) {
             await router.push('/unauthorized');
           }
           return;
         case 'appraisal':
+          isAuthorized = this.checkUserPrivilegeLevel(['ADMIN', 'APPRAISER']);
+          if (!isAuthorized) {
+            await router.push('/unauthorized');
+          }
+          return;
         case 'user':
-
-        case '':
+          isAuthorized = this.checkUserPrivilegeLevel(['ADMIN', 'APPRAISER', 'PETOWNER']);
+          if (!isAuthorized) {
+            await router.push('/unauthorized');
+          }
+          return;
         default:
           return;
       }
-      // if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
-      // return true;
     },
     checkUserIdAuthorized(userId: string): boolean {
       if (this.user?.userId !== userId) return false;

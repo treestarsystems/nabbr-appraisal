@@ -14,12 +14,12 @@ const authStore = useAuthStore();
 onMounted(async () => {
   const swal: any = inject('$swal');
   // Check for unprivileged user
-  const authorizedPrivilegeLevels: string[] = ['ADMIN', 'APPRAISER'];
-  const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
-  if (!isAuthorized) {
-    router.push(`/user/${authStore.getState?.userId}`);
-    SwalToastErrorHelper(swal, 'User Unauthorized ');
-  }
+  // const authorizedPrivilegeLevels: string[] = ['ADMIN', 'APPRAISER'];
+  // const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
+  // if (!isAuthorized) {
+  //   router.push(`/user/${authStore.getState?.userId}`);
+  //   SwalToastErrorHelper(swal, 'User Unauthorized ');
+  // }
   await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
 </script>

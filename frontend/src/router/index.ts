@@ -64,8 +64,8 @@ router.beforeEach(async (to, from, next) => {
     const authenticated = authStore.getState;
     if (authenticated !== null) {
       // User is authenticated, proceed to the route if token is not expired or invalid.
-      await authStore.checkUserPrivilegeLevelAuthorized(to?.path);
       await authStore.checkTokenExpired();
+      await authStore.checkUserPrivilegeLevelAuthorized(to?.path);
       next();
     } else {
       // User is not authenticated, redirect to login
