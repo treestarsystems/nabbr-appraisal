@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { UserState } from '../types/authTypes';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
-import { FormDataUserBase, FormDataUserRegistrationSubmit, FormDataUserRegistrationBase } from '../types/formTypes';
+import { FormDataUserBase, FormDataUserRegistrationBase } from '../types/formTypes';
 import router from '../router';
 
 export const useAuthStore = defineStore('auth', {
