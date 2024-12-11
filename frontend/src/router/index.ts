@@ -6,6 +6,7 @@ import DashboardView from '../views/DashboardView.vue';
 import UserProfileView from '../views/UserProfileView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 import { useAuthStore } from '../stores/authStore';
+import UnAuthorizedView from '../views/UnAuthorizedView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,13 @@ const router = createRouter({
       },
     },
     {
+      path: '/unauthorized',
+      component: UnAuthorizedView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/:catchAll(.*)',
       component: NotFoundView,
       meta: {
@@ -56,6 +64,7 @@ router.beforeEach(async (to, from, next) => {
     const authenticated = authStore.getState;
     if (authenticated !== null) {
       // User is authenticated, proceed to the route if token is not expired or invalid.
+      await authStore.checkUserPrivilegeLevelAuthorized(to?.path);
       await authStore.checkTokenExpired();
       next();
     } else {
