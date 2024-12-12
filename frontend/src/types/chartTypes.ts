@@ -7,7 +7,6 @@ export interface Chart {
 
 export interface MemberInformation {
   name: string;
-  // email: string;
   memberNumber: string;
 }
 

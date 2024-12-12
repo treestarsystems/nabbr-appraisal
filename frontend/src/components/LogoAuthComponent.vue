@@ -1,7 +1,5 @@
 <template>
   <!-- Logo starts -->
-  <a href="/login" class="auth-logo mt-5 mb-3">
-    <!-- <img src="/assets/images/dog.svg" alt="NABBR Appraisal Tool" /> -->
-  </a>
+  <div class="auth-logo mt-5 mb-3"></div>
   <!-- Logo ends -->
 </template>

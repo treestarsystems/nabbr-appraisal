@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { ref, inject, toRaw, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { getAppraisalChartAllHelper } from '../helpers/chartHelper';
 import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
 import { Chart } from '../types/chartTypes';
 
 const swal: any = inject('$swal');
-const route = useRoute();
 const authStore = useAuthStore();
 const chartDataAll = ref<Chart[]>();
 const token = toRaw(authStore.getState)?.token as string;

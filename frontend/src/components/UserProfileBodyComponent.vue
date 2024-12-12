@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { reactive, inject, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { reactive, inject } from 'vue';
 import { UserState } from '../types/authTypes';
 import { FormDataUserProfile } from '../types/formTypes';
 import { useAuthStore } from '../stores/authStore';
