@@ -147,7 +147,7 @@ function updateUserPassword() {
                           <!-- Row starts -->
                           <div class="row gx-3">
                             <div class="col-sm-10 col-12"></div>
-                            <div class="col-sm-2 col-12 mt-5">
+                            <div class="col-sm-2 col-12 mt-2">
                               <!-- Buttons start -->
                               <div class="d-flex gap-2 justify-content-end">
                                 <button @click="updateUserInfo" type="button" class="btn btn-primary">
