@@ -72,7 +72,6 @@ export async function postPutAppraisalChartHelper(
     }
     SwalToastSuccessHelper(swal, `Appraisal Submitted Successfully (${response.payload[0]})`);
     router.go(0);
-    // router.push(`/appraisal/${response.payload[0]}`);
     return;
   } catch (err) {
     SwalToastErrorHelper(swal, err);
