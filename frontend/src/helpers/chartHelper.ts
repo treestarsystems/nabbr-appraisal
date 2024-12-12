@@ -5,6 +5,14 @@ import { SwalToastSuccessHelper, SwalToastErrorHelper } from './sweetalertHelper
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
 import { Chart } from '../types/chartTypes';
 
+/**
+ * Retrieves the appraisal chart template or a specific appraisal chart by id.
+ * @param swal injected sweetalert2 instance
+ * @param token user token
+ * @param appraisalId appraisal id
+ * @returns Promise<Chart | void>
+ */
+
 export async function getAppraisalChartHelper(swal: any, token: string, appraisalId?: string): Promise<Chart | void> {
   try {
     const chartRequest = {
@@ -29,6 +37,13 @@ export async function getAppraisalChartHelper(swal: any, token: string, appraisa
   }
 }
 
+/**
+ * Retrieves all appraisal charts.
+ * @param swal injected sweetalert2 instance
+ * @param token user token
+ * @returns Promise<Chart[] | void>
+ */
+
 export async function getAppraisalChartAllHelper(swal: any, token: string): Promise<Chart[] | void> {
   try {
     const chartRequest = {
@@ -49,6 +64,15 @@ export async function getAppraisalChartAllHelper(swal: any, token: string): Prom
     return;
   }
 }
+
+/**
+ * Sends a POST or PUT request to create or update an appraisal chart.
+ * @param swal injected sweetalert2 instance
+ * @param token user token
+ * @param data api request data
+ * @param appraisalId
+ * @returns Promise<Chart[] | void>
+ */
 
 export async function postPutAppraisalChartHelper(
   swal: any,
