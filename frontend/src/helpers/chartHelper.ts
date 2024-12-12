@@ -7,10 +7,10 @@ import { Chart } from '../types/chartTypes';
 
 /**
  * Retrieves the appraisal chart template or a specific appraisal chart by id.
- * @param swal injected sweetalert2 instance
- * @param token user token
- * @param appraisalId appraisal id
- * @returns Promise<Chart | void>
+ * @param {any} swal injected sweetalert2 instance
+ * @param {string} token user token
+ * @param {string} appraisalId appraisal id
+ * @returns {Promise<Chart | void>}
  */
 
 export async function getAppraisalChartHelper(swal: any, token: string, appraisalId?: string): Promise<Chart | void> {
@@ -39,9 +39,9 @@ export async function getAppraisalChartHelper(swal: any, token: string, appraisa
 
 /**
  * Retrieves all appraisal charts.
- * @param swal injected sweetalert2 instance
- * @param token user token
- * @returns Promise<Chart[] | void>
+ * @param {string} swal injected sweetalert2 instance
+ * @param {string} token user token
+ * @returns {Promise<Chart[] | void>}
  */
 
 export async function getAppraisalChartAllHelper(swal: any, token: string): Promise<Chart[] | void> {
@@ -67,11 +67,11 @@ export async function getAppraisalChartAllHelper(swal: any, token: string): Prom
 
 /**
  * Sends a POST or PUT request to create or update an appraisal chart.
- * @param swal injected sweetalert2 instance
- * @param token user token
- * @param data api request data
- * @param appraisalId
- * @returns Promise<Chart[] | void>
+ * @param {string} swal injected sweetalert2 instance
+ * @param {string} token user token
+ * @param {Chart} data api request data
+ * @param {string} appraisalId
+ * @returns {Promise<Chart[] | void>}
  */
 
 export async function postPutAppraisalChartHelper(
@@ -103,6 +103,11 @@ export async function postPutAppraisalChartHelper(
   }
 }
 
+/**
+ * Generate a unique id for radio inputs.
+ * @param {string[]} string
+ * @returns {void}
+ */
 export function generateRadioIdsHelper(...string: string[]) {
   const id = string.reduce(function (acc, cur) {
     return acc.split(' ').join('-').toLowerCase() + `-${cur.split(' ').join('-').toLowerCase()}`;
@@ -110,6 +115,12 @@ export function generateRadioIdsHelper(...string: string[]) {
   return id;
 }
 
+// TODO: Use the correct type for the characteristic parameter
+/**
+ * Calculate the total score of a characteristic.
+ * @param {any[]} characteristics
+ * @returns {number}
+ */
 export function calculateTotalHelper(characteristics: any[]): number {
   return characteristics.reduce((total, characteristic) => {
     const value = parseInt(characteristic?.score) || 0;
