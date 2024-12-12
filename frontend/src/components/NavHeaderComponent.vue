@@ -39,7 +39,7 @@ onMounted(async () => {
     <!-- App brand start -->
     <div class="app-brand-sm">
       <RouterLink :to="userProfileLink" class="d-lg-none d-md-block">
-        <img src="/dog.svg" class="logo" alt="" />
+        <img src="/assets/images/dog.svg" class="logo" alt="" />
       </RouterLink>
     </div>
     <!-- App brand end -->

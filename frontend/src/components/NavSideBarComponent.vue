@@ -27,7 +27,7 @@ onMounted(async () => {
 
     <!-- Sidebar profile starts -->
     <div class="sidebar-profile">
-      <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
+      <img src="/assets/images/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
       <div class="m-0">
         <p class="m-0">Hello &#128075;</p>
         <h6 class="m-0 text-nowrap">{{ user?.firstName }} {{ user?.lastName }}</h6>
