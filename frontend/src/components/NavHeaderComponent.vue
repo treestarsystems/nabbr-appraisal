@@ -78,7 +78,7 @@ onMounted(async () => {
   <!-- App hero header starts -->
   <div class="app-hero-header d-flex align-items-center">
     <!-- Breadcrumb start -->
-    <ol class="breadcrumb d-none d-lg-flex">
+    <ol class="breadcrumb d-lg-flex">
       <li class="breadcrumb-item">
         <i class="bi bi-house lh-1"></i>
         <RouterLink :to="breadCrumbPageLinkPrevious().link" class="text-decoration-none">{{
