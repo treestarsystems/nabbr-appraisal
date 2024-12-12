@@ -12,10 +12,10 @@ const totalScore = ref(0);
 const swal: any = inject('$swal');
 const route = useRoute();
 const chartData = ref<Chart>();
-provide('chartData', chartData);
-provide('totalScore', totalScore);
 const authStore = useAuthStore();
 const token = toRaw(authStore.getState)?.token as string;
+provide('chartData', chartData);
+provide('totalScore', totalScore);
 
 onMounted(async () => {
   try {

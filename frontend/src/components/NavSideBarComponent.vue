@@ -38,8 +38,9 @@ onMounted(async () => {
     <!-- Sidebar menu starts -->
     <div class="sidebarMenuScroll">
       <ul class="sidebar-menu side-bar-ul">
+        <!-- v-if="authStore.checkUserPrivilegeLevel(['ADMIN'])" -->
         <li
-          v-if="user?.userPrivilegeLevel === 'ADMIN'"
+          v-if="authStore.checkUserPrivilegeLevelAuthorized('/dashboard')"
           class=""
           :class="[isActiveLink('/dashboard') ? 'active current-page' : '']"
         >
@@ -49,7 +50,7 @@ onMounted(async () => {
           </RouterLink>
         </li>
         <li
-          v-if="['ADMIN', 'APPRAISER'].includes(user?.userPrivilegeLevel ?? '')"
+          v-if="authStore.checkUserPrivilegeLevelAuthorized('/appraisal')"
           :class="[isActiveLink('/appraisal') ? 'active current-page' : '']"
         >
           <RouterLink to="/appraisal">

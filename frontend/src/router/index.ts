@@ -44,9 +44,6 @@ const router = createRouter({
     {
       path: '/unauthorized',
       component: UnAuthorizedView,
-      meta: {
-        requiresAuth: true,
-      },
     },
     {
       path: '/:catchAll(.*)',
@@ -65,7 +62,7 @@ router.beforeEach(async (to, from, next) => {
     if (authenticated !== null) {
       // User is authenticated, proceed to the route if token is not expired or invalid.
       await authStore.checkTokenExpired();
-      await authStore.checkUserPrivilegeLevelAuthorized(to?.path);
+      await authStore.checkUserPrivilegeLevelAuthorizedThenRedirect(to?.path);
       next();
     } else {
       // User is not authenticated, redirect to login

@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
       if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
       return true;
     },
-    async checkUserPrivilegeLevelAuthorized(path: string) {
+    checkUserPrivilegeLevelAuthorized(path: string) {
       let authorizedPrivilegeLevels: string[];
       const basePath = path.split('/')[1];
       // If not apart of privileged users then push to unauth page.
@@ -35,7 +35,10 @@ export const useAuthStore = defineStore('auth', {
         default:
           authorizedPrivilegeLevels = [''];
       }
-      const isAuthorized = this.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
+      return this.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
+    },
+    async checkUserPrivilegeLevelAuthorizedThenRedirect(path: string) {
+      const isAuthorized = this.checkUserPrivilegeLevelAuthorized(path);
       if (!isAuthorized) {
         await router.push('/unauthorized');
       }
