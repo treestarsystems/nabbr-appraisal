@@ -7,13 +7,14 @@ import { generateCalendarDateStringHelper } from '../helpers/utilsHelper';
 import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
 import AppraisalBodyChartComponent from './AppraisalBodyChartComponent.vue';
 import { Chart } from '../types/chartTypes';
+import { UserState } from '../types/authTypes';
 
 const totalScore = ref(0);
 const swal: any = inject('$swal');
 const route = useRoute();
 const chartData = ref<Chart>();
 const authStore = useAuthStore();
-const token = toRaw(authStore.getState)?.token as string;
+const token = toRaw(authStore.getState as UserState)?.token as string;
 provide('chartData', chartData);
 provide('totalScore', totalScore);
 

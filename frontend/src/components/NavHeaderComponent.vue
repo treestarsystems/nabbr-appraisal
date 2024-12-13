@@ -3,27 +3,23 @@ import { toRaw, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { RouterLink } from 'vue-router';
-import { hideNavSidebarHelper, breadCrumbPageLinkPreviousHelper } from '../helpers/utilsHelper';
+import {
+  hideNavSidebarHelper,
+  breadCrumbPageLinkPreviousHelper,
+  breadCrumbPageLinkCurrentHelper,
+} from '../helpers/utilsHelper';
+import { UserState } from '../types/authTypes';
 
 const route = useRoute();
 const hideNavSidebarRef = ref(false);
 const authStore = useAuthStore();
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 const userProfileLink = `/user/${user?.userId}`;
 const breadCrumbPageLinkPrevious = () => {
   return breadCrumbPageLinkPreviousHelper(route, authStore);
 };
 const breadCrumbPageLinkCurrent = () => {
-  if (route.path.includes('dashboard')) {
-    return 'Dashboard';
-  }
-  if (route.path.includes('user')) {
-    return `User Profile: ${authStore.getState?.firstName} ${authStore.getState?.lastName}`;
-  }
-  if (route.path.includes('appraisal')) {
-    const breadCrumbAppraisalIdString = route.params.appraisalId ? ` (${route.params.appraisalId})` : '';
-    return `Appraisal${breadCrumbAppraisalIdString}`;
-  }
+  return breadCrumbPageLinkCurrentHelper(route, authStore);
 };
 
 onMounted(async () => {

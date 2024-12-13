@@ -5,13 +5,14 @@ import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import router from '../router';
 import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
+import { UserState } from '../types/authTypes';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
 import { FormDataUserBase } from '../types/formTypes';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
@@ -41,7 +42,7 @@ async function submitLoginForm() {
     SwalToastSuccessHelper(swal, 'Login Successful!');
 
     // Our user state should be defined at this point.
-    const user = authStore.getState;
+    const user = authStore.getState as UserState;
     if (user?.userPrivilegeLevel === 'PETOWNER') {
       await router.push(userProfileLink);
     } else {

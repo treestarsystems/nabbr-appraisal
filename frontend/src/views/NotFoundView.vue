@@ -2,8 +2,9 @@
 import { toRaw } from 'vue';
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
+import { UserState } from '../types/authTypes';
 const authStore = useAuthStore();
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 let link404 = `/user/${user?.userId}`;
 </script>
 

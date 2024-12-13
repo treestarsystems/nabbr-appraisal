@@ -1,6 +1,7 @@
 import { Reactive, Ref } from 'vue';
 import postscribe from 'postscribe';
 import { RouteLocationNormalizedLoadedGeneric } from 'vue-router';
+import { UserState } from '../types/authTypes';
 export function currentYearHelper() {
   return new Date().getFullYear();
 }
@@ -65,7 +66,7 @@ export function hideNavSidebarHelper(
 /**
  * Create a breadcrumb link for the previous page based on the route path and user privilege level
  * @param {RouteLocationNormalizedLoadedGeneric} route vue router route object
- * @param {Ref<boolean, boolean>} hideNavSidebarRef target ref to hide the navigation sidebar
+ * @param {any} authStore auth store object
  * @returns {Record<string, string>} object containing the link and link name
  */
 
@@ -73,10 +74,31 @@ export function breadCrumbPageLinkPreviousHelper(
   route: RouteLocationNormalizedLoadedGeneric,
   authStore: any,
 ): Record<string, string> {
-  const user = authStore.getState;
+  const user = authStore.getState as UserState;
   const returnProfile = { link: `/user/${user?.userId}`, linkName: 'Profile' };
   const returnDashboard = { link: '/dashboard', linkName: 'Dashboard' };
   if (route.path === '/dashboard') return { link: '#', linkName: ' ' };
   if (user?.userPrivilegeLevel === 'ADMIN') return returnDashboard;
   return returnProfile;
+}
+
+/**
+ * Create a breadcrumb link for the previous page based on the route path and user privilege level
+ * @param {RouteLocationNormalizedLoadedGeneric} route vue router route object
+ * @param {Ref<boolean, boolean>} hideNavSidebarRef target ref to hide the navigation sidebar
+ * @returns {string} object containing the link and link name
+ */
+
+export function breadCrumbPageLinkCurrentHelper(route: RouteLocationNormalizedLoadedGeneric, authStore: any): string {
+  if (route.path.includes('dashboard')) {
+    return 'Dashboard';
+  }
+  if (route.path.includes('user')) {
+    return `User Profile: ${authStore.getState?.firstName} ${authStore.getState?.lastName}`;
+  }
+  if (route.path.includes('appraisal')) {
+    const breadCrumbAppraisalIdString = route.params.appraisalId ? ` (${route.params.appraisalId})` : '';
+    return `Appraisal${breadCrumbAppraisalIdString}`;
+  }
+  return 'Lost in the void';
 }

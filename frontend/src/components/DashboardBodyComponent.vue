@@ -5,11 +5,12 @@ import { useAuthStore } from '../stores/authStore';
 import { getAppraisalChartAllHelper } from '../helpers/chartHelper';
 import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
 import { Chart } from '../types/chartTypes';
+import { UserState } from '../types/authTypes';
 
 const swal: any = inject('$swal');
 const authStore = useAuthStore();
 const chartDataAll = ref<Chart[]>();
-const token = toRaw(authStore.getState)?.token as string;
+const token = toRaw(authStore.getState as UserState)?.token as string;
 
 onMounted(async () => {
   try {

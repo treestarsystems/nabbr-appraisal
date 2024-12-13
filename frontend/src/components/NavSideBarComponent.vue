@@ -3,11 +3,12 @@ import { ref, toRaw, onMounted } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { hideNavSidebarHelper } from '../helpers/utilsHelper';
+import { UserState } from '../types/authTypes';
 
 const hideNavSidebarRef = ref(false);
 const route = useRoute();
 const authStore = useAuthStore();
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 const userProfileLink = `/user/${user?.userId}`;
 const isActiveLink = (routePath: string) => {
   return route.path === routePath;

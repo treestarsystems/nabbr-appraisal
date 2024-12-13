@@ -7,6 +7,7 @@ import UserProfileView from '../views/UserProfileView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 import { useAuthStore } from '../stores/authStore';
 import UnAuthorizedView from '../views/UnAuthorizedView.vue';
+import { UserState } from '../types/authTypes';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,7 +67,7 @@ router.beforeEach(async (to, from, next) => {
   try {
     if (to.meta.requiresAuth) {
       const authStore = useAuthStore();
-      const authenticated = authStore.getState;
+      const authenticated = authStore.getState as UserState;
       if (authenticated !== null) {
         // User is authenticated, proceed to the route if token is not expired or invalid.
         await authStore.checkTokenExpired();
