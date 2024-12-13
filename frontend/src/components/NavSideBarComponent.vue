@@ -59,12 +59,12 @@ onMounted(async () => {
             <span class="menu-text">New Appraisal</span>
           </RouterLink>
         </li>
-        <li :class="[isActiveLink(userProfileLink) ? 'active current-page' : '']">
+        <!-- <li :class="[isActiveLink(userProfileLink) ? 'active current-page' : '']">
           <RouterLink :to="userProfileLink">
             <i class="bi bi-person-square"></i>
             <span class="menu-text">Profile</span>
           </RouterLink>
-        </li>
+        </li> -->
         <li>
           <a href="#" @click="authStore.logout">
             <i class="bi bi-escape"></i>
