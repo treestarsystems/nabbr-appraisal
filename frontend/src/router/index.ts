@@ -55,22 +55,34 @@ const router = createRouter({
   ],
 });
 
+/**
+ * Check if route:
+ * 1. Requires authentication
+ * 2. If user is authenticated
+ * 3. If user is authorized
+ * 4. then proceed to the route else redirect.
+ */
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const authStore = useAuthStore();
-    const authenticated = authStore.getState;
-    if (authenticated !== null) {
-      // User is authenticated, proceed to the route if token is not expired or invalid.
-      await authStore.checkTokenExpired();
-      await authStore.checkUserPrivilegeLevelAuthorizedThenRedirect(to?.path);
-      next();
+  try {
+    if (to.meta.requiresAuth) {
+      const authStore = useAuthStore();
+      const authenticated = authStore.getState;
+      if (authenticated !== null) {
+        // User is authenticated, proceed to the route if token is not expired or invalid.
+        await authStore.checkTokenExpired();
+        await authStore.checkUserPrivilegeLevelAuthorizedThenRedirect(to?.path);
+        if (to?.path.includes('user')) await authStore.checkUserIdAuthorized(to?.path);
+        next();
+      } else {
+        // User is not authenticated, redirect to login
+        next('/login');
+      }
     } else {
-      // User is not authenticated, redirect to login
-      next('/login');
+      // Non-protected route, allow access
+      next();
     }
-  } else {
-    // Non-protected route, allow access
-    next();
+  } catch (error) {
+    console.error(error);
   }
 });
 

@@ -16,11 +16,23 @@ export const useAuthStore = defineStore('auth', {
     },
   },
   actions: {
+    /**
+     * Check if user has the required privilege level.
+     * @param {string[]} authorizedPrivilegeLevel array of authorized privilege levels. Ex: ['ADMIN', 'APPRAISER']
+     * @returns {boolean}
+     */
+
     checkUserPrivilegeLevel(authorizedPrivilegeLevel: string[]): boolean {
       if (!authorizedPrivilegeLevel.includes(this.user?.userPrivilegeLevel || '')) return false;
       return true;
     },
-    checkUserPrivilegeLevelAuthorized(path: string) {
+    /**
+     * Check if user has the required privilege level.
+     * @param {string} path path of the current route.
+     * @returns {boolean}
+     */
+
+    checkUserPrivilegeLevelAuthorized(path: string): boolean {
       let authorizedPrivilegeLevels: string[];
       const basePath = path.split('/')[1];
       // If not apart of privileged users then push to unauth page.
@@ -37,16 +49,43 @@ export const useAuthStore = defineStore('auth', {
       }
       return this.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
     },
-    async checkUserPrivilegeLevelAuthorizedThenRedirect(path: string) {
-      const isAuthorized = this.checkUserPrivilegeLevelAuthorized(path);
-      if (!isAuthorized) {
-        await router.push('/unauthorized');
+    /**
+     * Check if user has the required privilege level and redirect to the /unauthorized view if unauthorized.
+     * @param {string} path path of the current route.
+     * @returns {Promise<void>}
+     */
+
+    async checkUserPrivilegeLevelAuthorizedThenRedirect(path: string): Promise<void> {
+      try {
+        const isAuthorized = this.checkUserPrivilegeLevelAuthorized(path);
+        if (!isAuthorized) {
+          await router.push('/unauthorized');
+        }
+      } catch (err: any) {
+        console.error(err);
       }
     },
-    checkUserIdAuthorized(userId: string): boolean {
-      if (this.user?.userId !== userId) return false;
-      return true;
+    /**
+     * Check if the userId is authorized to view the page if not redirect to /unauthorized. Usually used in the user profile page.
+     * @param path path of the current route.
+     * @returns {Promise<void>}
+     */
+
+    async checkUserIdAuthorized(path: string): Promise<void> {
+      try {
+        const userIdFromPath = path.split('/')[2];
+        if (this.user?.userId !== userIdFromPath) {
+          await router.push('/unauthorized');
+        }
+      } catch (err: any) {
+        console.error(err);
+      }
     },
+    /**
+     * Check if the token is expired or invalid and redirect to /login if expired or invalid.
+     * @returns {Promise<void>}
+     */
+
     async checkTokenExpired() {
       const errMsg = 'Invalid/Expired Token. Please Login.';
       try {
@@ -67,12 +106,35 @@ export const useAuthStore = defineStore('auth', {
         // return;
       }
     },
+    /**
+     * Register a new user.
+     * @param {FormDataUserRegistrationBase} userRegistrationFormData
+     * @returns {Promise<ResponseObjectDefaultInterface>}
+     */
+
     async register(userRegistrationFormData: FormDataUserRegistrationBase): Promise<ResponseObjectDefaultInterface> {
-      const apiResponse: ResponseObjectDefaultInterface = (
-        await axios.post('/api/v1/auth/signup', userRegistrationFormData)
-      ).data;
-      return apiResponse;
+      try {
+        const apiResponse: ResponseObjectDefaultInterface = (
+          await axios.post('/api/v1/auth/signup', userRegistrationFormData)
+        ).data;
+        return apiResponse;
+      } catch (err: any) {
+        console.error(err);
+        const errResponse: ResponseObjectDefaultInterface = {
+          status: 'failure',
+          httpStatus: 400,
+          message: err,
+          payload: [],
+        };
+        return errResponse;
+      }
     },
+    /**
+     * Login a user.
+     * @param {FormDataUserBase} userLoginFormData
+     * @returns {Promise<ResponseObjectDefaultInterface>}
+     */
+
     async login(userLoginFormData: FormDataUserBase): Promise<ResponseObjectDefaultInterface> {
       try {
         const apiResponse: ResponseObjectDefaultInterface = (await axios.post('/api/v1/auth/login', userLoginFormData))
@@ -82,17 +144,30 @@ export const useAuthStore = defineStore('auth', {
         }
         return apiResponse;
       } catch (err: any) {
-        return {
+        console.error(err);
+        const errResponse: ResponseObjectDefaultInterface = {
           status: 'failure',
           httpStatus: 400,
           message: err,
           payload: [],
         };
+        return errResponse;
       }
     },
-    async logout() {
-      this.user = null;
-      await router.push('/login');
+    /**
+     * Logout a user.
+     * @returns {Promise<void>}
+     */
+
+    async logout(): Promise<void> {
+      try {
+        this.user = null;
+        await router.push('/login');
+      } catch (err: any) {
+        console.error(err);
+        // This seems redundant but safe.
+        await router.push('/login');
+      }
     },
   },
   persist: true,

@@ -1,3 +1,5 @@
+// TODO: Check to see if there is a better way to do this that uses webpack/vue-bundler
+
 export const thirdPartyJSFilePathsBase = [
   '/assets/js/jquery.min.js',
   '/assets/js/bootstrap.bundle.min.js',

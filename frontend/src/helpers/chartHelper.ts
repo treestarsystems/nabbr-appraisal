@@ -3,13 +3,13 @@ import axios from 'axios';
 import router from '../router';
 import { SwalToastSuccessHelper, SwalToastErrorHelper } from './sweetalertHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
-import { Chart } from '../types/chartTypes';
+import { Chart, Characteristic } from '../types/chartTypes';
 
 /**
  * Retrieves the appraisal chart template or a specific appraisal chart by id.
  * @param {any} swal injected sweetalert2 instance
  * @param {string} token user token
- * @param {string} appraisalId appraisal id
+ * @param {string} appraisalId appraisal id that is provided by the backend when creating a new appraisal
  * @returns {Promise<Chart | void>}
  */
 
@@ -39,7 +39,7 @@ export async function getAppraisalChartHelper(swal: any, token: string, appraisa
 
 /**
  * Retrieves all appraisal charts.
- * @param {string} swal injected sweetalert2 instance
+ * @param {any} swal injected sweetalert2 instance
  * @param {string} token user token
  * @returns {Promise<Chart[] | void>}
  */
@@ -67,17 +67,17 @@ export async function getAppraisalChartAllHelper(swal: any, token: string): Prom
 
 /**
  * Sends a POST or PUT request to create or update an appraisal chart.
- * @param {string} swal injected sweetalert2 instance
+ * @param {any} swal injected sweetalert2 instance
  * @param {string} token user token
- * @param {Chart} data api request data
- * @param {string} appraisalId
- * @returns {Promise<Chart[] | void>}
+ * @param {Chart} chartData api request data
+ * @param {string} appraisalId appraisal id that is provided by the backend when creating a new appraisal
+ * @returns {Promise<void>}
  */
 
 export async function postPutAppraisalChartHelper(
   swal: any,
   token: string,
-  data: Chart,
+  chartData: Chart,
   appraisalId?: string,
 ): Promise<void> {
   try {
@@ -87,7 +87,7 @@ export async function postPutAppraisalChartHelper(
       headers: {
         token: token,
       },
-      data: data,
+      data: chartData,
     };
     const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
     if (response.httpStatus > 299) {
@@ -105,34 +105,45 @@ export async function postPutAppraisalChartHelper(
 
 /**
  * Generate a unique id for radio inputs.
- * @param {string[]} string
- * @returns {void}
+ * @param {string[]} string strings to concatenate
+ * @returns {string} concatenated string with hyphens
  */
-export function generateRadioIdsHelper(...string: string[]) {
+export function generateRadioIdsHelper(...string: string[]): string {
   const id = string.reduce(function (acc, cur) {
     return acc.split(' ').join('-').toLowerCase() + `-${cur.split(' ').join('-').toLowerCase()}`;
   });
   return id;
 }
 
-// TODO: Use the correct type for the characteristic parameter
 /**
  * Calculate the total score of a characteristic.
- * @param {any[]} characteristics
- * @returns {number}
+ * @param {Characteristic[]} characteristics array of characteristics
+ * @returns {number} total score
  */
-export function calculateTotalHelper(characteristics: any[]): number {
+export function calculateTotalHelper(characteristics: Characteristic[]): number {
   return characteristics.reduce((total, characteristic) => {
     const value = parseInt(characteristic?.score) || 0;
     return total + value;
   }, 0);
 }
 
-export function allRadiosFilledHelper(characteristic: any[]): boolean {
+/**
+ * Check if all radio inputs are filled.
+ * @param {Characteristic[]} characteristic array of characteristics
+ * @returns {boolean} true if all radios are filled
+ */
+
+export function allRadiosFilledHelper(characteristic: Characteristic[]): boolean {
   return characteristic.every(char => char.score !== undefined && char.score !== null && char.score !== 'nil');
 }
 
-export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number, number>) {
+/**
+ * Update the total score of a characteristic.
+ * @param {any} document document object from the browser
+ * @param {Ref<number, number>} totalScoreRef total score reference
+ * @returns {void}
+ */
+export function updateTotalScoreHelper(document: any, totalScoreRef: Ref<number, number>): void {
   const rows = document.querySelectorAll('tbody tr');
   let total = 0;
   for (const row of rows) {
