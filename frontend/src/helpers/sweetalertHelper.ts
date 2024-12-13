@@ -81,37 +81,30 @@ export function SwalToastErrorHelper(swal: any, message: any): void {
 export function SwalConfirmationDeleteHelper(swal: any, message: any): void {
   const swalWithBootstrapButtons = swal.mixin({
     customClass: {
-      confirmButton: 'btn btn-success',
-      cancelButton: 'btn btn-danger',
+      confirmButton: 'btn btn-success m-3',
+      cancelButton: 'btn btn-danger m-3',
     },
     buttonsStyling: false,
   });
   swalWithBootstrapButtons
     .fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'error',
+      text: message,
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Cancel!',
       cancelButtonText: 'Delete',
-      reverseButtons: true,
+      confirmButtonText: 'Cancel',
+      allowOutsideClick: false,
     })
     .then((result: any) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire({
-          title: 'Deleted!',
-          text: 'Your file has been deleted.',
-          icon: 'success',
-        });
-      } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire({
-          title: 'Cancelled',
-          text: 'Your imaginary file is safe :)',
-          icon: 'error',
-        });
+        result.dismiss === swal.DismissReason.cancel;
+        return;
       }
+      swalWithBootstrapButtons.fire({
+        title: 'Appraisal Deleted!',
+        icon: 'success',
+      });
+      return;
     });
 }

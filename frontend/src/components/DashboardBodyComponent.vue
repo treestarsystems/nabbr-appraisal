@@ -12,8 +12,8 @@ const authStore = useAuthStore();
 const chartDataAll = ref<Chart[]>();
 const token = toRaw(authStore.getState as UserState)?.token as string;
 
-function deleteAppraisal(appraisalId: string) {
-  SwalConfirmationDeleteHelper(swal, 'appraisal');
+function deleteAppraisal(appraisalId: string, message: string) {
+  SwalConfirmationDeleteHelper(swal, message);
 }
 onMounted(async () => {
   try {
@@ -83,7 +83,15 @@ onMounted(async () => {
                       <td class="align-middle">{{ chart.petInformation.dnaNumber }}</td>
                       <td class="align-middle">
                         <div class="d-flex justify-content-center">
-                          <i @click="deleteAppraisal(chart.appraisalId)" class="bi bi-trash fs-4 text-danger"></i>
+                          <i
+                            @click="
+                              deleteAppraisal(
+                                chart.appraisalId,
+                                `Delete Appraisal for ${chart.memberInformation.name}'s dog ${chart.petInformation.name}`,
+                              )
+                            "
+                            class="bi bi-trash fs-4 text-danger"
+                          ></i>
                         </div>
                       </td>
                     </tr>
