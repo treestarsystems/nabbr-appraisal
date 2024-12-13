@@ -1,3 +1,9 @@
+/**
+ * @param {any} swal sweetalert2 instance
+ * @param {any} message can be err object or string
+ * @returns {void}
+ */
+
 export function SwalToastSuccessHelper(swal: any, message: any): void {
   swal
     .mixin({
@@ -16,6 +22,12 @@ export function SwalToastSuccessHelper(swal: any, message: any): void {
     });
 }
 
+/**
+ * @param {any} swal sweetalert2 instance
+ * @param {any} message can be err object or string
+ * @returns {void}
+ */
+
 export function SwalToastWarnHelper(swal: any, message: any): void {
   swal
     .mixin({
@@ -33,6 +45,12 @@ export function SwalToastWarnHelper(swal: any, message: any): void {
       title: message,
     });
 }
+
+/**
+ * @param {any} swal sweetalert2 instance
+ * @param {any} message can be err object or string
+ * @returns {void}
+ */
 
 export function SwalToastErrorHelper(swal: any, message: any): void {
   swal

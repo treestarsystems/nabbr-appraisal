@@ -3,18 +3,23 @@ import { toRaw, ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { RouterLink } from 'vue-router';
-import { hideNavSidebarHelper, breadCrumbPageLinkPreviousHelper } from '../helpers/utilsHelper';
+import {
+  hideNavSidebarHelper,
+  breadCrumbPageLinkPreviousHelper,
+  breadCrumbPageLinkCurrentHelper,
+} from '../helpers/utilsHelper';
+import { UserState } from '../types/authTypes';
 
-defineProps<{
-  breadCrumbPageTitleCurrent?: String;
-}>();
 const route = useRoute();
 const hideNavSidebarRef = ref(false);
 const authStore = useAuthStore();
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 const userProfileLink = `/user/${user?.userId}`;
 const breadCrumbPageLinkPrevious = () => {
   return breadCrumbPageLinkPreviousHelper(route, authStore);
+};
+const breadCrumbPageLinkCurrent = () => {
+  return breadCrumbPageLinkCurrentHelper(route, authStore);
 };
 
 onMounted(async () => {
@@ -39,7 +44,7 @@ onMounted(async () => {
     <!-- App brand start -->
     <div class="app-brand-sm">
       <RouterLink :to="userProfileLink" class="d-lg-none d-md-block">
-        <img src="/dog.svg" class="logo" alt="" />
+        <img src="/assets/images/dog.svg" class="logo" alt="" />
       </RouterLink>
     </div>
     <!-- App brand end -->
@@ -61,7 +66,7 @@ onMounted(async () => {
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end">
-          <RouterLink class="dropdown-item d-flex align-items-center" :to="`/user/${user?.userId}`"
+          <RouterLink class="dropdown-item d-flex align-items-center" :to="userProfileLink"
             ><i class="bi bi-person fs-4 me-2"></i>Profile</RouterLink
           >
           <a href="#" class="dropdown-item d-flex align-items-center" @click="authStore.logout">
@@ -78,7 +83,7 @@ onMounted(async () => {
   <!-- App hero header starts -->
   <div class="app-hero-header d-flex align-items-center">
     <!-- Breadcrumb start -->
-    <ol class="breadcrumb d-none d-lg-flex">
+    <ol class="breadcrumb d-lg-flex">
       <li class="breadcrumb-item">
         <i class="bi bi-house lh-1"></i>
         <RouterLink :to="breadCrumbPageLinkPrevious().link" class="text-decoration-none">{{
@@ -86,7 +91,7 @@ onMounted(async () => {
         }}</RouterLink>
       </li>
       <li class="breadcrumb-item" aria-current="page">
-        {{ breadCrumbPageTitleCurrent }}
+        {{ breadCrumbPageLinkCurrent() }}
       </li>
     </ol>
     <!-- Breadcrumb end -->

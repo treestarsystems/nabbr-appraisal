@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { onMounted, inject } from 'vue';
-import router from '../router';
-import { useAuthStore } from '../stores/authStore';
-import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
+import { onMounted } from 'vue';
 import { loadThirdPartyJSHelper } from '../helpers/utilsHelper';
 import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesListHelper';
 import DashboardBodyComponent from '../components/DashboardBodyComponent.vue';
@@ -10,16 +7,7 @@ import NavSideBarComponent from '../components/NavSideBarComponent.vue';
 import NavHeaderComponent from '../components/NavHeaderComponent.vue';
 import FooterComponent from '../components/FooterComponent.vue';
 
-const authStore = useAuthStore();
 onMounted(async () => {
-  const swal: any = inject('$swal');
-  // Check for unprivileged user
-  const authorizedPrivilegeLevels: string[] = ['ADMIN', 'APPRAISER'];
-  const isAuthorized = authStore.checkUserPrivilegeLevel(authorizedPrivilegeLevels);
-  if (!isAuthorized) {
-    router.push(`/user/${authStore.getState?.userId}`);
-    SwalToastErrorHelper(swal, 'User Unauthorized ');
-  }
   await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
 </script>
@@ -32,7 +20,7 @@ onMounted(async () => {
       <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeaderComponent breadCrumbPageTitleCurrent="Dashboard" />
+        <NavHeaderComponent />
         <DashboardBodyComponent />
         <FooterComponent />
       </div>

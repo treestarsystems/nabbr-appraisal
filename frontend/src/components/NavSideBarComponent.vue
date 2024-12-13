@@ -3,11 +3,12 @@ import { ref, toRaw, onMounted } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
 import { hideNavSidebarHelper } from '../helpers/utilsHelper';
+import { UserState } from '../types/authTypes';
 
 const hideNavSidebarRef = ref(false);
 const route = useRoute();
 const authStore = useAuthStore();
-const user = toRaw(authStore.getState);
+const user = toRaw(authStore.getState as UserState);
 const userProfileLink = `/user/${user?.userId}`;
 const isActiveLink = (routePath: string) => {
   return route.path === routePath;
@@ -27,7 +28,7 @@ onMounted(async () => {
 
     <!-- Sidebar profile starts -->
     <div class="sidebar-profile">
-      <img src="/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
+      <img src="/assets/images/dog.svg" class="img-3x me-3 rounded-3" alt="NABBR Appraisal Tool" />
       <div class="m-0">
         <p class="m-0">Hello &#128075;</p>
         <h6 class="m-0 text-nowrap">{{ user?.firstName }} {{ user?.lastName }}</h6>
@@ -38,8 +39,9 @@ onMounted(async () => {
     <!-- Sidebar menu starts -->
     <div class="sidebarMenuScroll">
       <ul class="sidebar-menu side-bar-ul">
+        <!-- v-if="authStore.checkUserPrivilegeLevel(['ADMIN'])" -->
         <li
-          v-if="user?.userPrivilegeLevel === 'ADMIN'"
+          v-if="authStore.checkUserPrivilegeLevelAuthorized('/dashboard')"
           class=""
           :class="[isActiveLink('/dashboard') ? 'active current-page' : '']"
         >
@@ -49,7 +51,7 @@ onMounted(async () => {
           </RouterLink>
         </li>
         <li
-          v-if="['ADMIN', 'APPRAISER'].includes(user?.userPrivilegeLevel ?? '')"
+          v-if="authStore.checkUserPrivilegeLevelAuthorized('/appraisal')"
           :class="[isActiveLink('/appraisal') ? 'active current-page' : '']"
         >
           <RouterLink to="/appraisal">
@@ -57,12 +59,12 @@ onMounted(async () => {
             <span class="menu-text">New Appraisal</span>
           </RouterLink>
         </li>
-        <li :class="[isActiveLink(userProfileLink) ? 'active current-page' : '']">
+        <!-- <li :class="[isActiveLink(userProfileLink) ? 'active current-page' : '']">
           <RouterLink :to="userProfileLink">
             <i class="bi bi-person-square"></i>
             <span class="menu-text">Profile</span>
           </RouterLink>
-        </li>
+        </li> -->
         <li>
           <a href="#" @click="authStore.logout">
             <i class="bi bi-escape"></i>

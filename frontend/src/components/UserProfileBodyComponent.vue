@@ -1,4 +1,38 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { reactive, inject } from 'vue';
+import { UserState } from '../types/authTypes';
+import { FormDataUserProfile } from '../types/formTypes';
+import { useAuthStore } from '../stores/authStore';
+import { SwalToastErrorHelper } from '../helpers/sweetalertHelper';
+
+const swal: any = inject('$swal');
+const authStore = useAuthStore();
+const user = authStore.getState as UserState;
+const formProfile: FormDataUserProfile = reactive({
+  firstName: user?.firstName,
+  lastName: user?.lastName,
+  phone: user?.phone,
+  password: '',
+  confirmPassword: '',
+  oldPassword: '',
+});
+
+function updateUserInfo() {
+  try {
+    throw 'test';
+  } catch (err) {
+    SwalToastErrorHelper(swal, err);
+  }
+}
+
+function updateUserPassword() {
+  try {
+    throw 'updateUserPassword';
+  } catch (err) {
+    SwalToastErrorHelper(swal, err);
+  }
+}
+</script>
 
 <template>
   <!-- App body starts -->
@@ -27,37 +61,13 @@
                 <li class="nav-item" role="presentation">
                   <a
                     class="nav-link"
-                    id="tab-twoA"
-                    data-bs-toggle="tab"
-                    href="#twoA"
-                    role="tab"
-                    aria-controls="twoA"
-                    aria-selected="false"
-                    ><i class="bi bi-info-circle me-2"></i>Notifications</a
-                  >
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a
-                    class="nav-link"
-                    id="tab-threeA"
-                    data-bs-toggle="tab"
-                    href="#threeA"
-                    role="tab"
-                    aria-controls="threeA"
-                    aria-selected="false"
-                    ><i class="bi bi-credit-card-2-front me-2"></i>Credit Cards</a
-                  >
-                </li>
-                <li class="nav-item" role="presentation">
-                  <a
-                    class="nav-link"
                     id="tab-fourA"
                     data-bs-toggle="tab"
                     href="#fourA"
                     role="tab"
                     aria-controls="fourA"
                     aria-selected="false"
-                    ><i class="bi bi-eye-slash me-2"></i>Reset Password</a
+                    ><i class="bi bi-eye-slash me-2"></i>Update Password</a
                   >
                 </li>
               </ul>
@@ -73,272 +83,81 @@
                         <div class="card-body">
                           <!-- Row starts -->
                           <div class="row gx-3">
-                            <div class="col-sm-3 col-12">
+                            <div class="col-sm-4 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="fullName" class="form-label">Full Name</label>
+                                <label for="firstName" class="form-label">First Name</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="fullName" placeholder="Full Name" />
-                                </div>
-                              </div>
-                              <!-- Form field end -->
-                            </div>
-                            <div class="col-sm-3 col-12">
-                              <!-- Form field start -->
-                              <div class="mb-3">
-                                <label for="yourEmail" class="form-label">Email</label>
-                                <div class="input-group">
-                                  <span class="input-group-text">
-                                    <i class="bi bi-envelope"></i>
-                                  </span>
                                   <input
-                                    type="email"
+                                    v-model="formProfile.firstName"
+                                    type="text"
                                     class="form-control"
-                                    id="yourEmail"
-                                    placeholder="Email ID"
-                                    value="info@email.com"
+                                    id="firstName"
+                                    placeholder="First Name"
                                   />
                                 </div>
                               </div>
                               <!-- Form field end -->
                             </div>
-                            <div class="col-sm-3 col-12">
+                            <div class="col-sm-4 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="contactNumber" class="form-label">Contact</label>
+                                <label for="lastName" class="form-label">Last Name</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
-                                    <i class="bi bi-phone"></i>
+                                    <i class="bi bi-person"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="contactNumber" placeholder="Contact" />
+                                  <input
+                                    v-model="formProfile.lastName"
+                                    type="text"
+                                    class="form-control"
+                                    id="lastName"
+                                    placeholder="Last Name"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
                             </div>
-                            <div class="col-sm-3 col-12">
+                            <div class="col-sm-4 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="birthDay" class="form-label">DOB</label>
+                                <label for="phone" class="form-label">Phone Number</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
-                                    <i class="bi bi-calendar4"></i>
+                                    <i class="bi bi-123"></i>
                                   </span>
-                                  <input type="text" class="form-control" id="birthDay" placeholder="" />
-                                </div>
-                              </div>
-                              <!-- Form field end -->
-                            </div>
-                            <div class="col-12">
-                              <!-- Form field start -->
-                              <div class="m-0">
-                                <label class="form-label" for="abt">About</label>
-                                <div class="input-group">
-                                  <span class="input-group-text">
-                                    <i class="bi bi-filter-circle"></i>
-                                  </span>
-                                  <textarea class="form-control" id="abt" rows="4"></textarea>
+                                  <input
+                                    v-model="formProfile.phone"
+                                    required
+                                    type="tel"
+                                    id="phone"
+                                    class="form-control"
+                                    placeholder="Enter your phone number"
+                                    pattern="[0-9]{10}"
+                                  />
                                 </div>
                               </div>
                               <!-- Form field end -->
                             </div>
                           </div>
                           <!-- Row ends -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Row ends -->
-                </div>
-                <div class="tab-pane fade" id="twoA" role="tabpanel">
-                  <!-- Row starts -->
-                  <div class="row gx-5 align-items-center">
-                    <div class="col-sm-4 col-12">
-                      <div class="p-3">
-                        <img src="/assets/images/notifications.svg" alt="Notifications" class="img-fluid" />
-                      </div>
-                    </div>
-                    <div class="col-sm-4 col-12">
-                      <!-- List group start -->
-                      <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Desktop Notifications
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchOne" checked />
+                          <!-- Row starts -->
+                          <div class="row gx-3">
+                            <div class="col-sm-10 col-12"></div>
+                            <div class="col-sm-2 col-12 mt-2">
+                              <!-- Buttons start -->
+                              <div class="d-flex gap-2 justify-content-end">
+                                <button @click="updateUserInfo" type="button" class="btn btn-primary">
+                                  Update User Details
+                                </button>
+                              </div>
+                              <!-- Buttons end -->
+                            </div>
                           </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Email Notifications
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchTwo" checked />
-                          </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Chat Notifications
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchThree" checked />
-                          </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          New Message
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchFour" />
-                          </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          New Follower
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchFive" />
-                          </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          New Review
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchSix" />
-                          </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                          New Order
-                          <div class="form-check form-switch m-0">
-                            <input class="form-check-input" type="checkbox" role="switch" id="switchSeven" />
-                          </div>
-                        </li>
-                      </ul>
-                      <!-- List group end -->
-                    </div>
-                  </div>
-                  <!-- Row ends -->
-                </div>
-                <div class="tab-pane fade" id="threeA" role="tabpanel">
-                  <!-- Row starts -->
-                  <div class="row gx-3">
-                    <div class="col-12">
-                      <div class="table-outer mb-3">
-                        <div class="table-responsive">
-                          <table class="table truncate align-middle m-0">
-                            <thead>
-                              <tr>
-                                <th>Bank Name</th>
-                                <th>Card Number</th>
-                                <th>Card type</th>
-                                <th>Expiry Date</th>
-                                <th>Credit Balance</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Discover It Cash Back</td>
-                                <td>
-                                  <span class="badge bg-primary text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Visa</td>
-                                <td>20/10/2026</td>
-                                <td>$100000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      role="switch"
-                                      id="cardActive"
-                                      checked
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Capital One Quicksilver Card</td>
-                                <td>
-                                  <span class="badge bg-success text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Master</td>
-                                <td>02/24/2028</td>
-                                <td>$150000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      role="switch"
-                                      id="cardActive2"
-                                      checked
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bank of America Rewards Card</td>
-                                <td>
-                                  <span class="badge bg-warning text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Visa</td>
-                                <td>05/09/2028</td>
-                                <td>$50000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      role="switch"
-                                      id="cardActive3"
-                                      checked
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Chase Freedom Unlimited</td>
-                                <td>
-                                  <span class="badge bg-danger text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Discover</td>
-                                <td>08/20/2027</td>
-                                <td>$100000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input
-                                      class="form-check-input"
-                                      type="checkbox"
-                                      role="switch"
-                                      id="cardActive4"
-                                      checked
-                                    />
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Blue Cash Everyday Card</td>
-                                <td>
-                                  <span class="badge bg-secondary text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Visa</td>
-                                <td>24/10/2029</td>
-                                <td>$90000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="cardActive5" />
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Wells Fargo Active Card</td>
-                                <td>
-                                  <span class="badge bg-info text-white">0000 0000 0000 0000</span>
-                                </td>
-                                <td>Visa</td>
-                                <td>25/05/2030</td>
-                                <td>$75000</td>
-                                <td>
-                                  <div class="form-check form-switch m-0">
-                                    <input class="form-check-input" type="checkbox" role="switch" id="cardActive6" />
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          <!-- Row ends -->
                         </div>
                       </div>
                     </div>
@@ -363,7 +182,7 @@
                             <div class="input-group">
                               <input
                                 type="password"
-                                id="currentPwd"
+                                id="password"
                                 placeholder="Enter Current password"
                                 class="form-control"
                               />
@@ -382,7 +201,7 @@
                                 type="password"
                                 id="newPwd"
                                 class="form-control"
-                                placeholder="Your password must be 8-20 characters long."
+                                placeholder="Password must be 8-64 characters."
                               />
                               <button class="btn btn-outline-secondary" type="button">
                                 <i class="bi bi-eye"></i>
@@ -398,7 +217,7 @@
                               <input
                                 type="password"
                                 id="confNewPwd"
-                                placeholder="Confirm new password"
+                                placeholder="Password must be 8-64 characters."
                                 class="form-control"
                               />
                               <button class="btn btn-outline-secondary" type="button">
@@ -411,18 +230,25 @@
                     </div>
                   </div>
                   <!-- Row ends -->
+                  <!-- Row starts -->
+                  <div class="row gx-3">
+                    <div class="col-sm-10 col-12"></div>
+                    <div class="col-sm-2 col-12 mt-1">
+                      <!-- Buttons start -->
+                      <div class="d-flex gap-2 justify-content-end">
+                        <button @click="updateUserPassword" type="button" class="btn btn-primary">
+                          Update Password
+                        </button>
+                      </div>
+                      <!-- Buttons end -->
+                    </div>
+                  </div>
+                  <!-- Row ends -->
                 </div>
               </div>
               <!-- Tab content end -->
             </div>
             <!-- Custom tabs end -->
-
-            <!-- Buttons start -->
-            <div class="d-flex gap-2 justify-content-end">
-              <button type="button" class="btn btn-outline-secondary">Cancel</button>
-              <button type="button" class="btn btn-primary">Update</button>
-            </div>
-            <!-- Buttons end -->
           </div>
         </div>
       </div>

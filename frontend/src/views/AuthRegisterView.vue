@@ -6,14 +6,14 @@ import { useAuthStore } from '../stores/authStore';
 import router from '../router';
 import { formValidationAreAllFieldsFilledHelper } from '../helpers/utilsHelper';
 import { ResponseObjectDefaultInterface } from '../types/generalTypes';
-import { FormDataRegistration, FormDataRegistrationSubmit } from '../types/formTypes';
+import { FormDataUserRegistrationBase, FormDataUserRegistrationSubmit } from '../types/formTypes';
 import { SwalToastErrorHelper, SwalToastSuccessHelper } from '../helpers/sweetalertHelper';
 
 const authStore = useAuthStore();
 const swal: any = inject('$swal');
 let wasValidated = ref('');
 
-const formRegister: FormDataRegistration = reactive({
+const formRegister: FormDataUserRegistrationSubmit = reactive({
   firstName: '',
   lastName: '',
   email: '',
@@ -26,7 +26,7 @@ const formRegister: FormDataRegistration = reactive({
 
 async function submitRegistrationForm() {
   try {
-    const userRegistrationFormData: FormDataRegistrationSubmit = {
+    const userRegistrationFormData: FormDataUserRegistrationBase = {
       firstName: formRegister.firstName,
       lastName: formRegister.lastName,
       email: formRegister.email.toLowerCase(),
