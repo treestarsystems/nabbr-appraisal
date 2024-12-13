@@ -5,9 +5,6 @@ import { useAuthStore } from '../stores/authStore';
 import { RouterLink } from 'vue-router';
 import { hideNavSidebarHelper, breadCrumbPageLinkPreviousHelper } from '../helpers/utilsHelper';
 
-defineProps<{
-  breadCrumbPageTitleCurrent?: String;
-}>();
 const route = useRoute();
 const hideNavSidebarRef = ref(false);
 const authStore = useAuthStore();
@@ -15,6 +12,18 @@ const user = toRaw(authStore.getState);
 const userProfileLink = `/user/${user?.userId}`;
 const breadCrumbPageLinkPrevious = () => {
   return breadCrumbPageLinkPreviousHelper(route, authStore);
+};
+const breadCrumbPageLinkCurrent = () => {
+  if (route.path.includes('dashboard')) {
+    return 'Dashboard';
+  }
+  if (route.path.includes('user')) {
+    return `User Profile: ${authStore.getState?.firstName} ${authStore.getState?.lastName}`;
+  }
+  if (route.path.includes('appraisal')) {
+    const breadCrumbAppraisalIdString = route.params.appraisalId ? ` (${route.params.appraisalId})` : '';
+    return `Appraisal${breadCrumbAppraisalIdString}`;
+  }
 };
 
 onMounted(async () => {
@@ -61,7 +70,7 @@ onMounted(async () => {
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end">
-          <RouterLink class="dropdown-item d-flex align-items-center" :to="`/user/${user?.userId}`"
+          <RouterLink class="dropdown-item d-flex align-items-center" :to="userProfileLink"
             ><i class="bi bi-person fs-4 me-2"></i>Profile</RouterLink
           >
           <a href="#" class="dropdown-item d-flex align-items-center" @click="authStore.logout">
@@ -86,7 +95,7 @@ onMounted(async () => {
         }}</RouterLink>
       </li>
       <li class="breadcrumb-item" aria-current="page">
-        {{ breadCrumbPageTitleCurrent }}
+        {{ breadCrumbPageLinkCurrent() }}
       </li>
     </ol>
     <!-- Breadcrumb end -->

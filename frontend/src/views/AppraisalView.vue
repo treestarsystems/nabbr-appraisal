@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { loadThirdPartyJSHelper } from '../helpers/utilsHelper';
 import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesListHelper';
 import NavSideBarComponent from '../components/NavSideBarComponent.vue';
@@ -8,9 +7,6 @@ import NavHeaderComponent from '../components/NavHeaderComponent.vue';
 import AppraisalBodyComponent from '../components/AppraisalBodyComponent.vue';
 import FooterComponent from '../components/FooterComponent.vue';
 
-const route = useRoute();
-const breadCrumbAppraisalIdString = route.params.appraisalId ? ` (${route.params.appraisalId})` : '';
-const breadCrumbCurrentPageTitle = `Appraisal${breadCrumbAppraisalIdString}`;
 onMounted(async () => {
   await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
@@ -24,7 +20,7 @@ onMounted(async () => {
       <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeaderComponent :breadCrumbPageTitleCurrent="breadCrumbCurrentPageTitle" />
+        <NavHeaderComponent />
         <AppraisalBodyComponent />
         <FooterComponent />
       </div>

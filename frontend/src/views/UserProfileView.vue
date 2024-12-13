@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useAuthStore } from '../stores/authStore';
 import { loadThirdPartyJSHelper } from '../helpers/utilsHelper';
 import { thirdPartyJSFilePathsBase } from '../helpers/thirdPartyFIlesListHelper';
 import NavHeaderComponent from '../components/NavHeaderComponent.vue';
@@ -8,8 +7,6 @@ import NavSideBarComponent from '../components/NavSideBarComponent.vue';
 import FooterComponent from '../components/FooterComponent.vue';
 import UserProfileBodyComponent from '../components/UserProfileBodyComponent.vue';
 
-const authStore = useAuthStore();
-const breadCrumbTitle = `User Profile: ${authStore.getState?.firstName} ${authStore.getState?.lastName}`;
 onMounted(async () => {
   await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
 });
@@ -23,7 +20,7 @@ onMounted(async () => {
       <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeaderComponent :breadCrumbPageTitleCurrent="breadCrumbTitle" />
+        <NavHeaderComponent />
         <UserProfileBodyComponent />
         <FooterComponent />
       </div>

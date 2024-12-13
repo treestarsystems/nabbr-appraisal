@@ -20,7 +20,7 @@ onMounted(async () => {
       <NavSideBarComponent />
       <!-- App container starts -->
       <div class="app-container">
-        <NavHeaderComponent breadCrumbPageTitleCurrent="Dashboard" />
+        <NavHeaderComponent />
         <DashboardBodyComponent />
         <FooterComponent />
       </div>
