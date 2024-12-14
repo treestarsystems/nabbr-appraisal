@@ -79,7 +79,10 @@ export function SwalToastErrorHelper(swal: any, message: any): void {
 
 /**
  * @param {any} swal sweetalert2 instance
- * @param {any} message can be err object or string
+ * @param {string} message can be err object or string
+ * @param {string} token user token
+ * @param {any} appraisalId appraisal id
+ * @param {Ref<Chart[]>} chartDataAllRef array of chart data wrapped in a ref
  * @returns {void}
  */
 

@@ -105,15 +105,14 @@ export async function postPutAppraisalChartHelper(
 
 /**
  * Sends a DELETE request to remove an appraisal chart.
- * @param {any} swal injected sweetalert2 instance
  * @param {string} token user token
  * @param {string} appraisalId appraisal id that is provided by the backend when creating a new appraisal
- * @returns {Promise<void>}
+ * @returns {Promise<ResponseObjectDefaultInterface>}
  */
 
 export async function deleteAppraisalChartByIdHelper(
   token: string,
-  appraisalId?: string,
+  appraisalId: string,
 ): Promise<ResponseObjectDefaultInterface> {
   try {
     const chartRequest = {

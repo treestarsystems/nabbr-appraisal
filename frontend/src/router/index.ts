@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AuthRegisterView from '../views/AuthRegisterView.vue';
 import AuthLoginView from '../views/AuthLoginView.vue';
 import AppraisalView from '../views/AppraisalView.vue';
+// import AppraisalPrintView from '../views/AppraisalPrintView.vue';
 import DashboardView from '../views/DashboardView.vue';
 import UserProfileView from '../views/UserProfileView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
@@ -37,7 +38,7 @@ const router = createRouter({
     },
     // {
     //   path: '/appraisal/:appraisalId/print',
-    //   component: AppraisalView,
+    //   component: AppraisalPrintView,
     //   meta: {
     //     requiresAuth: true,
     //   },

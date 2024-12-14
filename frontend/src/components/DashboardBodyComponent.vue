@@ -73,7 +73,7 @@ onMounted(async () => {
                       </td>
                       <td class="align-middle">
                         <div class="d-flex justify-content-center">
-                          <RouterLink :to="`/appraisal/${chart.appraisalId}/print`"
+                          <RouterLink :to="`/appraisal/${chart.appraisalId}/print`" target="_blank"
                             ><i class="bi bi-printer fs-4 text-muted"></i
                           ></RouterLink>
                         </div>
