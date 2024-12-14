@@ -1,10 +1,13 @@
 package load
 
 import (
+	"context"
+	"errors"
 	"log"
 	"nabbr-appraisal/utils"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -27,4 +30,26 @@ func loadDbDataToMongoDbAppraisals(data utils.NabbrAppraisalChart, appraisalId s
 		return "", err
 	}
 	return appraisalId, nil
+}
+
+func loadDbDataToMongoDbAppraisalDelete(appraisalId string) error {
+	filter := bson.M{"appraisalId": appraisalId}
+
+	// Check if the document exists
+	var result bson.M
+	err := utils.CollectionMongoAppraisals.FindOne(context.TODO(), filter).Decode(&result)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return errors.New("chart not found")
+		}
+		return errors.New("db read failure")
+	}
+
+	// Document found, proceed with deletion
+	opts := options.Delete()
+	_, err = utils.CollectionMongoAppraisals.DeleteOne(context.TODO(), filter, opts)
+	if err != nil {
+		return err
+	}
+	return nil
 }
