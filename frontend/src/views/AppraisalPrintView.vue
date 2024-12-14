@@ -1,14 +1,4 @@
-<script setup lang="ts">
-// import { onMounted } from 'vue';
-// import NavSideBarComponent from '../components/NavSideBarComponent.vue';
-// import NavHeaderComponent from '../components/NavHeaderComponent.vue';
-// import AppraisalBodyComponent from '../components/AppraisalBodyComponent.vue';
-// import FooterComponent from '../components/FooterComponent.vue';
-
-// onMounted(async () => {
-//   await loadThirdPartyJSHelper(thirdPartyJSFilePathsBase);
-// });
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <!-- Page wrapper start -->
