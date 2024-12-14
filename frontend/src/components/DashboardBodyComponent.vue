@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { ref, inject, toRaw, onMounted } from 'vue';
+import { ref, inject, toRaw, onMounted, Ref } from 'vue';
 import { useAuthStore } from '../stores/authStore';
 import { getAppraisalChartAllHelper } from '../helpers/chartHelper';
-import { SwalToastErrorHelper, SwalConfirmationDeleteHelper } from '../helpers/sweetalertHelper';
+import { SwalToastErrorHelper, SwalConfirmationDeleteAppraisalHelper } from '../helpers/sweetalertHelper';
 import { Chart } from '../types/chartTypes';
 import { UserState } from '../types/authTypes';
 
@@ -12,8 +12,8 @@ const authStore = useAuthStore();
 const chartDataAll = ref<Chart[]>();
 const token = toRaw(authStore.getState as UserState)?.token as string;
 
-function deleteAppraisal(appraisalId: string, message: string) {
-  SwalConfirmationDeleteHelper(swal, message);
+async function deleteAppraisal(appraisalId: string, message: string) {
+  await SwalConfirmationDeleteAppraisalHelper(swal, message, token, appraisalId, chartDataAll as Ref<Chart[]>);
 }
 onMounted(async () => {
   try {
@@ -40,6 +40,11 @@ onMounted(async () => {
                         <i class="bi bi-list fs-5"></i>
                       </div>
                     </th>
+                    <th>
+                      <div class="d-flex justify-content-center">
+                        <i class="bi bi-list fs-5"></i>
+                      </div>
+                    </th>
                     <th>Appraiser Name:</th>
                     <th>Member Name:</th>
                     <th>Dog Name:</th>
@@ -59,10 +64,17 @@ onMounted(async () => {
                 <tbody>
                   <template v-for="chart in chartDataAll">
                     <tr>
-                      <td class="align-items-center">
+                      <td class="align-middle">
                         <div class="d-flex justify-content-center">
                           <RouterLink :to="`/appraisal/${chart.appraisalId}`"
                             ><i class="bi bi-calculator fs-4 text-info"></i
+                          ></RouterLink>
+                        </div>
+                      </td>
+                      <td class="align-middle">
+                        <div class="d-flex justify-content-center">
+                          <RouterLink :to="`/appraisal/${chart.appraisalId}/print`"
+                            ><i class="bi bi-printer fs-4 text-muted"></i
                           ></RouterLink>
                         </div>
                       </td>
@@ -90,6 +102,7 @@ onMounted(async () => {
                                 `Delete Appraisal for ${chart.memberInformation.name}'s dog ${chart.petInformation.name}`,
                               )
                             "
+                            style="cursor: not-allowed"
                             class="bi bi-trash fs-4 text-danger"
                           ></i>
                         </div>

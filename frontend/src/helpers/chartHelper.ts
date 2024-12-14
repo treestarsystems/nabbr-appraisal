@@ -104,6 +104,38 @@ export async function postPutAppraisalChartHelper(
 }
 
 /**
+ * Sends a DELETE request to remove an appraisal chart.
+ * @param {any} swal injected sweetalert2 instance
+ * @param {string} token user token
+ * @param {string} appraisalId appraisal id that is provided by the backend when creating a new appraisal
+ * @returns {Promise<void>}
+ */
+
+export async function deleteAppraisalChartByIdHelper(
+  token: string,
+  appraisalId?: string,
+): Promise<ResponseObjectDefaultInterface> {
+  try {
+    const chartRequest = {
+      method: 'DELETE',
+      url: `/api/v1/appraisal/chart/${appraisalId}`,
+      headers: {
+        token: token,
+      },
+    };
+    const response: ResponseObjectDefaultInterface = (await axios(chartRequest))?.data;
+    return response;
+  } catch (err: any) {
+    return {
+      status: 'failure',
+      httpStatus: 500,
+      message: `${err?.response?.data?.message || err?.data?.message || err?.message || err}`,
+      payload: [],
+    };
+  }
+}
+
+/**
  * Generate a unique id for radio inputs.
  * @param {string[]} string strings to concatenate
  * @returns {string} concatenated string with hyphens

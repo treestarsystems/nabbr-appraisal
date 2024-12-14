@@ -112,3 +112,38 @@ func GetAppraisalChartByIdJSON(c *gin.Context) {
 	)
 	c.JSON(http.StatusOK, apiResponse)
 }
+
+func DeleteAppraisalChartJSON(c *gin.Context) {
+	appraisalId := c.Param("appraisalId")
+	// To be honest this next section should not really happen.
+	if appraisalId == "" || appraisalId == " " {
+		apiResponse := utils.NewAPIResponse(
+			"failure",
+			http.StatusBadRequest,
+			"Missing Appraisal ID",
+			[]string{},
+		)
+		c.JSON(http.StatusBadRequest, apiResponse)
+	}
+
+	// Delete the appraisalChart from the database
+	err := load.LoadDbDataAppraisalDelete(appraisalId)
+	if err != nil {
+		apiResponse := utils.NewAPIResponse(
+			"failuire",
+			http.StatusNotFound,
+			fmt.Sprintf("Failed to delete appraisal chart (%v)", err),
+			[]string{},
+		)
+		c.JSON(http.StatusNotFound, apiResponse)
+		return
+	}
+
+	apiResponse := utils.NewAPIResponse(
+		"success",
+		http.StatusOK,
+		"Appraisal chart deleted successfully",
+		[]string{},
+	)
+	c.JSON(http.StatusOK, apiResponse)
+}

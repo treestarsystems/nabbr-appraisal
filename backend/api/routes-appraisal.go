@@ -17,5 +17,6 @@ func RoutesAppraisal(router *gin.Engine) {
 		appraisal.GET("/chart/:appraisalId", GetAppraisalChartByIdJSON)
 		appraisal.POST("/chart", PostPutAppraisalChartJSON)
 		appraisal.PUT("/chart/:appraisalId", PostPutAppraisalChartJSON)
+		appraisal.DELETE("/chart/:appraisalId", DeleteAppraisalChartJSON)
 	}
 }

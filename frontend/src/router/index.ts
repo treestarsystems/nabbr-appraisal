@@ -36,6 +36,13 @@ const router = createRouter({
       },
     },
     {
+      path: '/appraisal/:appraisalId/print',
+      component: AppraisalView,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
       path: '/user/:userId',
       component: UserProfileView,
       meta: {
