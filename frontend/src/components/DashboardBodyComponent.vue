@@ -249,23 +249,56 @@ async function generateSpreadsheet(appraisalId: string) {
     });
     // Separator row
     sheet.mergeCells(`A${chartStartingRow + 1}:N${chartStartingRow + 1}`);
-    // sheet.mergeCells(`L${chartStartingRow}:M${chartStartingRow}`);
 
-    sheet.addRow(['Additional Commentary:', chartData.value.appraisalInformation.additionalComments]);
-    sheet.addRow([
+    const additionalInfoRow = sheet.getRow(chartStartingRow + 2);
+    additionalInfoRow.values = ['Additional Commentary:', chartData.value.appraisalInformation.additionalComments];
+    sheet.mergeCells(`B${chartStartingRow + 2}:N${chartStartingRow + 2}`);
+    additionalInfoRow.eachCell(cell => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true };
+    });
+    const seniorAppraiserInfoRow = sheet.getRow(chartStartingRow + 3);
+    seniorAppraiserInfoRow.values = [
       'Senior Appraiser:',
       chartData.value.appraisalInformation.seniorAppraiserName,
+      '',
+      '',
+      '',
       'Senior Appraiser Number:',
       chartData.value.appraisalInformation.seniorAppraiserNumber,
+    ];
+    sheet.mergeCells(`B${chartStartingRow + 3}:D${chartStartingRow + 3}`);
+    sheet.mergeCells(`G${chartStartingRow + 3}:H${chartStartingRow + 3}`);
+
+    seniorAppraiserInfoRow.eachCell(cell => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'left', vertical: 'middle' };
+    });
+
+    const appraiserInfoRow = sheet.getRow(chartStartingRow + 4);
+    appraiserInfoRow.values = [
       'Appraiser:',
       chartData.value.appraisalInformation.appraiserName,
+      '',
+      '',
+      '',
       'Appraiser Number:',
       chartData.value.appraisalInformation.appraiserNumber,
-      'Place:',
-      chartData.value.appraisalInformation.place,
-      'Date:',
-      chartData.value.appraisalInformation.date,
-    ]);
+    ];
+    sheet.mergeCells(`B${chartStartingRow + 4}:D${chartStartingRow + 4}`);
+    sheet.mergeCells(`G${chartStartingRow + 4}:H${chartStartingRow + 4}`);
+
+    appraiserInfoRow.eachCell(cell => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'left', vertical: 'middle' };
+    });
+
+    sheet.addRow({
+      factor: 'Place',
+      total: chartData.value.appraisalInformation.place,
+      value: 'Date:',
+      percent: chartData.value.appraisalInformation.date,
+    });
 
     // Generate buffer and create a Blob for download
     const buffer = await workbook.xlsx.writeBuffer();
