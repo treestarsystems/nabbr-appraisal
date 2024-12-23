@@ -31,7 +31,16 @@ async function generateSpreadsheet(appraisalId: string) {
     workbook.lastPrinted = new Date();
     const sheet = workbook.addWorksheet(`Appraisal ${chartData.value.petInformation.name}`, {
       pageSetup: { fitToPage: true, fitToHeight: 5, fitToWidth: 7, paperSize: 9, orientation: 'landscape' },
+      views: [{ showGridLines: false }],
     });
+    sheet.pageSetup.margins = {
+      left: 0.25, // 18pt
+      right: 0.25, // 18pt
+      top: 0,
+      bottom: 0,
+      header: 0.25, // 18pt
+      footer: 0,
+    };
     sheet.columns = [
       { key: 'mainDivision', width: 20 },
       { key: 'mainDivisionPercentage', width: 5, style: { alignment: { horizontal: 'center' } } },
@@ -69,12 +78,13 @@ async function generateSpreadsheet(appraisalId: string) {
       '',
       '',
       '',
-      '',
-      '',
+      'Date:',
+      chartData.value.appraisalInformation.date,
       '',
     ];
     sheet.mergeCells('B2:D2');
     sheet.mergeCells('G2:I2');
+    sheet.mergeCells('M2:N2');
     petInfoRow.getCell(2).alignment = { horizontal: 'left', vertical: 'middle' };
     petInfoRow.getCell(7).alignment = { horizontal: 'left', vertical: 'middle' };
     petInfoRow.eachCell(cell => {
@@ -96,12 +106,13 @@ async function generateSpreadsheet(appraisalId: string) {
       '',
       '',
       '',
-      '',
-      '',
+      'Place:',
+      chartData.value.appraisalInformation.place,
       '',
     ];
     sheet.mergeCells('B3:D3');
     sheet.mergeCells('G3:I3');
+    sheet.mergeCells('M3:N3');
     memberInfoRow.getCell(2).alignment = { horizontal: 'left', vertical: 'middle' };
     memberInfoRow.getCell(7).alignment = { horizontal: 'left', vertical: 'middle' };
     memberInfoRow.eachCell(cell => {
@@ -213,16 +224,17 @@ async function generateSpreadsheet(appraisalId: string) {
           i == 0 ? division.percentageWeight : '',
           characteristic[0]?.subDivision?.name || '',
           characteristic[0]?.name,
-          characteristic[0]?.score,
+          characteristic[0]?.score == 'nil' ? '' : characteristic[0]?.score,
           characteristic[1]?.name,
-          characteristic[1]?.score,
+          characteristic[1]?.score == 'nil' ? '' : characteristic[1]?.score,
           characteristic[2]?.name,
-          characteristic[2]?.score,
+          characteristic[2]?.score == 'nil' ? '' : characteristic[2]?.score,
+          // nettoDeviation == 0 ? '' : nettoDeviation,
           nettoDeviation,
-          factor,
-          rowTotal,
-          rowValue,
-          rowPercent,
+          factor == 0 ? '' : factor,
+          rowTotal == 0 ? '' : rowTotal,
+          rowValue == 0 ? '' : rowValue,
+          rowPercent == 0 ? '' : rowPercent,
         ];
         characteristicRow.eachCell(cell => {
           cell.border = {
@@ -291,13 +303,6 @@ async function generateSpreadsheet(appraisalId: string) {
     appraiserInfoRow.eachCell(cell => {
       cell.font = { bold: true };
       cell.alignment = { horizontal: 'left', vertical: 'middle' };
-    });
-
-    sheet.addRow({
-      factor: 'Place',
-      total: chartData.value.appraisalInformation.place,
-      value: 'Date:',
-      percent: chartData.value.appraisalInformation.date,
     });
 
     // Generate buffer and create a Blob for download
