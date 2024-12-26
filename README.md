@@ -22,9 +22,9 @@ DB_NAME="nabbrAppraisal"
 DB_TABLE_NAME_APPRAISALS="appraisals"
 DB_MONGODB_URI="mongodb://localhost:27017"
 AUTH_SECRET_KEY = ""
-AUTH_REGISTRATION_KEY_ADMIN = ""
-AUTH_REGISTRATION_KEY_APPRAISER = ""
-AUTH_REGISTRATION_KEY_PETOWNER = ""
+AUTH_REGISTRATION_KEY_ADMIN = "<something here>"
+AUTH_REGISTRATION_KEY_APPRAISER = "<something here>"
+AUTH_REGISTRATION_KEY_PETOWNER = "<something here>"
 ```
 
 The "./frontend/.env" file should be formatted as follows (template included repository):
@@ -38,6 +38,8 @@ VITE_BACKEND_API_BASE_URL="http://localhost:8081"
 ```bash
 git clone https://github.com/treestarsystems/nabbr-appraisal.git
 cd ./nabbr-appraisal/
+cp ./backend/.env-rename ./backend/.env
+cp ./frontend/.env-rename ./frontend/.env
 ./scripts/build-all.sh
 ```
 
