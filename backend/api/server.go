@@ -17,7 +17,6 @@ func StartServer() *gin.Engine {
 
 	// Set up the router
 	router := gin.Default()
-	router.Use(gin.Logger())
 	RoutesAuth(router)
 	RoutesUser(router)
 	RoutesAppraisal(router)
