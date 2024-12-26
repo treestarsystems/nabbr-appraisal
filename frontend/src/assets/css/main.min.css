@@ -13149,7 +13149,7 @@ input[type='file']::file-selector-button {
 }
 .activity-block:before {
   content: '';
-  background: url(/auth/images/curve-line.svg) repeat-y;
+  background: url(/assets/images/curve-line.svg) repeat-y;
   position: absolute;
   left: 30px;
   top: 0;
@@ -13274,7 +13274,7 @@ input[type='file']::file-selector-button {
   margin: auto;
 }
 .login-bg {
-  background: url(/auth/images/login.svg) no-repeat;
+  background: url(/assets/images/login.svg) no-repeat;
   background-position: left bottom;
   background-size: 40%;
 }
@@ -13335,7 +13335,7 @@ input[type='file']::file-selector-button {
   max-height: 45px;
 }
 .error-screen {
-  background: url(/auth/images/dots.svg) no-repeat;
+  background: url(/assets/images/dots.svg) no-repeat;
   background-position: center center;
   background-size: cover;
 }
