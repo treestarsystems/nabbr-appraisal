@@ -12,6 +12,10 @@ Nabbr Appraisal Web Application
 
 To run the frontend and backend app it requires an .env file with your own configuration info. The backend requires the .env file be in the same directory or you must specify a path (Ex: -e=/path/to/.env) to a .env file.
 
+```diff
+- Secure the backend .env file by assigning permissions using chown/chmod so only authorized users can view the file contents.
+```
+
 The "./backend/.env" file should be formatted as follows (template included repository):
 
 ```bash
@@ -51,7 +55,10 @@ cp ./frontend/.env-rename ./frontend/.env
 
 ### Frontend
 
+- Clear destination directory before copying new files.
+
 ```bash
+rm -rf <destination dir served by web server (Ex: nginx root dir)>
 cp -R ./dist/frontend/* <destination dir served by web server (Ex: nginx root dir)>
 ```
 
