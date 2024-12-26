@@ -1,4 +1,4 @@
-BINARY_NAME=nabbr-appraisal-tool-backend-api.service
+BINARY_NAME=nabbr-appraisal-tool-backend-api
 
 build:
 	mkdir -p ../dist/backend

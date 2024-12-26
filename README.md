@@ -50,29 +50,31 @@ cd ./nabbr-appraisal/
 ### Frontend
 
 ```bash
-cp -R ./dist/frontend/* <destination dir served by web server (Ex: nginx)>
+cp -R ./dist/frontend/* <destination dir served by web server (Ex: nginx root dir)>
 ```
 
 ### Backend
+
+#### Deployment
+
+```bash
+cp -R ./dist/backend/* <destination dir (Ex: /opt/nabbr-appraisal)>
+```
 
 #### Usage
 
 Without -e flag, the program will expect the .env file to be in the same directory.
 
 ```bash
-<destination dir>/nabbr-appraisal
+cd <destination dir>
+nohup ./nabbr-appraisal-tool-backend-api &
 ```
 
 With -e flag, the program will use the .env file at the specified path
 
 ```bash
-<destination dir>/nabbr-appraisal -e=/path/to/.env
-```
-
-#### Deployment
-
-```bash
-cp -R ./dist/backend/* <destination dir (Ex: /opt/nabbr-appraisal)>
+cd <destination dir>
+nohup ./nabbr-appraisal-tool-backend-api -e=/path/to/.env &
 ```
 
 ### Let's Encrypt SSL Certificates
