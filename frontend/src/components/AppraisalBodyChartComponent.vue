@@ -16,8 +16,8 @@ const updateTotalScore = () => {
   <div class="col-xxl-12">
     <div class="card mb-3">
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered m-0">
+        <div class="table-responsive" style="border-radius: 10px">
+          <table class="table table-chart-bright table-bordered m-0">
             <thead>
               <tr>
                 <th>Main Division:</th>
@@ -238,7 +238,7 @@ const updateTotalScore = () => {
                       <div class="d-flex justify-content-center">
                         <span
                           v-if="allRadiosFilledHelper(characteristic)"
-                          class="badge border border-white text-white"
+                          class="badge border border-black text-black"
                           >{{ calculateTotalHelper(division.characteristics[ci]) }}</span
                         >
                         <span v-else></span>
@@ -246,12 +246,12 @@ const updateTotalScore = () => {
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span class="badge border border-muted text-muted">{{ characteristic[0].factor }}</span>
+                        <span class="badge border border-dark text-dark">{{ characteristic[0].factor }}</span>
                       </div>
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span v-if="allRadiosFilledHelper(characteristic)" class="badge border border-info text-info">{{
+                        <span v-if="allRadiosFilledHelper(characteristic)" class="badge border border-navy text-navy">{{
                           calculateTotalHelper(division.characteristics[ci]) + characteristic[0].factor
                         }}</span>
                         <span v-else></span>
@@ -259,14 +259,14 @@ const updateTotalScore = () => {
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span class="badge border border-muted text-muted">{{ characteristic[0].value }}</span>
+                        <span class="badge border border-dark text-dark">{{ characteristic[0].value }}</span>
                       </div>
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
                         <span
                           v-if="allRadiosFilledHelper(characteristic)"
-                          class="badge border border-success text-success"
+                          class="badge border border-green text-green"
                           >{{
                             ((calculateTotalHelper(division.characteristics[ci]) + characteristic[0].factor) *
                               characteristic[0].value) /

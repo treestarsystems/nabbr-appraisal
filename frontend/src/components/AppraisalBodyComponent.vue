@@ -693,7 +693,36 @@ async function submitChart() {
                             <!-- Form placeholder fields start -->
                             <div class="col-sm-2 col-4">
                               <!-- Form field start -->
-                              <div class="mb-2">
+                              <div class="mb-3">
+                                <label for="appraiserPlace" class="form-label">Appraisal Location:</label>
+                                <div class="input-group">
+                                  <span class="input-group-text">
+                                    <i class="bi bi-pin-map"></i>
+                                  </span>
+                                  <input
+                                    required
+                                    :value="
+                                      chartData?.appraisalInformation?.place
+                                        ? chartData?.appraisalInformation?.place
+                                        : ''
+                                    "
+                                    @input="
+                                      chartData?.appraisalInformation &&
+                                        $event.target &&
+                                        (chartData.appraisalInformation.place = (
+                                          $event.target as HTMLInputElement
+                                        ).value)
+                                    "
+                                    type="text"
+                                    class="form-control"
+                                    id="appraiserPlace"
+                                    placeholder="Appraisal Location"
+                                  />
+                                </div>
+                              </div>
+                              <!-- Form field end -->
+                              <!-- Form field start -->
+                              <!-- <div class="mb-2">
                                 <label for="appraisalPlace" class="form-label">Place:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
@@ -744,7 +773,7 @@ async function submitChart() {
                                     <option selected value="0">No Place</option>
                                   </select>
                                 </div>
-                              </div>
+                              </div> -->
                               <!-- Form field end -->
                             </div>
                             <div class="col-sm-2 col-4">

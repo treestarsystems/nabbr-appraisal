@@ -71,3 +71,34 @@
 .not-allowed {
   cursor: not-allowed;
 }
+
+.table-chart-bright {
+  border-color: black !important;
+}
+
+.table-chart-bright > :not(caption) > * > * {
+  /* background-color: #c0c2c6 !important; */
+  /* background-color: #d5d6d9 !important; */
+  background-color: white !important;
+  color: black !important;
+}
+
+.table-chart-bright .form-check-input {
+  /* background-color: #eaeaec !important; */
+}
+
+.border-green {
+  border-color: #008000 !important;
+}
+
+.text-green {
+  color: #008000 !important;
+}
+
+.border-navy {
+  border-color: #004080 !important;
+}
+
+.text-navy {
+  color: #004080 !important;
+}

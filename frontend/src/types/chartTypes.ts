@@ -30,7 +30,7 @@ export interface AppraisalInformation {
   seniorAppraiserNumber: string;
   date: string;
   additionalComments: string;
-  place: number;
+  place: string;
   appraisalScore: number;
 }
 
