@@ -238,7 +238,7 @@ const updateTotalScore = () => {
                       <div class="d-flex justify-content-center">
                         <span
                           v-if="allRadiosFilledHelper(characteristic)"
-                          class="badge border border-black text-black"
+                          class="badge border border-black text-black badge-thickness"
                           >{{ calculateTotalHelper(division.characteristics[ci]) }}</span
                         >
                         <span v-else></span>
@@ -251,9 +251,11 @@ const updateTotalScore = () => {
                     </td>
                     <td class="align-middle">
                       <div class="d-flex justify-content-center">
-                        <span v-if="allRadiosFilledHelper(characteristic)" class="badge border border-navy text-navy">{{
-                          calculateTotalHelper(division.characteristics[ci]) + characteristic[0].factor
-                        }}</span>
+                        <span
+                          v-if="allRadiosFilledHelper(characteristic)"
+                          class="badge border border-info text-info badge-thickness"
+                          >{{ calculateTotalHelper(division.characteristics[ci]) + characteristic[0].factor }}</span
+                        >
                         <span v-else></span>
                       </div>
                     </td>
@@ -266,7 +268,7 @@ const updateTotalScore = () => {
                       <div class="d-flex justify-content-center">
                         <span
                           v-if="allRadiosFilledHelper(characteristic)"
-                          class="badge border border-green text-green"
+                          class="badge border border-success text-success badge-thickness"
                           >{{
                             ((calculateTotalHelper(division.characteristics[ci]) + characteristic[0].factor) *
                               characteristic[0].value) /

@@ -102,3 +102,13 @@
 .text-navy {
   color: #004080 !important;
 }
+
+.was-validated .form-check-input:invalid,
+.form-check-input.is-invalid {
+  border-width: medium;
+}
+
+.badge-thickness {
+  border-width: 2px !important;
+  font-size: small !important;
+}

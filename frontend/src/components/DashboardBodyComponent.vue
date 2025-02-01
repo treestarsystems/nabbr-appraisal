@@ -76,15 +76,13 @@ async function generateSpreadsheet(appraisalId: string) {
       chartData.value.petInformation.registrationNumber,
       '',
       '',
-      '',
-      '',
       'Date:',
       chartData.value.appraisalInformation.date,
       '',
     ];
     sheet.mergeCells('B2:D2');
     sheet.mergeCells('G2:I2');
-    sheet.mergeCells('M2:N2');
+    sheet.mergeCells('K2:N2');
     petInfoRow.getCell(2).alignment = { horizontal: 'left', vertical: 'middle' };
     petInfoRow.getCell(7).alignment = { horizontal: 'left', vertical: 'middle' };
     petInfoRow.eachCell(cell => {
@@ -104,15 +102,13 @@ async function generateSpreadsheet(appraisalId: string) {
       chartData.value.memberInformation.memberNumber,
       '',
       '',
-      '',
-      '',
       'Place:',
       chartData.value.appraisalInformation.place,
       '',
     ];
     sheet.mergeCells('B3:D3');
     sheet.mergeCells('G3:I3');
-    sheet.mergeCells('M3:N3');
+    sheet.mergeCells('K3:N3');
     memberInfoRow.getCell(2).alignment = { horizontal: 'left', vertical: 'middle' };
     memberInfoRow.getCell(7).alignment = { horizontal: 'left', vertical: 'middle' };
     memberInfoRow.eachCell(cell => {
