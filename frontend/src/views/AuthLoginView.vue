@@ -17,14 +17,16 @@ const userProfileLink = `/user/${user?.userId}`;
 let wasValidated = ref('');
 
 const formLogin: FormDataUserBase = reactive({
-  email: '',
+  email: 'nabbr@nabbr.com',
   password: '',
 });
 
 async function submitLoginForm() {
   try {
     const userLoginFormData: FormDataUserBase = {
-      email: formLogin.email.toLowerCase(),
+      // email: formLogin.email.toLowerCase(),
+      //TODO: Remove when in production. User wanted a password only option.
+      email: 'nabbr@nabbr.com',
       password: formLogin.password,
     };
 
@@ -67,7 +69,7 @@ async function submitLoginForm() {
           <div class="auth-box">
             <h4 class="mb-4">Welcome back,</h4>
 
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label class="form-label" for="email">Email <span class="text-danger">*</span></label>
               <div class="input-group">
                 <span class="input-group-text">
@@ -82,7 +84,7 @@ async function submitLoginForm() {
                   required
                 />
               </div>
-            </div>
+            </div> -->
 
             <div class="mb-4">
               <label class="form-label" for="password">Password <span class="text-danger">*</span></label>
@@ -109,7 +111,7 @@ async function submitLoginForm() {
 
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-primary">Login</button>
-              <RouterLink to="/register" class="btn btn-outline-secondary">Not registered? Signup</RouterLink>
+              <!-- <RouterLink to="/register" class="btn btn-outline-secondary">Not registered? Signup</RouterLink> -->
             </div>
           </div>
           <!-- Authbox ends -->

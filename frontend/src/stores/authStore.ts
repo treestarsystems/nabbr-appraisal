@@ -8,6 +8,7 @@ import router from '../router';
 
 export const useAuthStore = defineStore('auth', {
   state: (): { user: UserState | null } => ({
+    // user: null,
     user: null,
   }),
   getters: {
