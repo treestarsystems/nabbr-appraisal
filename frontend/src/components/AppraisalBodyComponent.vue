@@ -374,74 +374,38 @@ async function submitChart() {
                               </div>
                               <!-- Form field end -->
                             </div>
-                            <div class="col-sm-2 col-12">
+                            <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
-                                <label for="weight" class="form-label">Weight:</label>
+                                <label for="dateOfBirth" class="form-label">Date Of Birth:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
                                     <i class="bi bi-123"></i>
                                   </span>
                                   <input
                                     required
-                                    :value="chartData?.petInformation?.weight ? chartData?.petInformation?.weight : ''"
+                                    :value="
+                                      chartData?.petInformation?.dateOfBirth
+                                        ? chartData?.petInformation?.dateOfBirth
+                                        : ''
+                                    "
                                     @input="
                                       chartData?.petInformation &&
                                         $event.target &&
-                                        (chartData.petInformation.weight = parseInt(
-                                          ($event.target as HTMLInputElement).value,
-                                        ))
+                                        (chartData.petInformation.dateOfBirth = (
+                                          $event.target as HTMLInputElement
+                                        ).value)
                                     "
-                                    type="number"
-                                    name="weight"
+                                    type="text"
                                     class="form-control"
-                                    id="weight"
-                                    placeholder="Weight"
+                                    id="dateOfBirth"
+                                    placeholder="1/1/1970"
                                   />
                                 </div>
                               </div>
                               <!-- Form field end -->
                             </div>
-
-                            <div class="col-sm-2 col-12">
-                              <!-- Form field start -->
-                              <div class="mb-2">
-                                <label for="age" class="form-label">Age:</label>
-                                <div class="input-group">
-                                  <span class="input-group-text">
-                                    <i class="bi bi-123"></i>
-                                  </span>
-                                  <select
-                                    @change="
-                                      chartData?.petInformation &&
-                                        $event.target &&
-                                        (chartData.petInformation.age = parseInt(
-                                          ($event.target as HTMLSelectElement).value,
-                                        ))
-                                    "
-                                    class="form-select"
-                                    id="age"
-                                    aria-label="Default select example"
-                                    required
-                                  >
-                                    <!-- <option :selected="chartData?.petInformation?.age === 0" value="0">&lt;1yr</option> -->
-                                    <option :selected="chartData?.petInformation?.age === 1" value="1">1yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 2" value="2">2yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 3" value="3">4yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 4" value="4">4yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 5" value="5">5yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 6" value="6">6yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 7" value="7">7yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 8" value="8">8yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 9" value="9">9yr</option>
-                                    <option :selected="chartData?.petInformation?.age === 10" value="10">10yr</option>
-                                    <option disabled :selected="!chartData?.petInformation?.age">Select Age</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <!-- Form field end -->
-                            </div>
-                            <div class="col-sm-2 col-12">
+                            <div class="col-sm-3 col-12">
                               <!-- Form field start -->
                               <div class="mb-2">
                                 <label for="sex" class="form-label">Sex:</label>
@@ -495,7 +459,7 @@ async function submitChart() {
                         <div class="card-body">
                           <!-- Row starts -->
                           <div class="row gx-3">
-                            <div class="col-sm-6 col-12">
+                            <div class="col-sm-6 col-6">
                               <!-- Form field start -->
                               <div class="mb-3">
                                 <label for="seniorAppraiserName" class="form-label">Senior Appraiser:</label>
@@ -529,41 +493,6 @@ async function submitChart() {
                             <div class="col-sm-6 col-12">
                               <!-- Form field start -->
                               <div class="mb-3">
-                                <label for="seniorAppraiserNumber" class="form-label">Senior Appraiser #:</label>
-                                <div class="input-group">
-                                  <span class="input-group-text">
-                                    <i class="bi bi-123"></i>
-                                  </span>
-                                  <input
-                                    required
-                                    :value="
-                                      chartData?.appraisalInformation?.seniorAppraiserNumber
-                                        ? chartData?.appraisalInformation?.seniorAppraiserNumber
-                                        : ''
-                                    "
-                                    @input="
-                                      chartData?.appraisalInformation &&
-                                        $event.target &&
-                                        (chartData.appraisalInformation.seniorAppraiserNumber = (
-                                          $event.target as HTMLInputElement
-                                        ).value)
-                                    "
-                                    type="text"
-                                    class="form-control"
-                                    id="seniorAppraiserNumber"
-                                    placeholder="Senior Appraiser #"
-                                  />
-                                </div>
-                              </div>
-                              <!-- Form field end -->
-                            </div>
-                          </div>
-                          <!-- Row ends -->
-                          <!-- Row starts -->
-                          <div class="row gx-3">
-                            <div class="col-sm-6 col-12">
-                              <!-- Form field start -->
-                              <div class="mb-3">
                                 <label for="appraiserName" class="form-label">Appraiser:</label>
                                 <div class="input-group">
                                   <span class="input-group-text">
@@ -587,37 +516,6 @@ async function submitChart() {
                                     class="form-control"
                                     id="appraiserName"
                                     placeholder="Appraiser Name"
-                                  />
-                                </div>
-                              </div>
-                              <!-- Form field end -->
-                            </div>
-                            <div class="col-sm-6 col-12">
-                              <!-- Form field start -->
-                              <div class="mb-3">
-                                <label for="appraiserNumber" class="form-label">Appraiser #:</label>
-                                <div class="input-group">
-                                  <span class="input-group-text">
-                                    <i class="bi bi-123"></i>
-                                  </span>
-                                  <input
-                                    required
-                                    :value="
-                                      chartData?.appraisalInformation?.appraiserNumber
-                                        ? chartData?.appraisalInformation?.appraiserNumber
-                                        : ''
-                                    "
-                                    @input="
-                                      chartData?.appraisalInformation &&
-                                        $event.target &&
-                                        (chartData.appraisalInformation.appraiserNumber = (
-                                          $event.target as HTMLInputElement
-                                        ).value)
-                                    "
-                                    type="text"
-                                    class="form-control"
-                                    id="appraiserNumber"
-                                    placeholder="Appraiser #"
                                   />
                                 </div>
                               </div>

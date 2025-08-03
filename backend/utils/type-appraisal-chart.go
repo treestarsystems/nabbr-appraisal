@@ -8,9 +8,8 @@ type NabbrAppraisalChartMemberInfo struct {
 
 type NabbrAppraisalChartPetInfo struct {
 	Name               string `bson:"name" json:"name" binding:"required"`
-	Age                int    `bson:"age" json:"age" binding:"required"`
+	DateOfBirth        string `bson:"dateOfBirth" json:"dateOfBirth" binding:"required"`
 	DnaNumber          string `bson:"dnaNumber" json:"dnaNumber" binding:"required"`
-	Weight             int    `bson:"weight" json:"weight" binding:"required"`
 	Color              string `bson:"color" json:"color" binding:"required"`
 	Markings           string `bson:"markings" json:"markings" binding:"required"`
 	Microchip          string `bson:"microchip" json:"microchip" binding:"required"`
@@ -50,15 +49,13 @@ type NabbrAppraisalChartScoreDivisions struct {
 }
 
 type NabbrAppraisalChartScoreAppraisalInformation struct {
-	MainDivision          NabbrAppraisalChartScoreDivisions `bson:"mainDivision" json:"mainDivision" binding:"required"`
-	AppraiserName         string                            `bson:"appraiserName" json:"appraiserName" binding:"required"`
-	AppraiserNumber       string                            `bson:"appraiserNumber" json:"appraiserNumber" binding:"required"`
-	SeniorAppraiserName   string                            `bson:"seniorAppraiserName" json:"seniorAppraiserName" binding:"required"`
-	SeniorAppraiserNumber string                            `bson:"seniorAppraiserNumber" json:"seniorAppraiserNumber" binding:"required"`
-	Date                  string                            `bson:"date" json:"date" binding:"required"`
-	AdditionalComments    string                            `bson:"additionalComments" json:"additionalComments"`
-	Place                 string                            `bson:"place" json:"place"`
-	AppraisalScore        float32                           `bson:"appraisalScore" json:"appraisalScore" binding:"required"`
+	MainDivision        NabbrAppraisalChartScoreDivisions `bson:"mainDivision" json:"mainDivision" binding:"required"`
+	AppraiserName       string                            `bson:"appraiserName" json:"appraiserName" binding:"required"`
+	SeniorAppraiserName string                            `bson:"seniorAppraiserName" json:"seniorAppraiserName" binding:"required"`
+	Date                string                            `bson:"date" json:"date" binding:"required"`
+	AdditionalComments  string                            `bson:"additionalComments" json:"additionalComments"`
+	Place               string                            `bson:"place" json:"place"`
+	AppraisalScore      float32                           `bson:"appraisalScore" json:"appraisalScore" binding:"required"`
 }
 
 type NabbrAppraisalChart struct {

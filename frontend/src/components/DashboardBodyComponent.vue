@@ -128,8 +128,8 @@ async function generateSpreadsheet(appraisalId: string) {
       chartData.value.petInformation.dnaNumber,
       '',
       '',
-      '',
-      '',
+      'Sex:',
+      chartData.value.petInformation.sex.toUpperCase(),
       '',
       '',
       '',
@@ -155,10 +155,10 @@ async function generateSpreadsheet(appraisalId: string) {
       chartData.value.petInformation.markings,
       '',
       '',
-      'Age:',
-      chartData.value.petInformation.age,
-      'Sex:',
-      chartData.value.petInformation.sex.toUpperCase(),
+      'DOB:',
+      chartData.value.petInformation.dateOfBirth,
+      '',
+      '',
       '',
     ];
 
@@ -272,8 +272,8 @@ async function generateSpreadsheet(appraisalId: string) {
       '',
       '',
       '',
-      'Senior Appraiser Number:',
-      chartData.value.appraisalInformation.seniorAppraiserNumber,
+      '',
+      '',
     ];
     sheet.mergeCells(`B${chartStartingRow + 3}:D${chartStartingRow + 3}`);
     sheet.mergeCells(`G${chartStartingRow + 3}:H${chartStartingRow + 3}`);
@@ -284,15 +284,7 @@ async function generateSpreadsheet(appraisalId: string) {
     });
 
     const appraiserInfoRow = sheet.getRow(chartStartingRow + 4);
-    appraiserInfoRow.values = [
-      'Appraiser:',
-      chartData.value.appraisalInformation.appraiserName,
-      '',
-      '',
-      '',
-      'Appraiser Number:',
-      chartData.value.appraisalInformation.appraiserNumber,
-    ];
+    appraiserInfoRow.values = ['Appraiser:', chartData.value.appraisalInformation.appraiserName, '', '', '', '', ''];
     sheet.mergeCells(`B${chartStartingRow + 4}:D${chartStartingRow + 4}`);
     sheet.mergeCells(`G${chartStartingRow + 4}:H${chartStartingRow + 4}`);
 
@@ -349,8 +341,7 @@ onMounted(async () => {
                     <th>Member Name:</th>
                     <th>Dog Name:</th>
                     <th>Sex:</th>
-                    <th>Age:</th>
-                    <th>Weight:</th>
+                    <th>Date Of Birth:</th>
                     <th>Score:</th>
                     <th>MC#:</th>
                     <th>DNA#:</th>
@@ -384,8 +375,7 @@ onMounted(async () => {
                       <td class="align-middle">{{ chart.memberInformation.name }}</td>
                       <td class="align-middle">{{ chart.petInformation.name }}</td>
                       <td class="align-middle">{{ chart.petInformation.sex.toUpperCase() }}</td>
-                      <td class="align-middle">{{ chart.petInformation.age }}</td>
-                      <td class="align-middle">{{ chart.petInformation.weight }}</td>
+                      <td class="align-middle">{{ chart.petInformation.dateOfBirth }}</td>
                       <td class="align-middle">
                         <div class="d-flex justify-content-center">
                           <span class="not-allowed badge border border-success text-success"
