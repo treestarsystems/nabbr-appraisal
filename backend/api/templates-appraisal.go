@@ -16,7 +16,7 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Balance",
+				Name:   "Impressive",
 				Score:  "nil",
 				Value:  4,
 				Factor: 7,
@@ -36,7 +36,7 @@ func NewAppraisalChart() utils.NabbrAppraisalChart {
 				Factor: 7,
 			},
 			{
-				Name:   "Impressive",
+				Name:   "Balance",
 				Score:  "nil",
 				Value:  4,
 				Factor: 7,

@@ -32,15 +32,76 @@ onMounted(async () => {
   }
 });
 
+// async function submitChart() {
+//   try {
+//     // TODO: Fire Swal then return early if all fields are not checked.
+
+//     // We have to get these because they are
+//     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
+//     if (chartData.value && chartData.value.appraisalInformation) {
+//       chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
+//     }
+//     if (!route.params?.appraisalId) {
+//       await postPutAppraisalChartHelper(swal, token, chartData.value as Chart);
+//     } else {
+//       const appraisalId = route.params.appraisalId as string;
+//       await postPutAppraisalChartHelper(swal, token, chartData.value as Chart, appraisalId);
+//     }
+//   } catch (err: any) {
+//     SwalToastErrorHelper(swal, err);
+//   }
+// }
+
 async function submitChart() {
   try {
-    // TODO: Fire Swal then return early if all fields are not checked.
+    // Utility function to set default values
+    const setDefaultValues = (obj: any, fields: string[]) => {
+      fields.forEach(field => {
+        if (!obj[field] || obj[field].trim() === '') {
+          obj[field] = 'TBD';
+        }
+      });
+    };
 
-    // We have to get these because they are
+    // Ensure required fields in chartData are defaulted to 'TBD'
+    if (chartData.value) {
+      if (chartData.value.memberInformation) {
+        setDefaultValues(chartData.value.memberInformation, ['name', 'memberNumber']);
+      }
+      if (chartData.value.petInformation) {
+        setDefaultValues(chartData.value.petInformation, [
+          'name',
+          'registrationNumber',
+          'microchip',
+          'dnaNumber',
+          'color',
+          'markings',
+          'dateOfBirth',
+          'sex',
+        ]);
+      }
+      if (chartData.value.appraisalInformation) {
+        setDefaultValues(chartData.value.appraisalInformation, [
+          'seniorAppraiserName',
+          'appraiserName',
+          'additionalComments',
+          'place',
+        ]);
+
+        // Default the date field to today's date if empty
+        if (!chartData.value.appraisalInformation.date) {
+          chartData.value.appraisalInformation.date = generateCalendarDateStringHelper();
+        }
+      }
+    }
+
+    // Get the total score
     const appraisalTotalScore: any = document.getElementById('appraisalTotalScore');
     if (chartData.value && chartData.value.appraisalInformation) {
       chartData.value.appraisalInformation.appraisalScore = parseFloat(appraisalTotalScore.value.replace('%', ''));
     }
+
+    // Submit the chart data
     if (!route.params?.appraisalId) {
       await postPutAppraisalChartHelper(swal, token, chartData.value as Chart);
     } else {

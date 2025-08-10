@@ -293,6 +293,24 @@ async function generateSpreadsheet(appraisalId: string) {
       cell.alignment = { horizontal: 'left', vertical: 'middle' };
     });
 
+    // Start: Transfer Ownership Section
+    /*
+    const transerOwnershipInfoRow = sheet.getRow(chartStartingRow + 6);
+    transerOwnershipInfoRow.values = ['Transer Ownership:', '', 'Transfer Date:', '', '', ''];
+    transerOwnershipInfoRow.eachCell(cell => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'left', vertical: 'middle' };
+    });
+
+    const transerOwnershipNewOwnerInfoRow = sheet.getRow(chartStartingRow + 7);
+    transerOwnershipNewOwnerInfoRow.values = ['New Owner Name:', '', '', '', '', ''];
+    transerOwnershipNewOwnerInfoRow.eachCell(cell => {
+      cell.font = { bold: true };
+      cell.alignment = { horizontal: 'left', vertical: 'middle' };
+    });
+    */
+    // End: Transfer Ownership Section
+
     // Generate buffer and create a Blob for download
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
