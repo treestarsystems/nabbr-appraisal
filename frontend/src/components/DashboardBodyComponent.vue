@@ -209,10 +209,12 @@ async function generateSpreadsheet(appraisalId: string) {
       for (let i = 0; i < division.characteristics.length; i++) {
         const characteristic = division.characteristics[i];
         const nettoDeviation =
-          Number(characteristic[0]?.score) + Number(characteristic[1]?.score) + Number(characteristic[2]?.score);
+          Number(characteristic[0]?.score || 0) +
+          Number(characteristic[1]?.score || 0) +
+          Number(characteristic[2]?.score || 0);
         const factor = characteristic[0].factor;
-        const rowValue = characteristic[0].value;
-        const rowTotal = nettoDeviation + factor;
+        const rowValue = characteristic[0].value || 0;
+        const rowTotal = nettoDeviation + factor || 0;
         const rowPercent = (rowValue * rowTotal) / 10;
         const characteristicRow = sheet.getRow(chartStartingRow);
         characteristicRow.values = [
@@ -225,8 +227,7 @@ async function generateSpreadsheet(appraisalId: string) {
           characteristic[1]?.score == 'nil' ? '' : characteristic[1]?.score,
           characteristic[2]?.name,
           characteristic[2]?.score == 'nil' ? '' : characteristic[2]?.score,
-          // nettoDeviation == 0 ? '' : nettoDeviation,
-          nettoDeviation,
+          nettoDeviation || '',
           factor == 0 ? '' : factor,
           rowTotal == 0 ? '' : rowTotal,
           rowValue == 0 ? '' : rowValue,

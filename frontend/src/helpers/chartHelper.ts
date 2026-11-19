@@ -58,7 +58,7 @@ export async function getAppraisalChartAllHelper(swal: any, token: string): Prom
       SwalToastErrorHelper(swal, response?.message);
       return;
     }
-    return response.payload as Chart[];
+    return response.payload.reverse() as Chart[];
   } catch (err) {
     SwalToastErrorHelper(swal, err);
     return;
