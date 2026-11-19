@@ -168,7 +168,7 @@ async function generateSpreadsheet(appraisalId: string) {
       cell.font = { bold: true };
       cell.alignment = { horizontal: 'left', vertical: 'middle' };
     });
-    petInfoRowDetail.getCell(13).font = { bold: true, size: 8 };
+    petInfoRowDetail.getCell(11).font = { bold: true, size: 8 };
 
     // Separator row
     sheet.mergeCells('A6:N6');
