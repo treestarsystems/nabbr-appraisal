@@ -58,7 +58,13 @@ export async function getAppraisalChartAllHelper(swal: any, token: string): Prom
       SwalToastErrorHelper(swal, response?.message);
       return;
     }
-    return response.payload.reverse() as Chart[];
+
+    // Sort the appraisal charts by date in descending order
+    return [...(response.payload as Chart[])].sort((a, b) => {
+      const dateA = Date.parse(a.appraisalInformation.date);
+      const dateB = Date.parse(b.appraisalInformation.date);
+      return (Number.isNaN(dateB) ? 0 : dateB) - (Number.isNaN(dateA) ? 0 : dateA);
+    });
   } catch (err) {
     SwalToastErrorHelper(swal, err);
     return;
